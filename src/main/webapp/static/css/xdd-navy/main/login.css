@@ -21,10 +21,10 @@ body{
     height: 45px;
 }
 .form-username{
-    background: url("../../../icon/login-locked-icon.png") no-repeat 15px center;
+    background: url("/static/icon/login-locked-icon.png") no-repeat 15px center;
 }
 .form-password{
-    background: url("../../../icon/login-key-icon.png") no-repeat 15px center;
+    background: url("/static/icon/login-key-icon.png") no-repeat 15px center;
     margin-top: 20px;
 }
 .tree-default{
@@ -35,7 +35,7 @@ body{
 .tree-folder{
     margin:0 auto;/* div居中 */
     border-radius: 25px;
-    background: url("../../../icon/icoses.jpg") -165px -215px no-repeat; /*背景图片位置，第一个参数控制左右，第二个参数控制上下*/
+    background: url("/static/icon/icoses.jpg") -165px -215px no-repeat; /*背景图片位置，第一个参数控制左右，第二个参数控制上下*/
 }
 
 .register {

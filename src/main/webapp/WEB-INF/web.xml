@@ -88,7 +88,7 @@
     </error-page>
     <!-- 欢迎页面 -->
     <welcome-file-list>
-        <welcome-file>/main.ftl</welcome-file>
+        <welcome-file>/websocket/toWebsocket</welcome-file>
     </welcome-file-list>
 
 

@@ -26,34 +26,23 @@
         <div class="item" id="1">
             <a href="javascript:;">朋友</a>
             <ul>
-                <li>1</li>
-                <li>2</li>
-                <li>3</li>
-                <li>4</li>
+                <li>功能正在开发</li>
             </ul>
         </div>
         <div class="item" id="2">
             <a href="javascript:;">群</a>
             <ul>
-                <li id="111">11</li>
-                <li id="112">12</li>
-                <li id="113">13</li>
-                <li id="114">14</li>
-                <li id="115">15</li>
+                <li id="111">功能正在开发</li>
             </ul>
         </div>
     </div>
     <div class="messageControl">
         <div class="control">
-            <div id="username">头</div>
+            <div id="username">联系人</div>
             <div class="head" id="sendTo"></div>
         </div>
         <div style="height: 270px;overflow: auto">
             <div id="message">
-                adasdasdajsdajdhakjshdakjs<br>
-                adasdasdajsdajdhakjshdakjs<br>
-                adasdasdajsdajdhakjshdakjs<br>
-                adasdasdajsdajdhakjshdakjs<br>
             </div>
         </div>
     </div>
@@ -63,7 +52,7 @@
             <input type="button" value="发送" id="send">
         </div>
         <div>
-            <textarea class="msgTextarea" id="content">aksjdfkasdnfasdfas</textarea>
+            <textarea class="msgTextarea" id="content" placeholder="请输入消息..."></textarea>
         </div>
     </div>
 </div>

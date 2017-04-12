@@ -12,7 +12,8 @@ $(function () {
             console.log("接收内容为-->", event.data);
             var obj = JSON.parse(event.data);
             console.log("0000000"+obj.from + obj.content);
-            setMessageInnerHTML(obj.from + "-回复：" + obj.content);
+            var text = $("#username").text();
+            setMessageInnerHTML(text + "-回复：" + obj.content);
             console.log("执行onmessage方法！");
         };
         websocket.onclose = function (event) {
@@ -44,7 +45,7 @@ $(function () {
     //异步请求好友信息
     $.ajax({
         type: "POST",
-        url: baseUrl + "/user/findByUser",
+        url: baseUrl + ":" + basePort + "/user/findByUser",
         success: function(data){
             console.log(data);
             $(data).each(function () {

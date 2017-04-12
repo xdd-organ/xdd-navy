@@ -1,5 +1,5 @@
 $(function () {
-    $("form").bootstrapValidator({
+    /*$("form").bootstrapValidator({
         message: 'This value is not valid',
         feedbackIcons: {
             valid: 'glyphicon glyphicon-ok red',
@@ -16,7 +16,7 @@ $(function () {
                         message: '用户名不能为空'
                     },
                     stringLength: {
-                        min: 6,
+                        min: 1,
                         max: 18,
                         message: '用户名长度必须在6到18位之间'
                     }
@@ -30,5 +30,5 @@ $(function () {
                 }
             }
         }
-    });
+    });*/
 });
