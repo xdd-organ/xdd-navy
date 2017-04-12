@@ -2,10 +2,10 @@ package com.java.xdd.test;
 
 import com.java.xdd.common.httpclient.HttpClientUtil;
 import com.java.xdd.common.httpclient.HttpUtils;
+import com.java.xdd.common.util.IPLocationUtil;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.util.EntityUtils;
-import org.junit.Before;
 import org.junit.Test;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import redis.clients.jedis.ShardedJedisPool;
@@ -68,4 +68,15 @@ public class HttpTest {
             e.printStackTrace();
         }
     }
+    @Test
+    public void test3(){
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("classpath:spring/applicationContext.xml");
+        context.start();
+        IPLocationUtil locationUtil = context.getBean(IPLocationUtil.class);
+
+        String ipLocationUtil = locationUtil.getIPLocation(null);
+        System.out.println(ipLocationUtil);
+
+    }
+
 }

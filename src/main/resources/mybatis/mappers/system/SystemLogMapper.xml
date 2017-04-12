@@ -18,6 +18,7 @@
         <result column="result" property="result"/>
         <result column="throwable" property="throwable"/>
         <result column="throwable_message" property="throwableMessage"/>
+        <result column="ip_location" property="ipLocation"/>
     </resultMap>
 
     <!--auto generated Code-->
@@ -36,12 +37,14 @@
         `params`,
         `result`,
         `throwable`,
-        `throwable_message`
+        `throwable_message`,
+        `ip_location`
     </sql>
 
     <!--auto generated Code-->
     <insert id="insert" useGeneratedKeys="true" keyProperty="pojo.systemLogId">
         INSERT INTO system_log (
+            `id`,
             `ip`,
             `method`,
             `user_id`,
@@ -55,8 +58,10 @@
             `params`,
             `result`,
             `throwable`,
-            `throwable_message`
+            `throwable_message`,
+            `ip_location`
         ) VALUES (
+            #{pojo.systemLogId},
             #{pojo.ip},
             #{pojo.method},
             #{pojo.userId},
@@ -70,7 +75,8 @@
             #{pojo.params},
             #{pojo.result},
             #{pojo.throwable},
-            #{pojo.throwableMessage}
+            #{pojo.throwableMessage},
+            #{pojo.ipLocation}
         )
     </insert>
 
@@ -78,6 +84,7 @@
     <insert id="insertSelective" useGeneratedKeys="true" keyProperty="pojo.systemLogId">
         INSERT INTO system_log
         <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="pojo.systemLogId!=null"> `id`,</if>
             <if test="pojo.ip!=null"> `ip`,</if>
             <if test="pojo.method!=null"> `method`,</if>
             <if test="pojo.userId!=null"> `user_id`,</if>
@@ -91,10 +98,12 @@
             <if test="pojo.params!=null"> `params`,</if>
             <if test="pojo.result!=null"> `result`,</if>
             <if test="pojo.throwable!=null"> `throwable`,</if>
-            <if test="pojo.throwableMessage!=null"> `throwable_message`</if>
+            <if test="pojo.throwableMessage!=null"> `throwable_message`,</if>
+            <if test="pojo.ipLocation!=null"> `ip_location`</if>
         </trim>
         VALUES
         <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="pojo.systemLogId!=null"> #{pojo.systemLogId},</if>
             <if test="pojo.ip!=null"> #{pojo.ip},</if>
             <if test="pojo.method!=null"> #{pojo.method},</if>
             <if test="pojo.userId!=null"> #{pojo.userId},</if>
@@ -108,7 +117,8 @@
             <if test="pojo.params!=null"> #{pojo.params},</if>
             <if test="pojo.result!=null"> #{pojo.result},</if>
             <if test="pojo.throwable!=null"> #{pojo.throwable},</if>
-            <if test="pojo.throwableMessage!=null"> #{pojo.throwableMessage}</if>
+            <if test="pojo.throwableMessage!=null"> #{pojo.throwableMessage},</if>
+            <if test="pojo.ipLocation!=null"> #{pojo.ipLocation}</if>
         </trim>
     </insert>
 
@@ -119,6 +129,7 @@
         )VALUES
         <foreach collection="pojos" item="pojo" index="index" separator=",">
             (
+            #{pojo.systemLogId},
             #{pojo.ip},
             #{pojo.method},
             #{pojo.userId},
@@ -132,7 +143,8 @@
             #{pojo.params},
             #{pojo.result},
             #{pojo.throwable},
-            #{pojo.throwableMessage}
+            #{pojo.throwableMessage},
+            #{pojo.ipLocation}
             )
         </foreach>
     </insert>
@@ -141,6 +153,7 @@
     <update id="update">
         UPDATE system_log
         <set>
+            <if test="pojo.systemLogId != null"> `id` = #{pojo.systemLogId},</if>
             <if test="pojo.ip != null"> `ip` = #{pojo.ip},</if>
             <if test="pojo.method != null"> `method` = #{pojo.method},</if>
             <if test="pojo.userId != null"> `user_id` = #{pojo.userId},</if>
@@ -154,7 +167,8 @@
             <if test="pojo.params != null"> `params` = #{pojo.params},</if>
             <if test="pojo.result != null"> `result` = #{pojo.result},</if>
             <if test="pojo.throwable != null"> `throwable` = #{pojo.throwable},</if>
-            <if test="pojo.throwableMessage != null"> `throwable_message` = #{pojo.throwableMessage}</if>
+            <if test="pojo.throwableMessage != null"> `throwable_message` = #{pojo.throwableMessage},</if>
+            <if test="pojo.ipLocation != null"> `ip_location` = #{pojo.ipLocation}</if>
         </set>
         WHERE id = #{pojo.systemLogId}
     </update>

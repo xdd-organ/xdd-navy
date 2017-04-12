@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.java.xdd.common.util.DateUtil;
+import com.java.xdd.common.util.IPLocationUtil;
 import com.java.xdd.common.util.PrincipalUtil;
 import com.java.xdd.common.util.RequestUtil;
 import com.java.xdd.shiro.domain.User;
@@ -26,6 +27,8 @@ public class SystemLogAspect {
     private final ObjectMapper mapper = new ObjectMapper();
     @Autowired
     private SystemLogService systemLogService;
+    @Autowired
+    private IPLocationUtil ipLocationUtil;
 
     private SystemLog systemLog;
 
@@ -104,6 +107,7 @@ public class SystemLogAspect {
         HttpServletRequest request = RequestUtil.getHttpServletRequest();
         if (null == request) return;
         systemLog.setIp(this.setIp(request));
+        systemLog.setIpLocation(this.setIp(request));
         systemLog.setUrl(request.getRequestURL().toString());
         Principal principal = request.getUserPrincipal();//当前登陆人
         User user = PrincipalUtil.getUserPrincipal(principal);

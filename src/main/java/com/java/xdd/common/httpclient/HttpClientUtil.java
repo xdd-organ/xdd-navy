@@ -2,7 +2,6 @@ package com.java.xdd.common.httpclient;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpMessage;
-import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
@@ -52,8 +51,9 @@ public class HttpClientUtil {
      * @throws URISyntaxException
      * @throws IOException
      */
-    public HttpResponse doGet(String url, Map<String, Object> params, Map<String, String> headers) throws URISyntaxException, IOException{
+    public String doGet(String url, Map<String, Object> params, Map<String, String> headers) throws URISyntaxException, IOException{
         CloseableHttpResponse response = null;
+        String res = null;
         try {
             URIBuilder uriBuilder = new URIBuilder(url);
             if(null != params && !params.isEmpty()) {
@@ -65,16 +65,18 @@ public class HttpClientUtil {
             httpGet.setConfig(this.requestConfig);
             this.setRequestheaders(headers,httpGet);
             response = httpClient.execute(httpGet);
-            return response;
+            //return response;
             // 判断返回状态是否为200
-            /*if (response.getStatusLine().getStatusCode() == 200) {
-                return EntityUtils.toString(response.getEntity(), "UTF-8");
-            }*/
+            if (response.getStatusLine().getStatusCode() == 200) {
+                res = EntityUtils.toString(response.getEntity(), "UTF-8");
+            }
+        } catch (Exception e){
+            e.printStackTrace();
         } finally {
             if (response != null) {
                 response.close();
             }
-            return null;
+            return res;
         }
     }
 

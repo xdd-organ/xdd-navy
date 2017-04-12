@@ -11,6 +11,7 @@ public class SystemLog extends BaseDomain implements Serializable{
 
     private Long systemLogId;
     private String ip;
+    private String ipLocation;
     private String url;
     private String method;
     private Long userId;
@@ -104,14 +105,13 @@ public class SystemLog extends BaseDomain implements Serializable{
         return userId;
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
     @Override
     public String toString() {
         return "SystemLog{" +
                 "systemLogId=" + systemLogId +
                 ", ip='" + ip + '\'' +
+                ", ipLocation='" + ipLocation + '\'' +
+                ", url='" + url + '\'' +
                 ", method='" + method + '\'' +
                 ", userId=" + userId +
                 ", methodStartTime=" + methodStartTime +
@@ -121,5 +121,17 @@ public class SystemLog extends BaseDomain implements Serializable{
                 ", throwable='" + throwable + '\'' +
                 ", throwableMessage='" + throwableMessage + '\'' +
                 '}';
+    }
+
+    public String getIpLocation() {
+        return ipLocation;
+    }
+
+    public void setIpLocation(String ipLocation) {
+        this.ipLocation = ipLocation;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 }
