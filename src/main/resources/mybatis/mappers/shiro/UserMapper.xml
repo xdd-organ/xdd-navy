@@ -29,7 +29,6 @@
         <parameter property="insertAuthor" resultMap="insert_author"/>
         <parameter property="updateTime" resultMap="update_time"/>
         <parameter property="updateAuthor" resultMap="update_author"/>
-
     </parameterMap>
 
     <select id="get" resultMap="baseResult" parameterType="java.lang.Long">
@@ -61,6 +60,10 @@
 
     <select id="findSysUserByUsername" resultMap="baseResult" parameterType="java.lang.String">
         SELECT * FROM user where username = #{username}
+    </select>
+
+    <select id="findByUser" resultMap="baseResult" parameterType="com.java.xdd.shiro.domain.User">
+        SELECT * FROM user
     </select>
 
 </mapper>

@@ -51,9 +51,9 @@ public class HttpClientUtil {
      * @throws URISyntaxException
      * @throws IOException
      */
-    public String doGet(String url, Map<String, Object> params, Map<String, String> headers) throws URISyntaxException, IOException{
+    public HttpResult doGet(String url, Map<String, Object> params, Map<String, String> headers) throws URISyntaxException, IOException{
         CloseableHttpResponse response = null;
-        String res = null;
+        HttpResult res = null;
         try {
             URIBuilder uriBuilder = new URIBuilder(url);
             if(null != params && !params.isEmpty()) {
@@ -65,11 +65,10 @@ public class HttpClientUtil {
             httpGet.setConfig(this.requestConfig);
             this.setRequestheaders(headers,httpGet);
             response = httpClient.execute(httpGet);
-            //return response;
-            // 判断返回状态是否为200
-            if (response.getStatusLine().getStatusCode() == 200) {
-                res = EntityUtils.toString(response.getEntity(), "UTF-8");
+            if (response.getEntity() != null) {
+                res =  new HttpResult(response.getStatusLine().getStatusCode(), EntityUtils.toString(response.getEntity(), "UTF-8"));
             }
+            res = new HttpResult(response.getStatusLine().getStatusCode(), null);
         } catch (Exception e){
             e.printStackTrace();
         } finally {

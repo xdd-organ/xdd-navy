@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.java.xdd.websocket1.mapper.MessageMapper">
+    <!--auto generated Code-->
+    <resultMap id="AllColumnMap" type="com.java.xdd.websocket1.domain.Message">
+        <result column="id" property="id"/>
+        <result column="content" property="content"/>
+        <result column="from" property="from"/>
+        <result column="send_to" property="sendTo"/>
+        <result column="is_read" property="isRead"/>
+        <result column="type" property="type"/>
+        <result column="insert_author" property="insertAuthor"/>
+        <result column="update_author" property="updateAuthor"/>
+        <result column="insert_time" property="insertTime"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
+
+    <!--auto generated Code-->
+    <sql id="all_column">
+        `id`,
+        `content`,
+        `from`,
+        `send_to`,
+        `is_read`,
+        `type`,
+        `insert_author`,
+        `update_author`,
+        `insert_time`,
+        `update_time`
+    </sql>
+
+    <!--auto generated Code-->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="pojo.id">
+        INSERT INTO message (
+            `id`,
+            `content`,
+            `from`,
+            `send_to`,
+            `is_read`,
+            `type`,
+            `insert_author`,
+            `update_author`,
+            `insert_time`,
+            `update_time`
+        ) VALUES (
+            #{pojo.id},
+            #{pojo.content},
+            #{pojo.from},
+            #{pojo.sendTo},
+            #{pojo.isRead},
+            #{pojo.type},
+            #{pojo.insertAuthor},
+            #{pojo.updateAuthor},
+            #{pojo.insertTime},
+            #{pojo.updateTime}
+        )
+    </insert>
+
+    <!--auto generated Code-->
+    <insert id="insertSelective" useGeneratedKeys="true" keyProperty="pojo.id">
+        INSERT INTO message
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="pojo.id!=null"> `id`,</if>
+            <if test="pojo.content!=null"> `content`,</if>
+            <if test="pojo.from!=null"> `from`,</if>
+            <if test="pojo.sendTo!=null"> `send_to`,</if>
+            <if test="pojo.isRead!=null"> `is_read`,</if>
+            <if test="pojo.type!=null"> `type`,</if>
+            <if test="pojo.insertAuthor!=null"> `insert_author`,</if>
+            <if test="pojo.updateAuthor!=null"> `update_author`,</if>
+            <if test="pojo.insertTime!=null"> `insert_time`,</if>
+            <if test="pojo.updateTime!=null"> `update_time`,</if>
+        </trim>
+        VALUES
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="pojo.id!=null">#{pojo.id},</if>
+            <if test="pojo.content!=null">#{pojo.content},</if>
+            <if test="pojo.from!=null">#{pojo.from},</if>
+            <if test="pojo.sendTo!=null">#{pojo.sendTo},</if>
+            <if test="pojo.isRead!=null">#{pojo.isRead},</if>
+            <if test="pojo.type!=null">#{pojo.type},</if>
+            <if test="pojo.insertAuthor!=null">#{pojo.insertAuthor},</if>
+            <if test="pojo.updateAuthor!=null">#{pojo.updateAuthor},</if>
+            <if test="pojo.insertTime!=null">#{pojo.insertTime},</if>
+            <if test="pojo.updateTime!=null">#{pojo.updateTime},</if>
+        </trim>
+    </insert>
+
+    <!--auto generated Code-->
+    <insert id="insertList">
+        INSERT INTO message (
+        <include refid="all_column"/>
+        )VALUES
+        <foreach collection="pojos" item="pojo" index="index" separator=",">
+            (
+            #{pojo.id},
+            #{pojo.content},
+            #{pojo.from},
+            #{pojo.sendTo},
+            #{pojo.isRead},
+            #{pojo.type},
+            #{pojo.insertAuthor},
+            #{pojo.updateAuthor},
+            #{pojo.insertTime},
+            #{pojo.updateTime}
+            )
+        </foreach>
+    </insert>
+
+    <!--auto generated Code-->
+    <update id="update">
+        UPDATE message
+        <set>
+            <if test="pojo.id != null"> `id` = #{pojo.id}, </if>
+            <if test="pojo.content != null"> `content` = #{pojo.content}, </if>
+            <if test="pojo.from != null"> `from` = #{pojo.from}, </if>
+            <if test="pojo.sendTo != null"> `send_to` = #{pojo.sendTo}, </if>
+            <if test="pojo.isRead != null"> `is_read` = #{pojo.isRead}, </if>
+            <if test="pojo.type != null"> `type` = #{pojo.type}, </if>
+            <if test="pojo.insertAuthor != null"> `insert_author` = #{pojo.insertAuthor}, </if>
+            <if test="pojo.updateAuthor != null"> `update_author` = #{pojo.updateAuthor}, </if>
+            <if test="pojo.insertTime != null"> `insert_time` = #{pojo.insertTime}, </if>
+            <if test="pojo.updateTime != null"> `update_time` = #{pojo.updateTime} </if>
+        </set>
+        WHERE id = #{pojo.id}
+    </update>
+</mapper>
+

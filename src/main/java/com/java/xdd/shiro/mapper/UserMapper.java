@@ -32,8 +32,7 @@ public interface UserMapper extends Mapper<User>{
 
     List<User> findByInsertTime(@Param("insertTime")Date insertTime);
 
-
-
     User findById(@Param("password")String password);
 
+    List<User> findByUser(@Param("pojo")User user);
 }

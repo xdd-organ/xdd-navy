@@ -34,4 +34,6 @@ public interface UserService {
      * @return
      */
     List<Permission> findPermissionListByUserId(Long id);
+
+    List<User> findByUser(User user);
 }

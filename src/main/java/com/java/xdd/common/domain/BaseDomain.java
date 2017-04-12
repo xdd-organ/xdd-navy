@@ -10,6 +10,7 @@ import java.util.Date;
  * Created by huanghu on 2017/1/27.
  */
 public class BaseDomain implements java.io.Serializable{
+    private static final long serialVersionUID = 4381211318072723832L;
     private Long insertAuthor;
     private Long updateAuthor;
     private Date insertTime;

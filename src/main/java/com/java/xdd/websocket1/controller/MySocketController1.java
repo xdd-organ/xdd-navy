@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Controller
+@RequestMapping("/websocket")
 public class MySocketController1 {
 
     private WebsocketEndPoint websocketEndPoint;
@@ -51,11 +52,17 @@ public class MySocketController1 {
         return msgByUserId.toString();
     }
 
-    @RequestMapping("websocket")
+    @RequestMapping("/websocket")
     public String websocket(){
         return "websocket";
     }
-    @RequestMapping("main")
+
+    @RequestMapping("/toWebsocket")
+    public String toWebsocket(){
+        return "websocket/websocket";
+    }
+
+    @RequestMapping("/main")
     public String main(){
         return "main";
     }

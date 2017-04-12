@@ -107,7 +107,7 @@ public class SystemLogAspect {
         HttpServletRequest request = RequestUtil.getHttpServletRequest();
         if (null == request) return;
         systemLog.setIp(this.setIp(request));
-        systemLog.setIpLocation(this.setIp(request));
+        systemLog.setIpLocation(this.ipLocationUtil.getIPLocation(systemLog.getIp()));
         systemLog.setUrl(request.getRequestURL().toString());
         Principal principal = request.getUserPrincipal();//当前登陆人
         User user = PrincipalUtil.getUserPrincipal(principal);

@@ -76,4 +76,9 @@ public class UserServiceImpl implements UserService{
         return permissionMapper.findPermissionListByUserId(id);
     }
 
+    @Override
+    public List<User> findByUser(User user) {
+        return userMapper.findByUser(user);
+    }
+
 }

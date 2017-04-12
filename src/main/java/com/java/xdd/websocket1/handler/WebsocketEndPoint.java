@@ -1,34 +1,30 @@
 package com.java.xdd.websocket1.handler;
 
 import com.alibaba.fastjson.JSONObject;
-import com.java.xdd.common.domain.BaseUser;
+import com.java.xdd.common.util.DateUtil;
 import com.java.xdd.common.util.PrincipalUtil;
 import com.java.xdd.shiro.domain.User;
+import com.java.xdd.websocket1.domain.Message;
+import com.java.xdd.websocket1.service.MessageService;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.shiro.subject.PrincipalCollection;
-import org.apache.shiro.subject.support.DefaultSubjectContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
-import org.springframework.web.socket.client.standard.StandardWebSocketClient;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
-import java.lang.reflect.Method;
 import java.security.Principal;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 //websocket的核心
 public class WebsocketEndPoint extends TextWebSocketHandler {
 
     private Logger logger = LoggerFactory.getLogger(WebsocketEndPoint.class);
-
-
-    //private static final List<WebSocketSession> users = new ArrayList<>();
-    //StandardWebSocketClient
+    @Autowired
+    private MessageService messageService;//消息处理
 
     //改造 {"房间号":{"用户id":"session", "用户id":"session"}}
     private static final Map<String, Map<Long, WebSocketSession>> users = new HashMap<>();
@@ -36,31 +32,34 @@ public class WebsocketEndPoint extends TextWebSocketHandler {
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
         super.handleTextMessage(session, message);
-        Map<String, Object> attributes = session.getAttributes();
-        System.out.println(attributes);
-
         String payload = message.getPayload(); //接收到的消息
-
         User user = this.getSessionUser(session);
         logger.debug("用户【{}】发送的消息【{}】!!", user, payload);
 
-        Map<String, Object> map = JSONObject.parseObject(payload, Map.class);
-        Object sendTo = map.get("sendTo");
-        map.put("sendTo", user.getId());
-        map.put("sendToUserId", user.getUsername());
-        if (null != sendTo && StringUtils.isNotBlank(sendTo.toString())) {
-            Long sendUserId = Long.valueOf(sendTo.toString());
+        System.out.println(payload);
+        Message msg = JSONObject.parseObject(payload, Message.class);
+        msg.setIsRead(false);
+        msg.setFrom(user.getId());
+        msg.setInsertTime(DateUtil.getCurrentDate());
+        msg.setInsertAuthor(user.getId());
+        msg.setUpdateTime(DateUtil.getCurrentDate());
+        msg.setUpdateAuthor(user.getId());
+
+        Long sendTo = msg.getSendTo();//发送给谁
+        if (null != sendTo) {
             Map<Long, WebSocketSession> sessions = users.get("0");
-            WebSocketSession sendSeesion = sessions.get(sendUserId);
-            if (null != sendSeesion && sendSeesion.isOpen()) { //用户在线
-                TextMessage returnMessage = new TextMessage(JSONObject.toJSONString(map));
-                sendSeesion.sendMessage(returnMessage);//发送消息
+            WebSocketSession sendSession = sessions.get(sendTo);
+            if (null != sendSession && sendSession.isOpen()) { //用户在线
+                TextMessage returnMessage = new TextMessage(JSONObject.toJSONString(msg));
+                msg.setIsRead(true);
+                sendSession.sendMessage(returnMessage);//发送消息
             }
         }
-
-
-        TextMessage returnMessage = new TextMessage(message.getPayload()+" received at server");
-        //session.sendMessage(returnMessage); //发送消息
+        try {
+            messageService.insertSelective(msg);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         //StandardWebSocketClient client = new StandardWebSocketClient();
     }

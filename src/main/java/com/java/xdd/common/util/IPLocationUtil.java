@@ -2,6 +2,7 @@ package com.java.xdd.common.util;
 
 import com.java.xdd.common.constant.AliyunConstant;
 import com.java.xdd.common.httpclient.HttpClientUtil;
+import com.java.xdd.common.httpclient.HttpResult;
 import org.apache.http.HttpHeaders;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,8 +26,8 @@ public class IPLocationUtil {
         Map<String, String> headers = new HashMap<>();
         headers.put(HttpHeaders.AUTHORIZATION, "APPCODE " + AliyunConstant.APP_CODE);
         try {
-            String str = httpClientUtil.doGet(url, params, headers);
-            return str;
+            HttpResult httpResult = httpClientUtil.doGet(url, params, headers);
+            return httpResult.getBody();
         } catch (Exception e) {
             e.printStackTrace();
             logger.error("查找IP位置出错->{}", e.getMessage());
