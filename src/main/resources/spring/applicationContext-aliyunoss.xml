@@ -14,11 +14,18 @@
     <context:property-placeholder location="config.properties"/>
 
     <!--阿里云ossClient-->
-    <bean id="ossClient" class="com.aliyun.oss.OSSClient" scope="prototype" destroy-method="shutdown">
+    <bean id="ossClient" class="com.aliyun.oss.OSSClient" scope="singleton">
         <constructor-arg index="0" value="${oss.endpoint}"/>
-        <constructor-arg index="1" value="${oss.accessKeyId}"/>
-        <constructor-arg index="2" value="${oss.secretAccessKey}"/>
-        <constructor-arg index="3" ref="clientConfiguration"/>
+        <constructor-arg index="1" ref="credentialsProvider"/>
+        <constructor-arg index="2" ref="clientConfiguration"/>
+    </bean>
+
+    <bean id="credentials" class="com.aliyun.oss.common.auth.DefaultCredentials">
+        <constructor-arg index="0" value="${oss.accessKeyId}"/>
+        <constructor-arg index="1" value="${oss.secretAccessKey}"/>
+    </bean>
+    <bean id="credentialsProvider" class="com.aliyun.oss.common.auth.DefaultCredentialProvider">
+        <constructor-arg index="0" ref="credentials"/>
     </bean>
 
     <bean id="clientConfiguration" class="com.aliyun.oss.ClientConfiguration">

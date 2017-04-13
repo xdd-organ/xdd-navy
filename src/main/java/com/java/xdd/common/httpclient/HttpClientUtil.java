@@ -67,8 +67,9 @@ public class HttpClientUtil {
             response = httpClient.execute(httpGet);
             if (response.getEntity() != null) {
                 res =  new HttpResult(response.getStatusLine().getStatusCode(), EntityUtils.toString(response.getEntity(), "UTF-8"));
+            } else {
+                res = new HttpResult(response.getStatusLine().getStatusCode(), null);
             }
-            res = new HttpResult(response.getStatusLine().getStatusCode(), null);
         } catch (Exception e){
             e.printStackTrace();
         } finally {

@@ -14,7 +14,7 @@ public interface SystemLogMapper{
 
     int update(@Param("pojo") SystemLog pojo);
 
-    List<SystemLog> findBySystemLogId(@Param("systemLogId")Long systemLogId);
+    SystemLog findBySystemLogId(@Param("systemLogId")Long systemLogId);
 
-
+    List<SystemLog> listSystemLog();
 }

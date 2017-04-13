@@ -14,4 +14,8 @@ public interface SystemLogService extends BaseService{
     int insertList(List<SystemLog> pojos);
 
     int update(SystemLog pojo);
+
+    SystemLog findBySystemLogId(Long SystemLogId);
+
+    List<SystemLog> listSystemLog();
 }

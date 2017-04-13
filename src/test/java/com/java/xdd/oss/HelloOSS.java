@@ -35,6 +35,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class HelloOSS {
@@ -226,6 +227,45 @@ public class HelloOSS {
         String eTag = metadata.getETag();
 
 
+
+        context.close();
+    }
+
+    @Test
+    public void test3() throws Exception{
+        String key = "abc.jpg";
+
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("classpath:spring/applicationContext-aliyunoss.xml");
+        context.start();
+        OSSClient client = context.getBean(OSSClient.class);
+
+        UploadPartRequest partRequest = new UploadPartRequest();
+
+        InitiateMultipartUploadRequest request = new InitiateMultipartUploadRequest(bucketName, key);
+        InitiateMultipartUploadResult result = client.initiateMultipartUpload(request);
+
+        //String uploadId = result.getUploadId();
+        String uploadId = "E8C902485081454899031EFD4B829646";
+
+
+        /*partRequest.setUploadId(uploadId);//0792566529A9F868CE221F1C5BDBF583
+        partRequest.setKey(key);
+        partRequest.setBucketName(bucketName);
+        partRequest.setPartNumber(1);
+        partRequest.setInputStream(new FileInputStream(new File("G:\\xdd\\aa.jpg")));
+
+        UploadPartResult uploadPartResult = client.uploadPart(partRequest);
+        String eTag = uploadPartResult.getETag();
+        System.out.println("eTag=" + eTag);
+        System.out.println("uploadId=" + uploadId);*/
+
+        List<PartETag> tags = new ArrayList<>();//0792566529A9F868CE221F1C5BDBF583
+        PartETag partETag = new PartETag(1, "0792566529A9F868CE221F1C5BDBF583");
+        tags.add(partETag);
+
+        CompleteMultipartUploadRequest complete = new CompleteMultipartUploadRequest(bucketName, key, uploadId,
+                tags);
+        client.completeMultipartUpload(complete);
 
         context.close();
     }

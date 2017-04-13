@@ -62,6 +62,7 @@
 	<import resource="classpath:spring/applicationContext-redis.xml"/>
 	<import resource="classpath:spring/applicationContext-job.xml"/>
 	<import resource="classpath:spring/applicationContext-httpclient.xml"/>
+	<import resource="classpath:spring/applicationContext-aliyunoss.xml"/>
 	<!--<import resource="classpath:spring/applicationContext-rabbitmq.xml"/>-->
 
 </beans>

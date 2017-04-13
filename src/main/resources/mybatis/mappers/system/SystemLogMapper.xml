@@ -180,5 +180,11 @@
         from system_log
         where `id`=#{systemLogId}
     </select>
+
+    <select id="listSystemLog" resultMap="AllColumnMap">
+        select
+        <include refid="all_column"/>
+        from system_log
+    </select>
 </mapper>
 

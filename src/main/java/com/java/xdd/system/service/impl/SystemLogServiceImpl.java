@@ -15,19 +15,33 @@ public class SystemLogServiceImpl extends BaseServiceImpl implements SystemLogSe
     @Autowired
     private SystemLogMapper systemLogMapper;
 
+    @Override
     public int insert(SystemLog pojo){
         return systemLogMapper.insert(pojo);
     }
 
+    @Override
     public int insertSelective(SystemLog pojo){
         return systemLogMapper.insertSelective(pojo);
     }
 
+    @Override
     public int insertList(List<SystemLog> pojos){
         return systemLogMapper.insertList(pojos);
     }
 
+    @Override
     public int update(SystemLog pojo){
         return systemLogMapper.update(pojo);
+    }
+
+    @Override
+    public SystemLog findBySystemLogId(Long SystemLogId) {
+        return systemLogMapper.findBySystemLogId(SystemLogId);
+    }
+
+    @Override
+    public List<SystemLog> listSystemLog() {
+        return systemLogMapper.listSystemLog();
     }
 }
