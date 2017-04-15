@@ -1,6 +1,8 @@
 package com.java.xdd.test;
 
 import com.aliyun.oss.OSSClient;
+import com.aliyun.oss.common.utils.BinaryUtil;
+import com.aliyun.oss.common.utils.IOUtils;
 import com.aliyun.oss.model.InitiateMultipartUploadRequest;
 import com.aliyun.oss.model.InitiateMultipartUploadResult;
 import com.java.xdd.common.httpclient.HttpClientUtil;
@@ -16,6 +18,8 @@ import org.junit.Test;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import redis.clients.jedis.ShardedJedisPool;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -115,6 +119,17 @@ public class HttpTest {
         //D916F01A3F684C418C8376E2D43CA670
 
 
+    }
+
+    @Test
+    public void test5() throws Exception{
+        File file = new File("F:\\websocket.css");
+        FileInputStream inputStream = new FileInputStream(file);
+        byte[] bytes = IOUtils.readStreamAsByteArray(new FileInputStream(file));
+        String md5 = BinaryUtil.encodeMD5(bytes);
+        System.out.println(md5);
+        //AA6983072592EF08100306E17BF322A5
+        //aa6983072592ef08100306e17bf322a5
     }
 
 }

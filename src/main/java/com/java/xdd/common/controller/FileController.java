@@ -1,6 +1,7 @@
 package com.java.xdd.common.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.java.xdd.common.aliyunoss.PartUploader;
 import com.java.xdd.common.domain.Plupload;
 import com.java.xdd.common.service.PluploadService;
 import org.apache.commons.lang3.StringUtils;
@@ -28,10 +29,12 @@ public class FileController {
     private final ObjectMapper mapper = new ObjectMapper();
     private Logger logger = LoggerFactory.getLogger(FileController.class);
     // 允许上传的格式
-    private static final String[] IMAGE_TYPE = new String[] { ".bmp", ".jpg", ".jpeg", ".gif", ".png" };
+    private static final String[] IMAGE_TYPE = new String[]{".bmp", ".jpg", ".jpeg", ".gif", ".png"};
 
-    /**Plupload文件上传处理方法*/
-    @RequestMapping(value="/pluploadUpload")
+    /**
+     * Plupload文件上传处理方法
+     */
+    @RequestMapping(value = "/pluploadUpload")
     @ResponseBody
     public void upload(Plupload plupload, HttpServletRequest request, HttpServletResponse response) {
 
@@ -42,29 +45,36 @@ public class FileController {
         int userId = 1000;
 
         //文件存储绝对路径,会是一个文件夹，项目相应Servlet容器下的"pluploadDir"文件夹，还会以用户唯一id作划分
-        File dir = new File(request.getSession().getServletContext().getRealPath("/") + FileDir+"/"+userId);
-        if(!dir.exists()){
+        File dir = new File(request.getSession().getServletContext().getRealPath("/") + FileDir + "/" + userId);
+        if (!dir.exists()) {
             dir.mkdirs();//可创建多级目录，而mkdir()只能创建一级目录
         }
         //开始上传文件
         PluploadService.upload(plupload, dir);
     }
-    /**Plupload文件上传处理方法*/
-    @RequestMapping(value="/test2")
+
+    /**
+     * Plupload文件上传处理方法
+     */
+    @RequestMapping(value = "/test2")
     public String test2(Plupload plupload, HttpServletRequest request, HttpServletResponse response) {
 
         return "test2";
     }
 
-    /**Plupload文件上传处理方法*/
-    @RequestMapping(value="/fileUpload")
+    /**
+     * Plupload文件上传处理方法
+     */
+    @RequestMapping(value = "/fileUpload")
     public String fileUpload(Plupload plupload, HttpServletRequest request, HttpServletResponse response) {
 
         return "fileUpload";
     }
 
-    /**Plupload文件上传处理方法*/
-    @RequestMapping(value="/fileUpload2")
+    /**
+     * Plupload文件上传处理方法
+     */
+    @RequestMapping(value = "/fileUpload2")
     public String fileUpload2(Plupload plupload, HttpServletRequest request, HttpServletResponse response) {
 
         return "fileUpload2";
@@ -72,11 +82,12 @@ public class FileController {
 
     /**
      * 单文件上传
+     *
      * @return
      */
-    @RequestMapping(value="/uploadFile")
+    @RequestMapping(value = "/uploadFile")
     @ResponseBody
-    public String uploadFile(@RequestParam("file")MultipartFile file, HttpServletRequest request) {
+    public String uploadFile(@RequestParam("file") MultipartFile file, HttpServletRequest request) {
         // 校验图片格式
         boolean isLegal = false;
         for (String type : IMAGE_TYPE) {
@@ -120,11 +131,36 @@ public class FileController {
 
     /**
      * 单文件下载
+     *
      * @return
      */
-    @RequestMapping(value="/downloadFile")
+    @RequestMapping(value = "/downloadFile")
     @ResponseBody
     public String downloadFile(HttpServletRequest request, HttpServletResponse response) {
         return "fileUpload2";
+    }
+
+
+    /**
+     * 单文件下载
+     *
+     * @return
+     */
+    @RequestMapping(value = "/test1")
+    public String test1(HttpServletRequest request, HttpServletResponse response) {
+        return "common/file/fileUpload";
+    }
+
+
+    /**
+     * 单文件上传
+     *
+     * @return
+     */
+    @RequestMapping(value = "/uploadPart")
+    @ResponseBody
+    public String uploadPart(PartUploader partUploader,@RequestParam("file") MultipartFile file, HttpServletRequest request) {
+        System.out.println(partUploader);
+        return "上传成功！";
     }
 }

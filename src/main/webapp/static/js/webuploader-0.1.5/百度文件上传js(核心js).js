@@ -1,4 +1,4 @@
-// 文件上传
+// 文件上传(需导入bootstrap)
 jQuery(function() {
     var $ = jQuery,
         $list = $('#thelist'),
