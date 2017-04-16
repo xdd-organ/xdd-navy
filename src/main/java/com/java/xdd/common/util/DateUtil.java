@@ -25,6 +25,7 @@ public class DateUtil extends DateUtils{
     }
 
     public static Date getCurrentDate(){
-        return Calendar.getInstance().getTime();
+        return new Date();
     }
+
 }

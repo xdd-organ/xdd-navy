@@ -3,10 +3,13 @@ package com.java.xdd.common.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.java.xdd.common.aliyunoss.PartUploader;
 import com.java.xdd.common.domain.Plupload;
+import com.java.xdd.common.service.FileService;
 import com.java.xdd.common.service.PluploadService;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +23,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 
 @RequestMapping("file")
 @Controller
@@ -30,6 +34,9 @@ public class FileController {
     private Logger logger = LoggerFactory.getLogger(FileController.class);
     // 允许上传的格式
     private static final String[] IMAGE_TYPE = new String[]{".bmp", ".jpg", ".jpeg", ".gif", ".png"};
+
+    @Autowired
+    private FileService fileService;
 
     /**
      * Plupload文件上传处理方法
@@ -153,14 +160,22 @@ public class FileController {
 
 
     /**
-     * 单文件上传
+     * 单文件分片上传
      *
      * @return
      */
     @RequestMapping(value = "/uploadPart")
     @ResponseBody
     public String uploadPart(PartUploader partUploader,@RequestParam("file") MultipartFile file, HttpServletRequest request) {
-        System.out.println(partUploader);
+        try {
+            InputStream inputStream = file.getInputStream();
+            partUploader.setInputStream(inputStream);
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+        fileService.uploadPart(partUploader);
+
+
         return "上传成功！";
     }
 }

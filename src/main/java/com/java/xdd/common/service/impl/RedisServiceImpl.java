@@ -9,6 +9,7 @@ import redis.clients.jedis.ShardedJedisPool;
 import com.java.xdd.common.service.RedisService;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 @Service("redisService")
@@ -287,5 +288,118 @@ public class RedisServiceImpl implements RedisService{
         }
         return null;
     }
+
+    @Override
+    public String hmset(String key, Map<String, String> value) {
+        ShardedJedis shardedJedis = null;
+        try {
+            shardedJedis = shardedJedisPool.getResource();
+            return shardedJedis.hmset(key,value);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (null != shardedJedis) shardedJedis.close();
+        }
+        return null;
+    }
+
+    @Override
+    public List<String> hmget(String key, String... fields) {
+        ShardedJedis shardedJedis = null;
+        try {
+            shardedJedis = shardedJedisPool.getResource();
+            return shardedJedis.hmget(key, fields);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (null != shardedJedis) shardedJedis.close();
+        }
+        return null;
+    }
+
+    @Override
+    public Long hdel(String key, String... fields) {
+        ShardedJedis shardedJedis = null;
+        try {
+            shardedJedis = shardedJedisPool.getResource();
+            return shardedJedis.hdel(key, fields);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (null != shardedJedis) shardedJedis.close();
+        }
+        return null;
+    }
+
+    @Override
+    public List<String> hvals(String key) {
+        ShardedJedis shardedJedis = null;
+        try {
+            shardedJedis = shardedJedisPool.getResource();
+            return shardedJedis.hvals(key);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (null != shardedJedis) shardedJedis.close();
+        }
+        return null;
+    }
+
+    @Override
+    public Set<String> hkeys(String key) {
+        ShardedJedis shardedJedis = null;
+        try {
+            shardedJedis = shardedJedisPool.getResource();
+            return shardedJedis.hkeys(key);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (null != shardedJedis) shardedJedis.close();
+        }
+        return null;
+    }
+
+    @Override
+    public Long hlen(String key) {
+        ShardedJedis shardedJedis = null;
+        try {
+            shardedJedis = shardedJedisPool.getResource();
+            return shardedJedis.hlen(key);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (null != shardedJedis) shardedJedis.close();
+        }
+        return null;
+    }
+
+    @Override
+    public Map<String, String> hgetAll(String key) {
+        ShardedJedis shardedJedis = null;
+        try {
+            shardedJedis = shardedJedisPool.getResource();
+            return shardedJedis.hgetAll(key);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (null != shardedJedis) shardedJedis.close();
+        }
+        return null;
+    }
+
+    @Override
+    public Long hset(String key, String field, String value) {
+        ShardedJedis shardedJedis = null;
+        try {
+            shardedJedis = shardedJedisPool.getResource();
+            return shardedJedis.hset(key, field, value);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (null != shardedJedis) shardedJedis.close();
+        }
+        return null;
+    }
+
 
 }

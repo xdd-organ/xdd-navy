@@ -2,27 +2,31 @@ package com.java.xdd.test;
 
 import com.java.xdd.common.httpclient.HttpClientUtil;
 import com.java.xdd.common.httpclient.HttpResult;
+import com.java.xdd.common.service.RedisService;
+import com.java.xdd.common.service.impl.RedisServiceImpl;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import redis.clients.jedis.ShardedJedis;
 import redis.clients.jedis.ShardedJedisPool;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 public class RedisTest {
     private ShardedJedis shardedJedis;
     private HttpClientUtil httpClient;
-    //private RedisService redisService;
+    private RedisService redisService;
 
     @Before
     public void before(){
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("classpath:spring/applicationContext.xml");
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("classpath:spring/applicationContext-redis.xml");
         context.start();
         ShardedJedisPool shardedJedisPool = (ShardedJedisPool)context.getBean("shardedJedisPool");
-        httpClient = (HttpClientUtil) context.getBean("httpClientUtil");
-        //redisService = (RedisService)context.getBean("redisService");
+        //httpClient = (HttpClientUtil) context.getBean("httpClientUtil");
+        //redisService = context.getBean(RedisService.class);
         shardedJedis = shardedJedisPool.getResource();
     }
 
@@ -70,6 +74,24 @@ public class RedisTest {
         String[] strs = {"abc1","abc2","abc3"};
         //Long lpush = redisService.lpush(key, strs);
         //System.out.println(lpush);
+    }
+    
+    @Test
+    public void test6(){
+        String key = "map";
+        Map<String, String> map = new HashMap<>();
+        map.put("aa","a-1");
+        map.put("bb","b-2");
+        map.put("cc","c-3");
+        map.put("dd","d-4");
+        String hmset = shardedJedis.hmset(key, map);
+        System.out.println(hmset);
+        List<String> hmget = shardedJedis.hmget(key,"aa");
+        System.out.println(hmget);
+        shardedJedis.hvals(key);
+
+        shardedJedis.hset(key,"ee","e-5");
+
     }
 
 

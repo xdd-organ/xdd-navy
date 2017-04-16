@@ -1,6 +1,7 @@
 package com.java.xdd.common.service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 public interface RedisService {
@@ -152,5 +153,67 @@ public interface RedisService {
      * @return
      */
     String lindex(String key, long index);
+
+    /**
+     * 存入一个Map
+     * @param key
+     * @param value
+     * @return
+     */
+    String hmset(String key, Map<String, String> value);
+
+    /**
+     * 向Map追加一个键值对
+     * @param key
+     * @param field
+     * @param value
+     * @return
+     */
+    Long hset(String key, String field, String value);
+
+    /**
+     * 获取一个Map
+     * @param key
+     * @return
+     */
+    Map<String, String> hgetAll(String key);
+
+    /**
+     * 获取Map指定键的值
+     * @param key Map键
+     * @param fields Map中的指定字段
+     * @return
+     */
+    List<String> hmget(String key, String... fields);
+
+    /**
+     * 删除Map指定键的值
+     * @param key Map键
+     * @param fields
+     * @return
+     */
+    Long hdel(String key, String... fields);
+
+    /**
+     * 获取所有Map中所有值
+     * @param key Map键
+     * @return
+     */
+    List<String> hvals(String key);
+
+    /**
+     * 获取所有Map中所有key
+     * @param key
+     * @return
+     */
+    Set<String> hkeys(String key);
+
+    /**
+     * 获取Map键值对数
+     * @param key
+     * @return
+     */
+    Long hlen(String key);
+
 
 }

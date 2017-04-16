@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>单文件上传分片上传上传(复杂版)</title>
+    <title>单文件上传分片上传上传(简单版)</title>
     <meta charset="utf-8">
     <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
     <link rel="icon" href="/static/icon/favicon.ico" type="image/x-icon">
@@ -33,50 +33,6 @@
                     uploader,
                     decode;
 
-            /** 实现webupload hook，触发上传前，中，后的调用关键 **/
-            WebUploader.Uploader.register({
-                "before-send-file": "beforeSendFile",  // 整个文件上传前
-                "before-send": "beforeSend",           // 每个分片上传前
-                "after-send-file": "afterSendFile"     // 分片上传完毕
-            }, {
-                beforeSendFile : function (file) {// 整个文件上传前
-                    console.log("整个文件上传前！", file);
-                    var aa = uploader.md5File(file);
-                    aa.then(function(res){
-                        console.log("整个文件上传前！md5值是->",res);
-                    });
-
-                    var deferred = WebUploader.Deferred();
-                    setTimeout(deferred.resolve,100);
-                    return deferred.promise();
-                }
-            }, {
-                beforeSend : function (block) {// 每个分片上传前
-                    console.log("每个分片上传前！",block);
-                    var aa = uploader.md5File(block);
-                    aa.then(function(res){
-                        console.log("每个分片上传前！md5值是->",res);
-                    });
-
-                    var deferred = WebUploader.Deferred();
-                    deferred.resolve();
-                    return deferred.promise();
-                }
-            }, {
-                afterSendFile : function (file) {// 分片上传完毕
-                    console.log("分片上传完毕！",file);
-                    var aa = uploader.md5File(file);
-                    aa.then(function(res){
-                        console.log("每个分片上传前！md5值是->",res);
-                    });
-
-                    var deferred = WebUploader.Deferred();
-                    deferred.resolve();
-                    return deferred.promise();
-                }
-            });
-
-
             uploader = WebUploader.create({
 
                 // swf文件路径
@@ -97,9 +53,6 @@
                 chunkSize : 1048576, //分片大小
 
                 threads : 3, //并发数
-
-                prepareNextFile: true,// 上传本分片时预处理下一分片
-
                 chunkRetry : 3 //重试次数
 
             });
@@ -146,16 +99,14 @@
                 }
             });
 
+            $("#ctlBtn2").click(function () {
+                uploader.stop(true);
+            });
+
             uploader.on("uploadFinished", function () {//文件上传结束触发
                 var errArr = uploader.getFiles('error');
                 console.log(errArr);
             });
-
-            uploader.on("beforeSend", function (file) {//文件上传结束触发
-                console.log("fjsldf" , file);
-            });
-
-
 
         });
     </script>

@@ -12,7 +12,7 @@ function uuid() {
 	return uuid;
 }
 
-var baseUrl = "http://127.0.0.1";
 var baseHost = "127.0.0.1";
 var basePort = "2080";
-var basePath = "http://127.0.0.1:2080";
+var baseUrl = "http://" + baseHost;
+var basePath = baseUrl + ":" + basePort;

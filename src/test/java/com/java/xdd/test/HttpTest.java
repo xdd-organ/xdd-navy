@@ -20,9 +20,7 @@ import redis.clients.jedis.ShardedJedisPool;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by huanghu on 2017/4/8.
@@ -131,5 +129,45 @@ public class HttpTest {
         //AA6983072592EF08100306E17BF322A5
         //aa6983072592ef08100306e17bf322a5
     }
+
+    @Test
+    public void test6() {
+        String path = "G:\\tmp\\file";
+        File file = new File(path + File.separator + "aa.txt");
+        if (!file.exists()) {
+            file.mkdirs();
+        }
+    }
+
+    private List<String> sort(List<String> chunkList){
+        Collections.sort(chunkList, new Comparator<String>() {
+            @Override
+            public int compare(String o1, String o2) {
+                Long a = Long.valueOf(o1.substring(0, o1.lastIndexOf(".")));
+                Long b = Long.valueOf(o2.substring(0, o2.lastIndexOf(".")));
+                return a.compareTo(b); //升序
+            }
+        });
+        return chunkList;
+    }
+
+    @Test
+    public void test7() {
+        List<String> chunkList = new ArrayList<>();
+
+        chunkList.add("1.a");
+        chunkList.add("0.a");
+        chunkList.add("11.a");
+        chunkList.add("8.a");
+        chunkList.add("7.a");
+        chunkList.add("2.a");
+        chunkList.add("5.a");
+
+
+        List<String> integerList = this.sort(chunkList);
+        System.out.println(chunkList);
+        System.out.println(integerList);
+    }
+
 
 }

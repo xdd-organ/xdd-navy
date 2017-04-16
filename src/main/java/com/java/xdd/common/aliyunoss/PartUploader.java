@@ -1,5 +1,6 @@
 package com.java.xdd.common.aliyunoss;
 
+import java.io.InputStream;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -8,7 +9,7 @@ public class PartUploader implements Serializable {
 
     private static final long serialVersionUID = 2885164443553467115L;
 
-    private String md5; //文件的MD5值
+    private String md5Encrypt; //文件的MD5值
     private String id; //文件的id值
     private String name; //文件名称
     private String type; //文件类型
@@ -17,15 +18,15 @@ public class PartUploader implements Serializable {
     private Integer chunks; //总分片数
     private Integer chunk; //当期分片数
     private Long chunkSize; //分片大小,默认5M
+    private InputStream inputStream; //文件流
+    private String tempPath; //储存的临时路径
 
-    public String getMd5() {
-        return md5;
+    public String getMd5Encrypt() {
+        return md5Encrypt;
     }
-
-    public void setMd5(String md5) {
-        this.md5 = md5;
+    public void setMd5Encrypt(String md5Encrypt) {
+        this.md5Encrypt = md5Encrypt;
     }
-
     public String getId() {
         return id;
     }
@@ -90,10 +91,26 @@ public class PartUploader implements Serializable {
         this.chunkSize = chunkSize;
     }
 
+    public InputStream getInputStream() {
+        return inputStream;
+    }
+
+    public void setInputStream(InputStream inputStream) {
+        this.inputStream = inputStream;
+    }
+
+    public String getTempPath() {
+        return tempPath;
+    }
+
+    public void setTempPath(String tempPath) {
+        this.tempPath = tempPath;
+    }
+
     @Override
     public String toString() {
         return "PartUploader{" +
-                "md5='" + md5 + '\'' +
+                "md5Encrypt='" + md5Encrypt + '\'' +
                 ", id='" + id + '\'' +
                 ", name='" + name + '\'' +
                 ", type='" + type + '\'' +
@@ -102,6 +119,8 @@ public class PartUploader implements Serializable {
                 ", chunks=" + chunks +
                 ", chunk=" + chunk +
                 ", chunkSize=" + chunkSize +
+                ", inputStream=" + inputStream +
+                ", tempPath='" + tempPath + '\'' +
                 '}';
     }
 }
