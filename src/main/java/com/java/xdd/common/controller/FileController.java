@@ -178,4 +178,20 @@ public class FileController {
 
         return "上传成功！";
     }
+
+    //匹配分片的md5值，处理重复的上传值
+    @RequestMapping(value = "/matchUploadPart")
+    @ResponseBody
+    public boolean matchUploadPart(PartUploader partUploader){
+        return fileService.matchUploadPart(partUploader);
+    }
+
+    //所有分片上传完成后，合并文件
+    @RequestMapping(value = "/completeUploadPart")
+    @ResponseBody
+    public boolean completeUploadPart(PartUploader partUploader){
+        return fileService.completeUploadPart(partUploader);
+    }
+
+
 }

@@ -21,7 +21,7 @@
         <div id="thelist" class="uploader-list"></div>
         <div class="btns">
             <div id="picker">选择文件</div>
-            <button id="ctlBtn" class="btn btn-default">开始上传</button>
+            <button id="ctlBtn" class="btn btn-default" disabled>开始上传</button>
         </div>
     </div>
     <script type="text/javascript">
@@ -31,35 +31,60 @@
                     $btn = $('#ctlBtn'),
                     state = 'pending',
                     uploader,
-                    decode;
+                    md5Encrypt;
 
             /** 实现webupload hook，触发上传前，中，后的调用关键 **/
+            // 注册的第一个方法有效，第二个就没效，不知道为什么
             WebUploader.Uploader.register({
-                "before-send-file": "beforeSendFile",  // 整个文件上传前
-                "before-send": "beforeSend",           // 每个分片上传前
+                //"before-send-file": "beforeSendFile",  // 整个文件上传前
+                "before-send": "checkchunk",           // 每个分片上传前
                 "after-send-file": "afterSendFile"     // 分片上传完毕
             }, {
-                beforeSendFile : function (file) {// 整个文件上传前
-                    console.log("整个文件上传前！", file);
-                    var aa = uploader.md5File(file);
-                    aa.then(function(res){
-                        console.log("整个文件上传前！md5值是->",res);
-                    });
-
+                checkchunk : function (block) {// 每个分片上传前
                     var deferred = WebUploader.Deferred();
-                    setTimeout(deferred.resolve,100);
-                    return deferred.promise();
-                }
-            }, {
-                beforeSend : function (block) {// 每个分片上传前
                     console.log("每个分片上传前！",block);
-                    var aa = uploader.md5File(block);
+                    var owner = this.owner;
+                    var aa = owner.md5File(block.blob);
+                    aa.fail(function() {
+                        console.log("分片上传出错！");
+                        deferred.reject();
+                    });
                     aa.then(function(res){
                         console.log("每个分片上传前！md5值是->",res);
-                    });
+                        owner.option("formData",{ //设置uploader的属性
+                            chunkMd5Encrypt : res,
+                            chunk : block.chunk,
+                            chunks : block.chunks,
+                            chunkSize : block.blob.size
+                        });
 
-                    var deferred = WebUploader.Deferred();
-                    deferred.resolve();
+                        var re = {
+                            chunkMd5Encrypt : res,
+                            md5Encrypt : md5Encrypt
+                        };
+
+                        console.log(JSON.stringify(re));
+
+                        $.ajax({
+                            type: "POST",
+                            url: basePath + "/file/matchUploadPart",
+                            data: re,
+                            //contentType: "application/json",
+                            success: function(data) {
+                                console.log("数据--" + data);
+                                if (!data) {
+                                    deferred.resolve();
+                                } else {
+                                    deferred.reject();
+                                    console.log('文件重复，已跳过');
+                                }
+                            },
+                            error: function(err) {
+                                console.log(err);
+                                deferred.reject();
+                            }
+                        });
+                    });
                     return deferred.promise();
                 }
             }, {
@@ -87,7 +112,10 @@
 
                 // 选择文件的按钮。可选。
                 // 内部根据当前运行是创建，可能是input元素，也可能是flash.
-                pick: '#picker',
+                pick: {
+                    id : "#picker",
+                    multiple : false //是否开启选择多个文件能力
+                },
 
                 // 不压缩image, 默认如果是jpeg，文件上传前会压缩一把再上传！
                 resize: false,
@@ -96,7 +124,9 @@
 
                 chunkSize : 1048576, //分片大小
 
-                threads : 3, //并发数
+                threads : 1, //并发数
+
+                compress: null,//图片不压缩
 
                 prepareNextFile: true,// 上传本分片时预处理下一分片
 
@@ -113,14 +143,17 @@
 
                 var aa = uploader.md5File(file);
                 aa.then(function(res){
+                    $btn.removeAttr("disabled");
                     console.log("md5值是->",res);
+                    console.log(file);
                     uploader.option("formData",{ //设置uploader的属性
                         md5Encrypt : res
                     });
-                    decode = res;
+                    md5Encrypt = res;
                 });
 
             });
+
 
             $btn.on( 'click', function() {
                 if ( state === 'uploading' ) {
@@ -148,12 +181,24 @@
 
             uploader.on("uploadFinished", function () {//文件上传结束触发
                 var errArr = uploader.getFiles('error');
-                console.log(errArr);
+                console.log("文件上传结束", errArr);
             });
 
-            uploader.on("beforeSend", function (file) {//文件上传结束触发
-                console.log("fjsldf" , file);
+            uploader.on("uploadError", function (file, reason) {//文件上传出错
+                console.log("文件上传出错", reason);
             });
+
+            uploader.on("uploadSuccess", function (file, response) {//文件上传成功
+                console.log("文件上传成功",file);
+                console.log("文件上传成功",response);
+            });
+
+            uploader.on("uploadComplete", function (file) {//文件上传结束触发
+                console.log("文件上传完成！", file);
+            });
+
+
+
 
 
 

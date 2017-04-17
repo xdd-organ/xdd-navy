@@ -9,7 +9,7 @@ public class PartUploader implements Serializable {
 
     private static final long serialVersionUID = 2885164443553467115L;
 
-    private String md5Encrypt; //文件的MD5值
+    private String md5Encrypt; //总文件的MD5值
     private String id; //文件的id值
     private String name; //文件名称
     private String type; //文件类型
@@ -20,6 +20,7 @@ public class PartUploader implements Serializable {
     private Long chunkSize; //分片大小,默认5M
     private InputStream inputStream; //文件流
     private String tempPath; //储存的临时路径
+    private String chunkMd5Encrypt; //该分片的md5值
 
     public String getMd5Encrypt() {
         return md5Encrypt;
@@ -107,6 +108,14 @@ public class PartUploader implements Serializable {
         this.tempPath = tempPath;
     }
 
+    public String getChunkMd5Encrypt() {
+        return chunkMd5Encrypt;
+    }
+
+    public void setChunkMd5Encrypt(String chunkMd5Encrypt) {
+        this.chunkMd5Encrypt = chunkMd5Encrypt;
+    }
+
     @Override
     public String toString() {
         return "PartUploader{" +
@@ -121,6 +130,7 @@ public class PartUploader implements Serializable {
                 ", chunkSize=" + chunkSize +
                 ", inputStream=" + inputStream +
                 ", tempPath='" + tempPath + '\'' +
+                ", chunkMd5Encrypt='" + chunkMd5Encrypt + '\'' +
                 '}';
     }
 }
