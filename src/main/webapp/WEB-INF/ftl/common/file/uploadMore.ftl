@@ -33,109 +33,31 @@
                     uploader,
                     md5Encrypt;
 
-            /** 实现webupload hook，触发上传前，中，后的调用关键 **/
-            // 注册的第一个方法有效，第二个就没效，不知道为什么
-            WebUploader.Uploader.register({
-                //"before-send-file": "beforeSendFile",  // 整个文件上传前
-                "before-send": "checkchunk",           // 每个分片上传前
-                "after-send-file": "afterSendFile"     // 分片上传完毕
-            }, {
-                checkchunk : function (block) {// 每个分片上传前
-                    var deferred = WebUploader.Deferred();
-                    console.log("每个分片上传前！",block);
-                    var owner = this.owner;
-                    var aa = owner.md5File(block.blob);
-                    aa.fail(function() {
-                        console.log("分片上传出错！");
-                        deferred.reject();
-                    });
-                    aa.then(function(res){
-                        console.log("每个分片上传前！md5值是->",res);
-                        owner.option("formData",{ //设置uploader的属性
-                            chunkMd5Encrypt : res,
-                            chunk : block.chunk,
-                            chunks : block.chunks,
-                            chunkSize : block.blob.size
-                        });
-
-                        var re = {
-                            chunkMd5Encrypt : res,
-                            md5Encrypt : md5Encrypt
-                        };
-
-                        console.log(JSON.stringify(re));
-
-                        $.ajax({
-                            type: "POST",
-                            url: basePath + "/file/matchUploadPart",
-                            data: re,
-                            //contentType: "application/json",
-                            success: function(data) {
-                                console.log("数据--" + data);
-                                if (!data) {
-                                    deferred.resolve();
-                                } else {
-                                    uploader.trigger( 'error', '我的自定义异常信息'); //抛出指定异常
-                                    deferred.reject();//跳过，不上传该分片
-                                    console.log('文件重复，已跳过');
-                                    //throw new Error("arguments are not numbers",1001);
-                                }
-                            },
-                            error: function(err) {
-                                console.log(err);
-                                deferred.reject();
-                            }
-                        });
-                    });
-                    return deferred.promise();
-                }
-            }, {
-                afterSendFile : function (file) {// 分片上传完毕
-                    console.log("分片上传完毕！",file);
-                    var aa = uploader.md5File(file);
-                    aa.then(function(res){
-                        console.log("每个分片上传前！md5值是->",res);
-                    });
-
-                    var deferred = WebUploader.Deferred();
-                    deferred.resolve();
-                    return deferred.promise();
-                }
-            });
-
-
             uploader = WebUploader.create({
 
                 // swf文件路径
                 swf: '/js/Uploader.swf',
 
                 // 文件接收服务端。
-                server: basePath + '/file/uploadPart',
+                server: basePath + '/file/upload',
 
                 // 选择文件的按钮。可选。
                 // 内部根据当前运行是创建，可能是input元素，也可能是flash.
                 pick: {
                     id : "#picker",
-                    multiple : false //是否开启选择多个文件能力
+                    multiple : true //是否开启选择多个文件能力
                 },
 
                 // 不压缩image, 默认如果是jpeg，文件上传前会压缩一把再上传！
                 resize: false,
 
-                chunked : true, //是否分片处理文件
-
-                chunkSize : 1048576, //分片大小
-
-                threads : 1, //并发数
+                chunked : false, //是否分片处理文件
 
                 compress: null,//图片不压缩
 
-                fileNumLimit : 2,
-
-                prepareNextFile: true,// 上传本分片时预处理下一分片
+                fileNumLimit : 3, //允许上传文件个数
 
                 chunkRetry : 3 //重试次数
-
             });
 
             // 当有文件添加进来的时候
@@ -201,15 +123,18 @@
                 console.log("文件上传结束！", file);
             });
 
-            uploader.on("uploadBeforeSend", function (object,data,headers) {//文件的分块在发送前触发
-                console.log("分块在发送前触发object", object);
-                console.log("分块在发送前触发data", data);
-                console.log("分块在发送前触发headers", headers);
+            uploader.on("uploadProgress", function (file, percentage) {//带上传进度
+                console.log("上传进度！", percentage);
             });
 
             uploader.on('error', function(handler) {
                 console.log("捕捉的异常信息",handler);
+                if ("Q_EXCEED_NUM_LIMIT" == handler) {
+                    alert("上传文件数大于允许最大数！");
+                }
             });
+
+
 
 
         });

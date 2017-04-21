@@ -3,12 +3,15 @@ package com.java.xdd.shiro.domain;
 
 import com.java.xdd.common.domain.BaseDomain;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 public class User extends BaseDomain implements Serializable{
     private static final long serialVersionUID = -1431548491431057871L;
 
     private Long id;
+
     private String username;
     private String password;
     private String salt;

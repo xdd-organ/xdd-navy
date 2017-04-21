@@ -106,6 +106,33 @@ public class FileServiceImpl implements FileService{
         return false;
     }
 
+    @Override
+    public void upload(PartUploader partUploader) {
+        String filepath = DateUtil.formatDate(DateUtil.getCurrentDate(), "yyyyMMdd");
+
+        File file = new File(imgPath + File.separator + filepath);
+        if (!file.exists()) file.mkdirs(); //判断该文件夹是否存在
+
+        InputStream inputStream = null;
+        OutputStream outputStream = null;
+        try {
+            inputStream = partUploader.getInputStream();//分片文件的输入流
+            outputStream = new FileOutputStream(new File(imgPath + File.separator + filepath + File.separator + partUploader.getName()));//分片文件存放的位置
+            this.inputStreamToOutputStream(inputStream, outputStream);
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        } finally {
+            try {
+                if (inputStream != null)inputStream.close();
+                if (outputStream != null)outputStream.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
     //获取临时文件名称
     private synchronized String getFileName(){
         return System.currentTimeMillis() + "";

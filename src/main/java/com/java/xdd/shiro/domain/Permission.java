@@ -11,13 +11,23 @@ public class Permission extends BaseDomain implements Serializable{
     private static final long serialVersionUID = -3738397651612852161L;
 
     private Long id;
+
     private String name;
+
     private String type;
+
     private String url;
-    private String percode;
-    private Long parentid;
-    private String parentids;
-    private String sortstring;
+
+
+    private String perCode;
+
+
+    private Long parentId;
+
+    private String parentIds;
+
+    private String sortString;
+
     private Boolean available;
 
     public Long getId() {
@@ -52,36 +62,36 @@ public class Permission extends BaseDomain implements Serializable{
         this.url = url;
     }
 
-    public String getPercode() {
-        return percode;
+    public String getPerCode() {
+        return perCode;
     }
 
-    public void setPercode(String percode) {
-        this.percode = percode;
+    public void setPerCode(String perCode) {
+        this.perCode = perCode;
     }
 
-    public Long getParentid() {
-        return parentid;
+    public Long getParentId() {
+        return parentId;
     }
 
-    public void setParentid(Long parentid) {
-        this.parentid = parentid;
+    public void setParentId(Long parentId) {
+        this.parentId = parentId;
     }
 
-    public String getParentids() {
-        return parentids;
+    public String getParentIds() {
+        return parentIds;
     }
 
-    public void setParentids(String parentids) {
-        this.parentids = parentids;
+    public void setParentIds(String parentIds) {
+        this.parentIds = parentIds;
     }
 
-    public String getSortstring() {
-        return sortstring;
+    public String getSortString() {
+        return sortString;
     }
 
-    public void setSortstring(String sortstring) {
-        this.sortstring = sortstring;
+    public void setSortString(String sortString) {
+        this.sortString = sortString;
     }
 
     public Boolean getAvailable() {
