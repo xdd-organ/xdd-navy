@@ -24,11 +24,7 @@ public class UserServiceImpl implements UserService{
     @Autowired
     private RoleMapper roleMapper;//角色
     @Autowired
-    private UserRoleMapper userRoleMapper;//用户角色
-    @Autowired
     private PermissionMapper permissionMapper;//权限
-    @Autowired
-    private RolePermissionMapper rolePermissionMapper;//角色权限
 
 
 
