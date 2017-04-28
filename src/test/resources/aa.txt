@@ -157,7 +157,7 @@ linux命令：
 		wget http://www.erlang.org/download/otp_src_19.2.tar.gz
 
 
-centOS6.6下安装mysql：
+centOS6.6下安装mysql(方式一)：
 	yum install mysql-server
 	注意：在linux防火墙上开放3306端口
 		vi  /etc/sysconfig/iptables(增加下面这句)
@@ -174,6 +174,92 @@ centOS6.6下安装mysql：
 		rpm -qa | grep -i mysql(查找mysql相关的程序包的命令)
 		rpm -e --nodeps mysql-libs-5.1.73-8.el6_8.i686(卸载命令)
 		whereis mysql(查找有mysql对应的文件夹)
+centOS6.6下安装mysql(方式二)：
+	wget http://dev.mysql.com/get/Downloads/MySQL-5.6/mysql-5.6.33-linux-glibc2.5-x86_64.tar.gz(64位)
+	wget http://dev.mysql.com/get/Downloads/MySQL-5.6/mysql-5.6.33-linux-glibc2.5-i686.tar.gz(32位)
+	
+	#解压
+	tar -zxvf mysql-5.6.33-linux-glibc2.5-i686.tar.gz
+	#复制解压后的mysql目录
+	cp -r mysql-5.6.33-linux-glibc2.5-i686 /usr/local/mysql
+	
+	#添加用户组
+	groupadd mysql
+	#添加用户mysql 到用户组mysql
+	useradd -g mysql mysql
+	
+	cd /usr/local/mysql/
+	mkdir ./data/mysql
+	chown -R mysql:mysql ./
+	./scripts/mysql_install_db --user=mysql --datadir=/usr/local/mysql/data/mysql
+	cp support-files/mysql.server /etc/init.d/mysqld
+	chmod 755 /etc/init.d/mysqld
+	cp support-files/my-default.cnf /etc/my.cnf
+	 
+	#修改启动脚本
+	vi /etc/init.d/mysqld
+	 
+	#修改项：
+	basedir=/usr/local/mysql/
+	datadir=/usr/local/mysql/data/mysql
+	 
+	#启动服务
+	service mysqld start
+	 
+	#测试连接
+	./mysql/bin/mysql -uroot
+	
+	#加入环境变量，编辑 /etc/profile，这样可以在任何地方用mysql命令了
+	export PATH=$PATH:/usr/local/mysql/bin
+	source /etc/profile
+	 
+	#启动mysql
+	service mysqld start
+	#关闭mysql
+	service mysqld stop
+	#查看运行状态
+	service mysqld status
+	
+	##授权远程连接
+	#所有IP都可以连接mysql
+	update user set host='%' where user='root';
+	#授权
+	GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY '123456' WITH GRANT OPTION; 
+	#刷新权限
+	flush privileges; 
+	
+	
+centOS6.6下安装solr-4.10.3.tgz：
+	#把solr的压缩包上传到服务器后并解压，然后把solr-4.10.3/dist/solr-4.10.3.war包部署到tomcat下。并改名为solr.war
+	tar -zxf solr-4.10.3.tgz
+	cp solr-4.10.3.war /usr/local/solr/tomcat/webapps/solr.war
+	#把solr-4.10.3/example/lib/ext 目录下所有的jar包复制到solr工程中
+	cp * /usr/local/solr/tomcat/webapps/solr/WEB-INF/lib/
+	#创建solrhome文件夹，该文件夹用来存放solr服务器所有配置文件。将/root/solr-4.10.3/example中的solr文件夹拷贝至solrhome
+	cp -r solr /usr/local/solr/solrhome
+	#在solr工程中的web.xml文件中指定solrhome的位置
+	<env-entry>
+		<env-entry-name>solr/home</env-entry-name>
+		<env-entry-value>/usr/local/solr/solrhome</env-entry-value>
+		<env-entry-type>java.lang.String</env-entry-type>
+	</env-entry>
+	#启动tomcat
+	访问:http://192.168.50.128:8080/solr
+	
+centOS6.6下安装多个tomcat：
+	修改3处端口号：
+	第一处：8080
+	<Connector port="8080" protocol="HTTP/1.1" 
+               maxThreads="150" connectionTimeout="20000" 
+               redirectPort="8443" />
+	第二处：8009
+	<Connector port="8009" enableLookups="false" redirectPort="8443" debug="0" protocol="AJP/1.3" />
+	第三处：8005
+	<Server port="8005" shutdown="SHUTDOWN" debug="0">
+
+
+
+	
 centOS6.6下安装redis：
 	解压 -> redis-2.8.11.tar.gz
 	在解压目录下使用 -> make (编译)
@@ -224,7 +310,6 @@ ALTER TABLE _address MODIFY _address_type int COMMENT '1:普通地址，2：发�
 
 
 
-https://github.com/xdd-object/important-data.git
 
 
 

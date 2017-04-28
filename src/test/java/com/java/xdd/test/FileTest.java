@@ -35,15 +35,15 @@ public class FileTest {
     public void fileDecode() throws IOException{
         String path = System.getProperty("user.dir");
 
-        String path1 = path + "\\src\\main\\resources\\1";
-        String path2 = path + "\\src\\main\\resources\\2";
+        String path1 = path + "\\src\\main\\resources\\0";
+        String path2 = path + "\\src\\main\\resources\\1";
 
         List<String> aa = new ArrayList<>();
         aa.add(path1);
         aa.add(path2);
 
         for (int j = 0; j < aa.size(); j++) {
-            byte[] bytes = IOUtils.readStreamAsByteArray(new FileInputStream(path1));
+            byte[] bytes = IOUtils.readStreamAsByteArray(new FileInputStream(aa.get(j)));
             for (int i = 0; i < bytes.length; i++) {
                 bytes[i] = (byte) (bytes[i] ^ 20000);
             }

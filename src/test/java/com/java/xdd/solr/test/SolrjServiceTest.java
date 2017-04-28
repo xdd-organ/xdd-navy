@@ -2,10 +2,12 @@ package com.java.xdd.solr.test;
 
 import com.java.xdd.solr.domain.Foo;
 import com.java.xdd.solr.service.SolrjService;
+import org.apache.lucene.queryparser.classic.QueryParser;
 import org.apache.solr.client.solrj.impl.HttpSolrServer;
 import org.apache.solr.client.solrj.impl.XMLResponseParser;
 import org.junit.Before;
 import org.junit.Test;
+import org.wltea.analyzer.lucene.IKAnalyzer;
 
 import java.util.Arrays;
 import java.util.List;
@@ -18,8 +20,9 @@ public class SolrjServiceTest {
 
     @Before
     public void setUp() throws Exception {
-        String url = "http://127.0.0.1:8983/solr/";
+        String url = "http://59.110.137.230:18080/solr/";
         HttpSolrServer httpSolrServer = new HttpSolrServer(url); //定义solr的server
+
         httpSolrServer.setParser(new XMLResponseParser()); // 设置响应解析器
         httpSolrServer.setMaxRetries(1); // 设置重试次数，推荐设置为1
         httpSolrServer.setConnectionTimeout(500); // 建立连接的最长时间
@@ -54,6 +57,26 @@ public class SolrjServiceTest {
     public void testDeleteByQuery() throws Exception{
         httpSolrServer.deleteByQuery("*:*");
         httpSolrServer.commit();
+    }
+
+
+
+
+    @Test
+    public void test1() throws Exception {
+        String url = "http://59.110.137.230:18080/solr/";
+        HttpSolrServer httpSolrServer = new HttpSolrServer(url); //定义solr的server
+
+        QueryParser parser = new QueryParser("", new IKAnalyzer());
+
+        httpSolrServer.setParser(new XMLResponseParser()); // 设置响应解析器
+        httpSolrServer.setMaxRetries(1); // 设置重试次数，推荐设置为1
+        httpSolrServer.setConnectionTimeout(500); // 建立连接的最长时间
+
+        this.httpSolrServer = httpSolrServer;
+
+
+        solrjService = new SolrjService(httpSolrServer);
     }
 
 }
