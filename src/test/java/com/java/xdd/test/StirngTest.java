@@ -64,5 +64,10 @@ public class StirngTest {
 
     }
 
+    @Test
+    public void test5(){
+        String test = "git分支版本测试！";
+    }
+
 
 }
