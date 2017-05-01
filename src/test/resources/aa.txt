@@ -155,6 +155,11 @@ linux命令：
 		ps aux|sort -nk 3
 	下载文件
 		wget http://www.erlang.org/download/otp_src_19.2.tar.gz
+	服务器抓包(功能强大)
+		tcpdump -i eth0 host 172.17.231.113 and dst port 8080   抓取这个主机并且端口是8080的包
+	扫描端口
+		yum install nc -y(安装nc命令)
+		nc -v 172.17.231.113 -z 8079-8081
 
 
 centOS6.6下安装mysql(方式一)：
