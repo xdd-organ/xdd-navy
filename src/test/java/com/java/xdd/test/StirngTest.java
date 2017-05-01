@@ -64,5 +64,9 @@ public class StirngTest {
 
     }
 
+    @Test
+    public void test5(){
+        String test = "v1.0_fixup分之修改的代码！";
+    }
 
 }
