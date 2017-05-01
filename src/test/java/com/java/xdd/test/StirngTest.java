@@ -69,5 +69,9 @@ public class StirngTest {
         String test = "git分支版本测试！";
     }
 
+    @Test
+    public void test6(){
+        String test = "v1.0_fixup分之修改的代码！";
+    }
 
 }
