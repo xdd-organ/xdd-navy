@@ -7,6 +7,8 @@ import com.java.xdd.websocket1.domain.Message;
 import freemarker.ext.beans.HashAdapter;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +16,7 @@ import java.util.Map;
 import java.util.HashMap;
 
 public class StirngTest {
+    Logger logger = LoggerFactory.getLogger(StirngTest.class);
     @Test
     public void test1(){
         String name = "分割重建方案";
@@ -73,5 +76,13 @@ public class StirngTest {
     public void test6(){
         String test = "v1.0_fixup分之修改的代码！";
     }
+
+    @Test
+    public void test7(){
+        logger.info("flsdjflsdjfl");
+        logger.error("flsdjflsdjfl");
+        logger.debug("flsdjflsdjfl");
+    }
+
 
 }

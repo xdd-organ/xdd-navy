@@ -64,11 +64,27 @@ public class BlogContrller {
         }
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
     }
+
     @RequestMapping(value = "/get2",method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity<List<Map<String, Object>>> get2(@RequestBody Map<String, Object> blog){
         try {
             List<Map<String, Object>> blogService2 = blogService.get2(blog);
+            return ResponseEntity.ok(blogService2);
+        } catch (Exception e){
+            logger.error(e.getMessage());
+            e.printStackTrace();
+        }
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+    }
+
+
+    /**存储过程与存储函数*/
+    @RequestMapping(value = "/get3", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseEntity<List<Map<String, Object>>> get3(@RequestBody Map<String, Object> blog){
+        try {
+            List<Map<String, Object>> blogService2 = blogService.get3(blog);
             return ResponseEntity.ok(blogService2);
         } catch (Exception e){
             logger.error(e.getMessage());

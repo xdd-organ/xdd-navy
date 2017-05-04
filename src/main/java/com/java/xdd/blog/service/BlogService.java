@@ -20,4 +20,5 @@ public interface BlogService extends BaseService{
     List<Map<String, Object>> get2(Map<String, Object> params);
 
 
+    List<Map<String,Object>> get3(Map<String, Object> blog);
 }

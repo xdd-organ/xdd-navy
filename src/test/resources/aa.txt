@@ -160,6 +160,12 @@ linux命令：
 	扫描端口
 		yum install nc -y(安装nc命令)
 		nc -v 172.17.231.113 -z 8079-8081
+	查看Linux系统位数(32/64)
+		getconf LONG_BIT
+	更改所属组(-R递归所有子文件)
+		chgrp -R www 201705122/
+	更改所属用户(-R递归所有子文件)
+		chown -R www 201705122/
 
 
 centOS6.6下安装mysql(方式一)：
@@ -225,6 +231,8 @@ centOS6.6下安装mysql(方式二)：
 	#查看运行状态
 	service mysqld status
 	
+	#第一次连接创建用户密码
+	./mysqladmin -uroot password
 	##授权远程连接
 	#所有IP都可以连接mysql
 	update user set host='%' where user='root';
@@ -232,6 +240,39 @@ centOS6.6下安装mysql(方式二)：
 	GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY '123456' WITH GRANT OPTION; 
 	#刷新权限
 	flush privileges; 
+	
+centOS6.6下安装mysql(不同端口)：
+	(区别)
+	cp support-files/mysql.server /etc/init.d/mysqld_3381
+	
+	#修改启动脚本
+	vi /etc/init.d/mysqld_3381
+	#修改项：
+	basedir=/usr/local/mysqld_3381/
+	datadir=/usr/local/mysqld_3381/data/mysql
+	
+	#启动mysql
+	service mysqld_3381 start
+
+centOS6.6下安装mysql(mysql主从复制)：
+	主操作(3306)：
+		SHOW MASTER STATUS;
+		GRANT replication slave  ON *.* TO 'user'@'%' IDENTIFIED BY 'user'; (创建主从复制账号)
+		flush privileges;
+	从操作(3381)：
+	CHANGE MASTER TO
+		master_host='192.168.50.128',  	-- 主机ip
+		master_user='user',				-- 账号
+		master_password='user',			-- 密码
+		master_port=3306,				-- 端口
+		master_log_file='mysql_3306_bin.000003',	-- 二进制文件
+		master_log_pos=1454;						-- 二进制文件位置
+		START SLAVE;								-- 启动slave同步
+		stop slave;									-- 停止从同步
+		SHOW SLAVE STATUS;
+		
+		查看	slave_id_running与slave_sql_running结果都为yes
+		
 	
 	
 centOS6.6下安装solr-4.10.3.tgz：
@@ -261,6 +302,33 @@ centOS6.6下安装多个tomcat：
 	<Connector port="8009" enableLookups="false" redirectPort="8443" debug="0" protocol="AJP/1.3" />
 	第三处：8005
 	<Server port="8005" shutdown="SHUTDOWN" debug="0">
+	
+centOS6.6下安装git
+	安装git
+	yum install git -y
+	查看git版本
+	git --version
+	
+	服务器端创建 xdd 用户，用来管理 Git 服务，并为 git 用户设置密码
+	查看git有没有某个用户
+	id xdd
+	添加xdd用户
+	useradd xdd
+	设置git用户密码
+	passwd xdd
+	
+	创建仓库
+	mkdir demo1.git   (demo1.git是一个文件夹)
+	初始化仓库
+	git init --bare demo1.git		-- 服务器操作完成
+	
+	
+	
+	
+	
+	客户端操作(需要输入密码)		-- 客户端提交代码，可能参考会遇到权限问题
+	git clone xdd@192.168.56.101:/usr/local/git/repository/demo1.git
+	
 
 
 

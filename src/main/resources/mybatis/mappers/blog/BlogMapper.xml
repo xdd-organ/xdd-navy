@@ -21,4 +21,55 @@
     where
       a.blog_status = 1 and a.inspect_status = 1 and a.blog_id = #{blogId}
    </select>
+
+   <!--回调函数示例-->
+   <select id="get" resultType="java.lang.String">
+       select queryChildrenAreaInfo(110000)
+   </select>
+
+   <select id="get3" resultType="java.util.Map">
+      SELECT * FROM region WHERE FIND_IN_SET(id,queryChildrenAreaInfo(110000));
+   </select>
+
+   <!--回调过程示例-->
+   <select id="get4" parameterType="java.util.Map" resultType="java.util.Map" statementType="CALLABLE">
+      {call test(#{id})}
+   </select>
+
+   <!--  存储过程
+   CREATE PROCEDURE  test(in areaId int) - in s int 输入参数
+	BEGIN
+    DECLARE sTemp VARCHAR(4000);
+    DECLARE sTempChd VARCHAR(4000);
+
+    SET sTemp='$';
+    SET sTempChd = CAST(areaId AS CHAR);
+
+    WHILE sTempChd IS NOT NULL DO
+      SET sTemp= CONCAT(sTemp,',',sTempChd);
+      SELECT GROUP_CONCAT(id) INTO sTempChd FROM region WHERE FIND_IN_SET(p_id,sTempChd)>0;
+    END WHILE;
+   SELECT * FROM region WHERE FIND_IN_SET(id,sTemp);
+   END;
+
+   call test(110000);
+   -->
+
+   <!--  存储函数
+   CREATE FUNCTION queryChildrenAreaInfo(areaId INT) - 创建存储函数
+   RETURNS VARCHAR(4000)
+	BEGIN
+    DECLARE sTemp VARCHAR(4000);
+    DECLARE sTempChd VARCHAR(4000);
+
+    SET sTemp='$';
+    SET sTempChd = CAST(areaId AS CHAR);
+
+    WHILE sTempChd IS NOT NULL DO
+      SET sTemp= CONCAT(sTemp,',',sTempChd);
+      SELECT GROUP_CONCAT(id) INTO sTempChd FROM region WHERE FIND_IN_SET(p_id,sTempChd)>0;
+    END WHILE;
+   RETURN sTemp;
+   END;
+   -->
 </mapper>

@@ -38,4 +38,16 @@ public class BlogServiceImpl extends BaseServiceImpl implements BlogService{
     public List<Map<String, Object>> get2(Map<String, Object> params) {
         return blogMapper.select(params);
     }
+
+    /**存储过程与存储函数*/
+    @Override
+    public List<Map<String, Object>> get3(Map<String, Object> blog) {
+        String s = blogMapper.get();
+        System.out.println(s);
+        //List<Map<String, Object>> aa = blogMapper.get3(blog);
+        //System.out.println(aa);
+        List<Map<String, Object>> bb = blogMapper.get4(blog);
+        System.out.println(bb);
+        return bb;
+    }
 }
