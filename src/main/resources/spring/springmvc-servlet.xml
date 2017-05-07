@@ -24,6 +24,13 @@
 	<!-- 开启aop，对类代理 -->
 	<aop:config proxy-target-class="true"/>
 
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/**"/>
+			<bean class="com.java.xdd.common.interceptor.TestInterceptor"/>
+		</mvc:interceptor>
+	</mvc:interceptors>
+
 	<!-- 解决返回json数据报错 -->
 	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
 		<property name="messageConverters">

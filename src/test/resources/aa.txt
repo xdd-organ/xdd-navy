@@ -368,6 +368,16 @@ alter table _address add _address_type int DEFAULT 1;  -- 添加字段
 ALTER TABLE _address MODIFY _address_type int COMMENT '1:普通地址，2：发票收货地址';  -- 字段添加注释
 
 
+win10下安装node与browser-sync
+	安装node
+	http://nodejs.cn/download/		-- 选择版本下载
+	配置系统path						-- 让全局都可以node命令
+
+	安装browser-sync(基于node)
+	npm install -g browser-sync		-- 安装(node目录下使用/nodejs/)
+	使用
+	browser-sync start --server --files "**"
+
 
 
 

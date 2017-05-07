@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>测试页面</title>
+    <meta charset="utf-8">
+    <link rel="icon" href="static/icon/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="static/js/bootstrap-3.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="static/js/bootstrap-3.3.0/dist/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="static/js/bootstrapValidator/dist/css/bootstrapValidator.min.css">
+    <script type="text/javascript" src="static/js/jQuery/jquery-1.11.1.js"></script>
+    <script type="text/javascript" src="static/js/common/common.js"></script>
+    <script type="text/javascript" src="static/js/bootstrap-3.3.0/dist/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="static/js/bootstrapValidator/dist/js/bootstrapValidator.min.js"></script>
+    <script type="text/javascript" src="static/js/bootstrapValidator/dist/js/language/zh_CN.js"></script>
+</head>
+<body>
+    <input value="生成内容" type="button" id="btn1"><br>
+    <div id="text">
+
+    </div>
+    <script type="text/javascript">
+        $(function(){
+           $("#btn1").click(function(){
+               var exp = new Date();
+               exp.setTime(exp.getTime() + 10000); //设置cookie10秒后过期
+               //写入cookie
+               document.cookie = "name=abc;expires=" + exp.toGMTString();
+               console.log(exp.toGMTString());
+
+               sessionStorage.setItem("nba", "cba");
+               sessionStorage.setItem("zzz", "zzzz");
+
+               //读取cookie
+               var coks = document.cookie;
+               console.log(coks);
+
+               console.log("点击了！");
+               $.ajax({
+                   type: "POST",
+                   url: "http://localhost:2080/blog/test",
+                   xhrFields: {
+                       withCredentials: true //跨域问题
+                   },
+                   success: function(data) {
+                       console.log(data);
+                   },
+                   error: function(err) {
+                       console.log(err);
+                   }
+               });
+           });
+        });
+
+    </script>
+</body>
+</html>
