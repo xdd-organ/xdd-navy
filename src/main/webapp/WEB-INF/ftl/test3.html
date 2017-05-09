@@ -10,11 +10,24 @@
 
 </head>
 <body>
-    <button id="btn1">加密</button>
+    <button id="btn1">加密</button><br>
+    <button id="btn2">设置</button><br>
+    <button id="btn3">读取</button><br>
+    <button id="btn4">删除</button><br>
     <script type="text/javascript">
         $(function(){
             $("#btn1").click(function(){
                 console.log($.md5("123456"));
+            })
+            $("#btn2").click(function(){
+                localStorage.setItem("key", "value");
+            })
+            $("#btn3").click(function(){
+                console.log(localStorage.getItem("key"));
+                console.log(localStorage.getItem("splitterValue"));
+            })
+            $("#btn4").click(function(){
+                localStorage.removeItem("key");
             })
         })
     </script>

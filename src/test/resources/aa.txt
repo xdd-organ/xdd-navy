@@ -371,7 +371,7 @@ ALTER TABLE _address MODIFY _address_type int COMMENT '1:普通地址，2：发�
 win10下安装node与browser-sync
 	安装node
 	http://nodejs.cn/download/		-- 选择版本下载
-	配置系统path						-- 让全局都可以node命令
+	配置系统path						-- 让全局都可以使用node命令(ism版，默认配置的path)
 
 	安装browser-sync(基于node)
 	npm install -g browser-sync		-- 安装(node目录下使用/nodejs/)
