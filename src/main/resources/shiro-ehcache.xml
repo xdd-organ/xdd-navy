@@ -13,4 +13,16 @@
 		diskExpiryThreadIntervalSeconds="120"
 		memoryStoreEvictionPolicy="LRU">
 	</defaultCache>
+
+	<cache name="shiro-kickout-session"
+		   maxElementsInMemory="1000"
+		   maxElementsOnDisk="10000000"
+		   eternal="false"
+		   overflowToDisk="false"
+		   diskPersistent="false"
+		   timeToIdleSeconds="120"
+		   timeToLiveSeconds="120"
+		   diskExpiryThreadIntervalSeconds="120"
+		   memoryStoreEvictionPolicy="LRU">
+	</cache>
 </ehcache>

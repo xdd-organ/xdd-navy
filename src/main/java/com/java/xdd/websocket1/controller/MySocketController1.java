@@ -2,15 +2,15 @@ package com.java.xdd.websocket1.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.java.xdd.shiro.authz.domain.ConditionRequest;
+import com.java.xdd.shiro.authz.annotation.RequiresData;
 import com.java.xdd.websocket1.handler.WebsocketEndPoint;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.socket.TextMessage;
 
-import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -22,6 +22,7 @@ public class MySocketController1 {
 
     /**
      * 注入发送消息类实例
+     *
      * @return
      */
     public WebsocketEndPoint getWebsocketEndPoint() {
@@ -32,11 +33,11 @@ public class MySocketController1 {
     //使用http请求给websocket指定用户发送请求
     @RequestMapping("mySocketTest9")
     @ResponseBody
-    public String aa(){
+    public String aa() {
         Map<String, Object> resultMap = new HashMap<>();
-        resultMap.put("id",1);
-        resultMap.put("name","小明");
-        resultMap.put("age",20);
+        resultMap.put("id", 1);
+        resultMap.put("name", "小明");
+        resultMap.put("age", 20);
 
         ObjectMapper mapper = new ObjectMapper();
         String msg = "";
@@ -53,18 +54,26 @@ public class MySocketController1 {
     }
 
     @RequestMapping("/websocket")
-    public String websocket(){
+    @ResponseBody
+    public String websocket() {
         return "websocket";
     }
 
     @RequestMapping("/toWebsocket")
-    public String toWebsocket(){
+    public String toWebsocket() {
         return "websocket/websocket";
     }
 
     @RequestMapping("/main")
-    public String main(){
+    public String main() {
         return "main";
+    }
+
+    @RequiresData(props = {"id", "username"}, fields = {"saleName", "province"})
+    @RequestMapping("/test1")
+    @ResponseBody
+    public String tes1(@RequestBody ConditionRequest req) {
+        return "websocket";
     }
 
 }
