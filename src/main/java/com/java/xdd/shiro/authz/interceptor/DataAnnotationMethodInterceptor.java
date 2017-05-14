@@ -1,20 +1,21 @@
 package com.java.xdd.shiro.authz.interceptor;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import com.java.xdd.shiro.authz.annotation.RequiresData;
 import com.java.xdd.shiro.authz.domain.DataParameterRequest;
 import com.java.xdd.shiro.authz.handler.DataAnnotationHandler;
 import org.apache.shiro.aop.AnnotationResolver;
 import org.apache.shiro.aop.MethodInvocation;
 import org.apache.shiro.authz.AuthorizationException;
+import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.aop.AuthorizingAnnotationMethodInterceptor;
 import org.apache.shiro.util.StringUtils;
+
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 public class DataAnnotationMethodInterceptor

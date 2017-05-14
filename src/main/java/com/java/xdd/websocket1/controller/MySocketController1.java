@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.socket.TextMessage;
 
+import javax.servlet.http.HttpServletRequest;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -33,7 +35,14 @@ public class MySocketController1 {
     //使用http请求给websocket指定用户发送请求
     @RequestMapping("mySocketTest9")
     @ResponseBody
-    public String aa() {
+    public String aa(HttpServletRequest request) {
+        Enumeration headerNames = request.getHeaderNames();
+        while (headerNames.hasMoreElements()) {
+            String header = request.getHeader(headerNames.nextElement().toString());
+        }
+        String header = request.getHeader("user-agent");
+
+
         Map<String, Object> resultMap = new HashMap<>();
         resultMap.put("id", 1);
         resultMap.put("name", "小明");
@@ -74,6 +83,13 @@ public class MySocketController1 {
     @ResponseBody
     public String tes1(@RequestBody ConditionRequest req) {
         return "websocket";
+    }
+
+    @RequiresData(props = {"id", "username"}, fields = {"saleName", "province"})
+    @RequestMapping("/test2")
+    @ResponseBody
+    public String test2() {
+        return "error";
     }
 
 }
