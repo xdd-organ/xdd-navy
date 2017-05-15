@@ -11,7 +11,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.socket.TextMessage;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpSessionContext;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
@@ -36,6 +39,12 @@ public class MySocketController1 {
     @RequestMapping("mySocketTest9")
     @ResponseBody
     public String aa(HttpServletRequest request) {
+        HttpSession dlaks = request.getSession().getSessionContext().getSession("dlaks");
+        ServletContext servletContext = request.getSession().getServletContext();
+        HttpSessionContext sessionContext = request.getSession().getSessionContext();
+
+
+
         Enumeration headerNames = request.getHeaderNames();
         while (headerNames.hasMoreElements()) {
             String header = request.getHeader(headerNames.nextElement().toString());

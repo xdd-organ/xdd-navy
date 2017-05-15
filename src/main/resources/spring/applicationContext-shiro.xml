@@ -90,6 +90,8 @@
 
     <!-- 会话管理器 -->
     <bean id="sessionManager" class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
+        <!-- 使用自己的sessionDAO，解决session共享 TODO -->
+        <!--<property name="sessionDAO"/>-->
         <!-- session的失效时长，单位毫秒 -->
         <property name="globalSessionTimeout" value="600000"/>
         <!-- 删除失效的session -->
