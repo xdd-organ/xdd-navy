@@ -2,10 +2,11 @@ package com.java.xdd.shiro.filter;
 
 import com.java.xdd.shiro.domain.User;
 import org.apache.shiro.cache.Cache;
-import org.apache.shiro.cache.CacheManager;
+import org.apache.shiro.cache.ehcache.EhCacheManager;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.session.mgt.DefaultSessionKey;
 import org.apache.shiro.session.mgt.SessionManager;
+import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.filter.AccessControlFilter;
 import org.apache.shiro.web.util.WebUtils;
@@ -33,38 +34,44 @@ import java.util.LinkedList;
  *      而是直接跳转到某个页面（由filter定义的，将会在authc中看到）
  */
 public class KickoutSessionControlFilter extends AccessControlFilter {
+    /** 最多几个人同时登陆 */
+    private int maxSession;
+    /** 被踢出后，跳转路径 */
+    private String kickoutUrl;
+    /** 提出后者还是前者 */
+    private boolean kickoutAfter;
 
-    private String kickoutUrl; //踢出后到的地址
-    private boolean kickoutAfter = false; //踢出之前登录的/之后登录的用户 默认踢出之前登录的用户
-    private int maxSession = 1; //同一个帐号最大会话数 默认1
+    /** session管理 */
     private SessionManager sessionManager;
-    private Cache<String, Deque<Serializable>> cache;
+    /** 缓存管理 */
+    private EhCacheManager cacheManager;
 
-    public void setKickoutUrl(String kickoutUrl) {
-        this.kickoutUrl = kickoutUrl;
-    }
+    /** 缓存 */
+    private Cache<Object, Deque<Serializable>> cache;
 
-    public void setKickoutAfter(boolean kickoutAfter) {
-        this.kickoutAfter = kickoutAfter;
-    }
 
-    public void setMaxSession(int maxSession) {
-        this.maxSession = maxSession;
-    }
-
-    public void setSessionManager(SessionManager sessionManager) {
-        this.sessionManager = sessionManager;
-    }
-
-    public void setCacheManager(CacheManager cacheManager) {
-        this.cache = cacheManager.getCache("shiro-kickout-session");
-    }
-
+    /**
+     * isAccessAllowed判断了用户未登录
+     * @param request
+     * @param response
+     * @param mappedValue
+     * @return
+     * @throws Exception
+     */
     @Override
     protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) throws Exception {
-        return false;
+        Subject subject = getSubject(request, response);
+        return subject.isAuthenticated();
     }
 
+
+    /**
+     * onAccessDenied方法做用户登录操作
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     @Override
     protected boolean onAccessDenied(ServletRequest request, ServletResponse response) throws Exception {
         Subject subject = getSubject(request, response);
@@ -74,13 +81,18 @@ public class KickoutSessionControlFilter extends AccessControlFilter {
         }
 
         Session session = subject.getSession();
-        User user = (User) subject.getPrincipal();
+        Object principal = subject.getPrincipal();
+        PrincipalCollection principals = subject.getPrincipals();
+        User user = (User) principal;
+        // String username = (String) subject.getPrincipal();
+        String username = user.getUsername();
         Serializable sessionId = session.getId();
+
         //TODO 同步控制
-        Deque<Serializable> deque = cache.get(user.getUsername());
+        Deque<Serializable> deque = cache.get(username);
         if (deque == null) {
             deque = new LinkedList<>();
-            cache.put(user.getUsername(), deque);
+            cache.put(username, deque);
         }
 
         //如果队列里没有此sessionId，且用户没有被踢出；放入队列
@@ -91,6 +103,7 @@ public class KickoutSessionControlFilter extends AccessControlFilter {
         //如果队列里的sessionId数超出最大会话数，开始踢人
         while (deque.size() > maxSession) {
             Serializable kickoutSessionId = null;
+
             if (kickoutAfter) { //如果踢出后者
                 kickoutSessionId = deque.removeFirst();
             } else { //否则踢出前者
@@ -102,7 +115,7 @@ public class KickoutSessionControlFilter extends AccessControlFilter {
                     //设置会话的kickout属性表示踢出了
                     kickoutSession.setAttribute("kickout", true);
                 }
-            } catch (Exception e) {//ignore exception
+            } catch (Exception e) { //ignore exception
                 e.printStackTrace();
             }
         }
@@ -119,7 +132,47 @@ public class KickoutSessionControlFilter extends AccessControlFilter {
             WebUtils.issueRedirect(request, response, kickoutUrl);
             return false;
         }
-
         return true;
+    }
+
+    public int getMaxSession() {
+        return maxSession;
+    }
+
+    public void setMaxSession(int maxSession) {
+        this.maxSession = maxSession;
+    }
+
+    public String getKickoutUrl() {
+        return kickoutUrl;
+    }
+
+    public void setKickoutUrl(String kickoutUrl) {
+        this.kickoutUrl = kickoutUrl;
+    }
+
+    public boolean isKickoutAfter() {
+        return kickoutAfter;
+    }
+
+    public void setKickoutAfter(boolean kickoutAfter) {
+        this.kickoutAfter = kickoutAfter;
+    }
+
+    public SessionManager getSessionManager() {
+        return sessionManager;
+    }
+
+    public void setSessionManager(SessionManager sessionManager) {
+        this.sessionManager = sessionManager;
+    }
+
+    public EhCacheManager getCacheManager() {
+        return cacheManager;
+    }
+
+    public void setCacheManager(EhCacheManager cacheManager) {
+        this.cacheManager = cacheManager;
+        this.cache = cacheManager.getCache("shiroSessionCache");
     }
 }
