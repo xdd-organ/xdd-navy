@@ -52,7 +52,6 @@
 		</property>
 	</bean>
 
-
 	<!-- securityManager安全管理器 -->
 	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
         <!--<property name="authenticator" ref="customAuthenticator"/>-->
@@ -64,12 +63,6 @@
 		<!-- 记住我 -->
 		<property name="rememberMeManager" ref="rememberMeManager"/>
 	</bean>
-
-    <!-- 添加自己的注解支持：开始 -->
-    <bean class="com.java.xdd.shiro.authz.interceptor.AuthorizationAttributeSourceAdvisor">
-        <property name="securityManager" ref="securityManager"/>
-    </bean>
-    <!-- 添加自己的注解支持：结束 -->
 
 	<!-- realm -->
 	<bean id="customRealm" class="com.java.xdd.shiro.realm.CustomRealm">
@@ -115,8 +108,6 @@
 	<!-- (记住我)恢复session过滤器 -->
 	<bean id="recoverSession" class="com.java.xdd.shiro.filter.AddPrincipalToSessionFilter"/>
 
-
-
     <!-- rememberMeManager管理器，写cookie，取出cookie生成用户信息 -->
     <bean id="rememberMeManager" class="com.java.xdd.shiro.manager.CustomCookieRememberMeManager">
         <property name="cookie" ref="rememberMeCookie"/>
@@ -135,20 +126,21 @@
         <property name="sessionManager" ref="sessionManager"/>
         <property name="kickoutAfter" value="false"/>
         <property name="maxSession" value="1"/>
-        <property name="kickoutUrl" value="/websocket/websocket"/>
+        <property name="kickoutUrl" value="/login"/>
     </bean>
 
-
     <!-- 保证实现了Shiro内部lifecycle函数的bean执行 -->
+    <!-- 支持@RequiresRoles与@RequiresPermissions注解:开始 -->
     <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
-
     <bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator" depends-on="lifecycleBeanPostProcessor">
         <property name="proxyTargetClass" value="true" />
     </bean>
-
-    <bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
+    <bean class="com.java.xdd.shiro.authz.interceptor.AuthorizationAttributeSourceAdvisor">
         <property name="securityManager" ref="securityManager"/>
     </bean>
+    <!-- 支持@RequiresRoles与@RequiresPermissions注解:结束 -->
+
+    <!-- springMVC全局的异常处理机制:开始 -->
     <bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
         <property name="exceptionMappings">
             <props>
@@ -162,6 +154,7 @@
                 </prop>
             </props>
         </property>
-        <property name="defaultErrorView" value="error/genericView"/>
+        <property name="defaultErrorView" value="login"/>
     </bean>
+    <!-- springMVC全局的异常处理机制:结束 -->
 </beans>

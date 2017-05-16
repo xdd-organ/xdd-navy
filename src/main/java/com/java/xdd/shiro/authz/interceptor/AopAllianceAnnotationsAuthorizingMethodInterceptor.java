@@ -16,12 +16,6 @@ extends org.apache.shiro.spring.security.interceptor.AopAllianceAnnotationsAutho
 	}
 	
 	
-	/**
-	 * 必须拦截此方法，增加对DataAnnotationMethodInterceptor的处理
-	 * 
-	 * 
-	 * */
-	
 	@Override
 	public Object invoke(MethodInvocation methodInvocation) throws Throwable {
         org.apache.shiro.aop.MethodInvocation mi = createMethodInvocation(methodInvocation);
@@ -32,7 +26,6 @@ extends org.apache.shiro.spring.security.interceptor.AopAllianceAnnotationsAutho
             for (AuthorizingAnnotationMethodInterceptor aami : aamis) {
                 if (aami.supports(mi)){
                 	
-                	//针对DataAnnotationMethodInterceptor，有特殊的处理
                 	if(aami instanceof DataAnnotationMethodInterceptor) {
                 		return ((DataAnnotationMethodInterceptor)aami).invoke(mi);
                 	}
@@ -41,7 +34,6 @@ extends org.apache.shiro.spring.security.interceptor.AopAllianceAnnotationsAutho
             }
         }
         
-        //其它情况均使用系统缺省
         return super.invoke(mi);
     }
 

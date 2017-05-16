@@ -8,6 +8,7 @@ import redis.clients.jedis.ShardedJedis;
 import redis.clients.jedis.ShardedJedisPool;
 import com.java.xdd.common.service.RedisService;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -21,6 +22,22 @@ public class RedisServiceImpl implements RedisService{
 
     @Override
     public String get(String key) {
+        ShardedJedis shardedJedis = null;
+        try {
+            // 从连接池中获取到jedis分片对象
+            shardedJedis = shardedJedisPool.getResource();
+            return shardedJedis.get(key);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            // 关闭，检测连接是否有效，有效则放回到连接池中，无效则重置状态
+            if (null != shardedJedis) shardedJedis.close();
+        }
+        return null;
+    }
+
+    @Override
+    public byte[] get(byte[] key) {
         ShardedJedis shardedJedis = null;
         try {
             // 从连接池中获取到jedis分片对象
@@ -50,12 +67,42 @@ public class RedisServiceImpl implements RedisService{
     }
 
     @Override
+    public String set(byte[] key, byte[] value) {
+        ShardedJedis shardedJedis = null;
+        try {
+            shardedJedis = shardedJedisPool.getResource();
+            return shardedJedis.set(key, value);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (null != shardedJedis) shardedJedis.close();
+        }
+        return null;
+    }
+
+    @Override
     public String set(String key, String value, Integer seconds) {
         ShardedJedis shardedJedis = null;
         try {
             shardedJedis = shardedJedisPool.getResource();
             String str = shardedJedis.set(key, value);
             shardedJedis.expire(key , seconds);
+            return str;
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (null != shardedJedis) shardedJedis.close();
+        }
+        return null;
+    }
+
+    @Override
+    public String set(byte[] key, byte[] value, Integer seconds) {
+        ShardedJedis shardedJedis = null;
+        try {
+            shardedJedis = shardedJedisPool.getResource();
+            String str = shardedJedis.set(key, value);
+            shardedJedis.expire(key, seconds);
             return str;
         } catch (Exception e) {
             e.printStackTrace();
@@ -94,7 +141,35 @@ public class RedisServiceImpl implements RedisService{
     }
 
     @Override
+    public Long expire(byte[] key, Integer seconds) {
+        ShardedJedis shardedJedis = null;
+        try {
+            shardedJedis = shardedJedisPool.getResource();
+            return shardedJedis.expire(key,seconds);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (null != shardedJedis) shardedJedis.close();
+        }
+        return null;
+    }
+
+    @Override
     public Long del(String key) {
+        ShardedJedis shardedJedis = null;
+        try {
+            shardedJedis = shardedJedisPool.getResource();
+            return shardedJedis.del(key);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (null != shardedJedis) shardedJedis.close();
+        }
+        return null;
+    }
+
+    @Override
+    public Long del(byte[] key) {
         ShardedJedis shardedJedis = null;
         try {
             shardedJedis = shardedJedisPool.getResource();
@@ -154,7 +229,7 @@ public class RedisServiceImpl implements RedisService{
         ShardedJedis shardedJedis = null;
         try {
             shardedJedis = shardedJedisPool.getResource();
-            return shardedJedis.sismember(key,value);
+            return shardedJedis.sismember(key, value);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -165,6 +240,20 @@ public class RedisServiceImpl implements RedisService{
 
     @Override
     public Boolean exists(String key) {
+        ShardedJedis shardedJedis = null;
+        try {
+            shardedJedis = shardedJedisPool.getResource();
+            return shardedJedis.exists(key);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (null != shardedJedis) shardedJedis.close();
+        }
+        return null;
+    }
+
+    @Override
+    public Boolean exists(byte[] key) {
         ShardedJedis shardedJedis = null;
         try {
             shardedJedis = shardedJedisPool.getResource();
@@ -294,7 +383,21 @@ public class RedisServiceImpl implements RedisService{
         ShardedJedis shardedJedis = null;
         try {
             shardedJedis = shardedJedisPool.getResource();
-            return shardedJedis.hmset(key,value);
+            return shardedJedis.hmset(key, value);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (null != shardedJedis) shardedJedis.close();
+        }
+        return null;
+    }
+
+    @Override
+    public String hmset(byte[] key, Map<byte[], byte[]> value) {
+        ShardedJedis shardedJedis = null;
+        try {
+            shardedJedis = shardedJedisPool.getResource();
+            return shardedJedis.hmset(key, value);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -305,6 +408,20 @@ public class RedisServiceImpl implements RedisService{
 
     @Override
     public List<String> hmget(String key, String... fields) {
+        ShardedJedis shardedJedis = null;
+        try {
+            shardedJedis = shardedJedisPool.getResource();
+            return shardedJedis.hmget(key, fields);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (null != shardedJedis) shardedJedis.close();
+        }
+        return null;
+    }
+
+    @Override
+    public List<byte[]> hmget(byte[] key, byte[]... fields) {
         ShardedJedis shardedJedis = null;
         try {
             shardedJedis = shardedJedisPool.getResource();
@@ -332,6 +449,20 @@ public class RedisServiceImpl implements RedisService{
     }
 
     @Override
+    public Long hdel(byte[] key, byte[]... fields) {
+        ShardedJedis shardedJedis = null;
+        try {
+            shardedJedis = shardedJedisPool.getResource();
+            return shardedJedis.hdel(key, fields);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (null != shardedJedis) shardedJedis.close();
+        }
+        return null;
+    }
+
+    @Override
     public List<String> hvals(String key) {
         ShardedJedis shardedJedis = null;
         try {
@@ -346,7 +477,35 @@ public class RedisServiceImpl implements RedisService{
     }
 
     @Override
+    public Collection<byte[]> hvals(byte[] key) {
+        ShardedJedis shardedJedis = null;
+        try {
+            shardedJedis = shardedJedisPool.getResource();
+            return shardedJedis.hvals(key);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (null != shardedJedis) shardedJedis.close();
+        }
+        return null;
+    }
+
+    @Override
     public Set<String> hkeys(String key) {
+        ShardedJedis shardedJedis = null;
+        try {
+            shardedJedis = shardedJedisPool.getResource();
+            return shardedJedis.hkeys(key);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (null != shardedJedis) shardedJedis.close();
+        }
+        return null;
+    }
+
+    @Override
+    public Set<byte[]> hkeys(byte[] key) {
         ShardedJedis shardedJedis = null;
         try {
             shardedJedis = shardedJedisPool.getResource();
@@ -388,7 +547,35 @@ public class RedisServiceImpl implements RedisService{
     }
 
     @Override
+    public Map<byte[], byte[]> hgetAll(byte[] key) {
+        ShardedJedis shardedJedis = null;
+        try {
+            shardedJedis = shardedJedisPool.getResource();
+            return shardedJedis.hgetAll(key);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (null != shardedJedis) shardedJedis.close();
+        }
+        return null;
+    }
+
+    @Override
     public Long hset(String key, String field, String value) {
+        ShardedJedis shardedJedis = null;
+        try {
+            shardedJedis = shardedJedisPool.getResource();
+            return shardedJedis.hset(key, field, value);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (null != shardedJedis) shardedJedis.close();
+        }
+        return null;
+    }
+
+    @Override
+    public Long hset(byte[] key, byte[] field, byte[] value) {
         ShardedJedis shardedJedis = null;
         try {
             shardedJedis = shardedJedisPool.getResource();

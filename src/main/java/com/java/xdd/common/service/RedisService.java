@@ -1,5 +1,6 @@
 package com.java.xdd.common.service;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -13,12 +14,27 @@ public interface RedisService {
     String get(String key);
 
     /**
+     * 根据key，获取值
+     * @param key
+     * @return 查询的值
+     */
+    byte[] get(byte[] key);
+
+    /**
      * 设置key-value
      * @param key 键
      * @param value 值
      * @return
      */
     String set(String key, String value);
+
+    /**
+     * 设置key-value
+     * @param key 键
+     * @param value 值
+     * @return
+     */
+    String set(byte[] key, byte[] value);
 
     /**
      * 添加key-value,并设置key存活时间
@@ -28,6 +44,15 @@ public interface RedisService {
      * @return
      */
     String set(String key, String value, Integer seconds);
+
+    /**
+     * 添加key-value,并设置key存活时间
+     * @param key 键
+     * @param value 值
+     * @param seconds 存活时间：秒
+     * @return
+     */
+    String set(byte[] key, byte[] value, Integer seconds);
 
     /**
      * 在之前的value追加
@@ -46,11 +71,26 @@ public interface RedisService {
     Long expire(String key, Integer seconds);
 
     /**
+     * 设置key存活时间
+     * @param key 键
+     * @param seconds 存活时间：秒
+     * @return
+     */
+    Long expire(byte[] key, Integer seconds);
+
+    /**
      * 删除key
      * @param key
      * @return
      */
     Long del(String key);
+
+    /**
+     * 删除key
+     * @param key
+     * @return
+     */
+    Long del(byte[] key);
 
     /**
      * 根据key获取Set集合
@@ -89,6 +129,13 @@ public interface RedisService {
      * @return
      */
     Boolean exists(String key);
+
+    /**
+     * 判断key是否存在
+     * @param key 键
+     * @return
+     */
+    Boolean exists(byte[] key);
 
     /**
      * 查看key剩余时间
@@ -163,6 +210,14 @@ public interface RedisService {
     String hmset(String key, Map<String, String> value);
 
     /**
+     * 存入一个Map
+     * @param key
+     * @param value
+     * @return
+     */
+    String hmset(byte[] key, Map<byte[], byte[]> value);
+
+    /**
      * 向Map追加一个键值对
      * @param key
      * @param field
@@ -172,11 +227,27 @@ public interface RedisService {
     Long hset(String key, String field, String value);
 
     /**
+     * 向Map追加一个键值对
+     * @param key
+     * @param field
+     * @param value
+     * @return
+     */
+    Long hset(byte[] key, byte[] field, byte[] value);
+
+    /**
      * 获取一个Map
      * @param key
      * @return
      */
     Map<String, String> hgetAll(String key);
+
+    /**
+     * 获取一个Map
+     * @param key
+     * @return
+     */
+    Map<byte[], byte[]> hgetAll(byte[] key);
 
     /**
      * 获取Map指定键的值
@@ -187,12 +258,28 @@ public interface RedisService {
     List<String> hmget(String key, String... fields);
 
     /**
+     * 获取Map指定键的值
+     * @param key Map键
+     * @param fields Map中的指定字段
+     * @return
+     */
+    List<byte[]> hmget(byte[] key, byte[]... fields);
+
+    /**
      * 删除Map指定键的值
      * @param key Map键
      * @param fields
      * @return
      */
     Long hdel(String key, String... fields);
+
+    /**
+     * 删除Map指定键的值
+     * @param key Map键
+     * @param fields
+     * @return
+     */
+    Long hdel(byte[] key, byte[]... fields);
 
     /**
      * 获取所有Map中所有值
@@ -202,11 +289,25 @@ public interface RedisService {
     List<String> hvals(String key);
 
     /**
+     * 获取所有Map中所有值
+     * @param key Map键
+     * @return
+     */
+    Collection<byte[]> hvals(byte[] key);
+
+    /**
      * 获取所有Map中所有key
      * @param key
      * @return
      */
     Set<String> hkeys(String key);
+
+    /**
+     * 获取所有Map中所有key
+     * @param key
+     * @return
+     */
+    Set<byte[]> hkeys(byte[] key);
 
     /**
      * 获取Map键值对数

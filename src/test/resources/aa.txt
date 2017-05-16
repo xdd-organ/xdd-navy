@@ -382,13 +382,13 @@ win10下安装node与browser-sync
 
 
 
-
+shiro的github地址
+https://github.com/zhangkaitao/shiro-example.git(多示例)
 http://code.taobao.org/p/ssm_kaiyuan/src/trunk/src/com/wanhejia/shiro/
 https://github.com/sharetop/shiro-extension/tree/develop/
 
-
-shiro的github地址
-https://github.com/zhangkaitao/shiro-example.git
+mycat地址
+https://github.com/MyCATApache/Mycat-Server
 
 
 
