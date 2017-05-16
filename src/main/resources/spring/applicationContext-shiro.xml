@@ -17,16 +17,16 @@
 		<!-- 认证成功统一跳转到first.action，建议不配置，shiro认证成功自动到上一个请求路径 -->
 		<property name="successUrl" value="/websocket/toWebsocket"/>
 		<!-- 通过unauthorizedUrl指定没有权限操作时跳转页面-->
-		<property name="unauthorizedUrl" value="/websocket/mySocketTest10" />
+        <property name="unauthorizedUrl" value="/websocket/mySocketTest10" />
 		<!-- 自定义filter配置 -->
 		<property name="filters">
 			<map>
 				<!-- 将自定义 的FormAuthenticationFilter注入shiroFilter中-->
 				<entry key="authc" value-ref="formAuthenticationFilter" />
-				<!-- 运行最多几人登录 -->
-				<!--<entry key="kickout" value-ref="kickoutSessionControlFilter" />-->
-				<entry key="recoverSession" value-ref="recoverSession" />
-			</map>
+                <!-- 运行最多几人登录 -->
+                <entry key="kickout" value-ref="kickoutSessionControlFilter"/>
+                <entry key="recoverSession" value-ref="recoverSession" />
+            </map>
 		</property>
 		<!-- 过虑器链定义，从上向下顺序执行，一般将/**放在最下边 -->
 		<property name="filterChainDefinitions">
@@ -42,11 +42,10 @@
 				<!--二维码相关-->
 				/qrcode/** = anon
 				/static/** = anon
-
+                /websocket/websocket = anon
 				<!--/** = authc-->
-				/login = authc
-				/** = user,recoverSession
-				<!--/** = anon-->
+                /login = authc
+                /** = user,recoverSession
 				<!-- /** = anon所有url都可以匿名访问 -->
 
 			</value>
@@ -56,7 +55,8 @@
 
 	<!-- securityManager安全管理器 -->
 	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
-		<property name="realm" ref="customRealm" />
+        <!--<property name="authenticator" ref="customAuthenticator"/>-->
+        <property name="realm" ref="customRealm" />
 		<!-- 注入缓存管理器 -->
 		<property name="cacheManager" ref="cacheManager"/>
 		<!-- 注入session管理器 -->
@@ -64,6 +64,12 @@
 		<!-- 记住我 -->
 		<property name="rememberMeManager" ref="rememberMeManager"/>
 	</bean>
+
+    <!-- 添加自己的注解支持：开始 -->
+    <bean class="com.java.xdd.shiro.authz.interceptor.AuthorizationAttributeSourceAdvisor">
+        <property name="securityManager" ref="securityManager"/>
+    </bean>
+    <!-- 添加自己的注解支持：结束 -->
 
 	<!-- realm -->
 	<bean id="customRealm" class="com.java.xdd.shiro.realm.CustomRealm">
@@ -83,13 +89,15 @@
 		<property name="cacheManagerConfigFile" value="classpath:shiro-ehcache.xml"/>
 	</bean>
 
-	<!-- 会话管理器 -->
-	<bean id="sessionManager" class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
-		<!-- session的失效时长，单位毫秒 -->
-		<property name="globalSessionTimeout" value="600000"/>
-		<!-- 删除失效的session -->
-		<property name="deleteInvalidSessions" value="true"/>
-	</bean>
+    <!-- 会话管理器 -->
+    <bean id="sessionManager" class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
+        <!-- 使用自己的sessionDAO，解决session共享 TODO -->
+        <!--<property name="sessionDAO"/>-->
+        <!-- session的失效时长，单位毫秒 -->
+        <property name="globalSessionTimeout" value="600000"/>
+        <!-- 删除失效的session -->
+        <property name="deleteInvalidSessions" value="true"/>
+    </bean>
 
 
 	<!-- 自定义form认证过虑器:开始 -->
@@ -102,53 +110,58 @@
 		<!-- 记住我input的名称 -->
 		<property name="rememberMeParam" value="rememberMe"/>
 	</bean>
+    <!-- 自定义form认证过虑器:结束 -->
 
 	<!-- (记住我)恢复session过滤器 -->
 	<bean id="recoverSession" class="com.java.xdd.shiro.filter.AddPrincipalToSessionFilter"/>
 
-	<!-- 控制 -->
-	<bean id="kickoutSessionControlFilter" class="com.java.xdd.shiro.filter.KickoutSessionControlFilter">
-		<property name="cacheManager" ref="cacheManager"/>
-		<property name="kickoutAfter" value="true"/>
-		<!-- 被踢出跳转路径 -->
-		<property name="kickoutUrl" value="/login"/>
-		<!--允许最多同时登陆数-->
-		<property name="maxSession" value="1"/>
-		<property name="sessionManager" ref="sessionManager"/>
-	</bean>
-	<!-- 自定义form认证过虑器:结束 -->
 
-	<!-- rememberMeManager管理器，写cookie，取出cookie生成用户信息 -->
-	<bean id="rememberMeManager" class="org.apache.shiro.web.mgt.CookieRememberMeManager">
-		<property name="cookie" ref="rememberMeCookie" />
-	</bean>
-	<!-- 记住我cookie -->
-	<bean id="rememberMeCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
-		<!-- rememberMe是cookie的名字 -->
-		<constructor-arg value="rememberMe" />
-		<!-- 记住我cookie生效时间30天 -->
-		<property name="maxAge" value="2592000" />
-	</bean>
 
-	<!-- 支持@RequiresRoles与@RequiresPermissions注解#开始 -->
-	<bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
-	<bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator" depends-on="lifecycleBeanPostProcessor">
-		<property name="proxyTargetClass" value="true"/>
-	</bean>
-	<bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
-		<property name="securityManager" ref="securityManager"/>
- 	</bean>
-	<bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
-		<property name="exceptionMappings">
-			<props>
-				<!-- 登录失败跳转路径 -->
-				<!--<prop key="org.apache.shiro.authz.UnauthenticatedException">
-					redirect:/login
-				</prop>-->
-				<!-- 授权失败跳转路径 -->
-				<prop key="org.apache.shiro.authz.UnauthorizedException">redirect:/websocket/mySocketTest10</prop>
-			</props>
-		</property>
-	</bean>
-	<!-- 支持@RequiresRoles与@RequiresPermissions注解#结束 -->
+    <!-- rememberMeManager管理器，写cookie，取出cookie生成用户信息 -->
+    <bean id="rememberMeManager" class="com.java.xdd.shiro.manager.CustomCookieRememberMeManager">
+        <property name="cookie" ref="rememberMeCookie"/>
+    </bean>
+    <!-- 记住我cookie -->
+    <bean id="rememberMeCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
+        <!-- rememberMe是cookie的名字 -->
+        <constructor-arg value="rememberMe"/>
+        <!-- 记住我cookie生效时间30天 -->
+        <property name="maxAge" value="2592000"/>
+    </bean>
+
+    <!-- 踢出用户 -->
+    <bean id="kickoutSessionControlFilter" class="com.java.xdd.shiro.filter.KickoutSessionControlFilter">
+        <property name="cacheManager" ref="cacheManager"/>
+        <property name="sessionManager" ref="sessionManager"/>
+        <property name="kickoutAfter" value="false"/>
+        <property name="maxSession" value="1"/>
+        <property name="kickoutUrl" value="/websocket/websocket"/>
+    </bean>
+
+
+    <!-- 保证实现了Shiro内部lifecycle函数的bean执行 -->
+    <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
+
+    <bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator" depends-on="lifecycleBeanPostProcessor">
+        <property name="proxyTargetClass" value="true" />
+    </bean>
+
+    <bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
+        <property name="securityManager" ref="securityManager"/>
+    </bean>
+    <bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+        <property name="exceptionMappings">
+            <props>
+                <!--登录-->
+                <!--<prop key="org.apache.shiro.authz.UnauthenticatedException">
+                    redirect:/login
+                </prop>-->
+                <!--授权-->
+                <prop key="org.apache.shiro.authz.UnauthorizedException">
+                    redirect:/login
+                </prop>
+            </props>
+        </property>
+        <property name="defaultErrorView" value="error/genericView"/>
+    </bean>
 </beans>
