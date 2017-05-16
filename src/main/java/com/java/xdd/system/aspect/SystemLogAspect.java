@@ -11,12 +11,17 @@ import com.java.xdd.shiro.domain.User;
 import com.java.xdd.system.domain.SystemLog;
 import com.java.xdd.system.service.SystemLogService;
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.shiro.subject.support.DefaultSubjectContext;
 import org.aspectj.lang.JoinPoint;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.util.WebUtils;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.security.Principal;
 import java.util.Map;
 import java.util.HashMap;

@@ -13,6 +13,7 @@ public class Role extends BaseDomain implements Serializable{
 
     private Long id;
     private String name;
+    private String code;
 
     public Long getId() {
         return id;
@@ -28,5 +29,13 @@ public class Role extends BaseDomain implements Serializable{
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
     }
 }

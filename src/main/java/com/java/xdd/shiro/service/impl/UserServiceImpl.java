@@ -3,6 +3,7 @@ package com.java.xdd.shiro.service.impl;
 import com.java.xdd.common.util.AESUtil;
 import com.java.xdd.common.util.SaltRandom;
 import com.java.xdd.shiro.domain.Permission;
+import com.java.xdd.shiro.domain.Role;
 import com.java.xdd.shiro.domain.User;
 import com.java.xdd.shiro.exception.CustomRuntimeException;
 import com.java.xdd.shiro.mapper.*;
@@ -77,4 +78,8 @@ public class UserServiceImpl implements UserService{
         return userMapper.findByUser(user);
     }
 
+    @Override
+    public List<Role> findRoleByUserId(Long userId) {
+        return roleMapper.findRoleByUserId(userId);
+    }
 }

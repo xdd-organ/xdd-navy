@@ -386,8 +386,8 @@ win10下安装node与browser-sync
 
 
 
-
-
+shiro的github地址
+https://github.com/zhangkaitao/shiro-example.git
 
 
 

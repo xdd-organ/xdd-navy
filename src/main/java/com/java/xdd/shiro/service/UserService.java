@@ -1,6 +1,7 @@
 package com.java.xdd.shiro.service;
 
 import com.java.xdd.shiro.domain.Permission;
+import com.java.xdd.shiro.domain.Role;
 import com.java.xdd.shiro.domain.User;
 
 import java.util.List;
@@ -36,4 +37,11 @@ public interface UserService {
     List<Permission> findPermissionListByUserId(Long id);
 
     List<User> findByUser(User user);
+
+    /**
+     * 根据用户查询所有角色
+     * @param id
+     * @return
+     */
+    List<Role> findRoleByUserId(Long id);
 }

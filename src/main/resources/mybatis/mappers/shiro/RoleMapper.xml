@@ -7,4 +7,25 @@
         </selectKey>
     </insert>
 
+    <resultMap id="AllColumnMap" type="com.java.xdd.shiro.domain.Role" autoMapping="true">
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="code" column="code"/>
+    </resultMap>
+
+    <sql id="all_column">
+        `id` ,
+        `name` ,
+        `code`
+    </sql>
+
+    <select id="findRoleByUserId" parameterType="java.lang.Long" resultMap="AllColumnMap">
+        select
+            <include refid="all_column"/>
+        from
+            role
+        where
+            id in (select role_id from user_role where user_id = #{userId})
+    </select>
+
 </mapper>
