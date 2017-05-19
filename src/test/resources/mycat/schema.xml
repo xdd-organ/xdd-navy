@@ -1,0 +1,133 @@
+<?xml version="1.0"?>
+<!DOCTYPE mycat:schema SYSTEM "schema.dtd">
+<mycat:schema xmlns:mycat="http://io.mycat/">
+	<!-- 配置mycat数据库(逻辑库,不会真实存在)，与mysql的dataBase概念相同 -->
+	<!-- schema标签用于定义MyCat实例中的逻辑库，MyCat可以有多个逻辑库，每个逻辑库都有自己的相关配置
+		dataNode:该属性用于绑定逻辑库到某个具体的database上，1.3版本如果配置了dataNode，则不可以配置分片表，
+				1.4可以配置默认分片，只需要配置需要分片的表即可，例：
+					1.3配置：
+						<schema name="USERDB" checkSQLschema="false" sqlMaxLimit="100" dataNode="dn1">
+							里面不能配置任何表
+						</schema>
+					1.4配置：
+						<schema name="USERDB" checkSQLschema="false" sqlMaxLimit="100" dataNode="dn1">
+							配置需要的分片表
+							<table name="tuser" dataNode="dn1"/>
+						</schema>
+					注意：那么现在tuser就绑定到dn1所配置的具体database上，可以直接访问这个database,
+						没有配置的表则会走默认节点dn2，这里注意没有配置在分片里面的表工具查看无法显示，但是可以正常使用。
+		name:名称，即mycat逻辑库名称
+		checkSQLschema:当该值设置为true时，如果我们执行语句**select * from TESTDB.travelrecord;**
+						则MyCat会把语句修改为**select * from travelrecord;**。即把表示schema的字符去掉，
+						避免发送到后端数据库执行时报**（ERROR 1146 (42S02): Table ‘testdb.travelrecord’doesn’t exist）。**
+						不过，即使设置该值为true，如果语句所带的是并非是schema指定的名字，例如：**select * from db1.travelrecord;**
+						那么MyCat并不会删除db1这个字段，如果没有定义该库的话则会报错，所以在提供SQL语句的最好是不带这个字段
+		sqlMaxLimit:每条执行的SQL语句，如果没有加上limit语句，MyCat也会自动的加上所对应的值。
+						当然SQL语句中也显式的指定limit的大小，不受该属性的约束。
+						需要注意的是，如果运行的schema为非拆分库的，那么该属性不会生效。需要手动添加limit语句
+	-->
+	<schema name="TESTDB" checkSQLschema="false" sqlMaxLimit="100">
+		<!-- 配置逻辑库的逻辑表 -->
+		<!-- table标签定义了MyCat中的逻辑表，所有需要拆分的表都需要在这个标签中定义。
+			name:逻辑表名称
+			dataNode:定义这个逻辑表所属的dataNode, 该属性的值需要和dataNode标签中name属性的值相互对应。
+						如果需要定义的dn过多可以使用如下的方法减少配置：
+						<dataNode name="multipleDn2" dataHost="localhost1" database="db$0-99"/>
+						这里需要注意的是database属性所指定的真实database name需要在后面添加一个，
+						例如上面的例子中，我需要在真实的mysql上建立名称为dbs0到dbs99的database
+			rule:该属性用于指定逻辑表要使用的规则名字，规则名字在rule.xml中定义，必须与tableRule标签中name属性属性值一一对应。
+			ruleRequired(boolean):该属性用于指定表是否绑定分片规则，如果配置为true，但没有配置具体rule的话，程序会报错。
+			primaryKey:该逻辑表对应真实表的主键
+			type:该属性定义了逻辑表的类型，目前逻辑表只有“全局表”和”普通表”两种类型。对应的配置：
+					全局表：global。
+					普通表：不指定该值为globla的所有表
+			autoIncrement(boolean):mysql对非自增长主键，使用last_insert_id()是不会返回结果的，只会返回0。所以，
+						只有定义了自增长主键的表才可以用last_insert_id()返回主键值
+						使用autoIncrement="true"指定这个表有使用自增长主键，这样mycat才会不抛出分片键找不到的异常。
+						使用autoIncrement="false"来禁用这个功能，当然你也可以直接删除掉这个属性。默认就是禁用的。
+			subTables:使用方式添加subTables="t_order$1-2,t_order3"
+						目前分表1.6以后开始支持并且dataNode在分表条件下只能配置一个，分表条件下不支持各种条件的join语句。
+			needAddLimit(boolean):指定表是否需要自动的在每个语句后面加上limit限制。由于使用了分库分表，
+									数据量有时会特别巨大。这时候执行查询语句，如果恰巧又忘记了加上数量限制的话。
+									那么查询所有的数据出来，也够等上一小会儿的。所以，mycat就自动的为我们加上LIMIT 100。
+									当然，如果语句中有limit，就不会在次添加了。
+									这个属性默认为true,你也可以设置成false`禁用掉默认行为。
+		-->
+		<table name="company" primaryKey="ID" type="global" dataNode="dn1,dn2" />
+		<table name="goods" primaryKey="ID" type="global" dataNode="dn1,dn2" />
+		<table name="employee" primaryKey="ID" dataNode="dn1,dn2" rule="sharding-by-intfile">
+			<!-- childTable标签用于定义E-R分片的子表。通过标签上的属性与父表进行关联。
+				name:定义子表的表名
+				joinKey:插入子表的时候会使用这个列的值查找父表存储的数据节点
+				parentKey:属性指定的值一般为与父表建立关联关系的列名。
+							程序首先获取joinkey的值，再通过parentKey属性指定的列名产生查询语句，
+							通过执行该语句得到父表存储在哪个分片上。从而确定子表存储的位置
+				primaryKey:同table标签所描述的
+				needAddLimit:同table标签所描述的
+			-->
+		</table>
+	</schema>
+
+	<!-- dataNode标签定义了MyCat中的数据节点，也就是我们通常说所的数据分片。
+				一个dataNode标签就是一个独立的数据分片。
+				例子中所表述的意思为：使用名字为localhost3307数据库实例上的db1物理数据库，
+				这就组成一个数据分片，最后，我们使用名字dn1标识这个分片
+		name:数据节点名称，该名称唯一，我们在table标签上应用这个名称，来建立表与分片对应的关系
+		dataHost:定义该分片属于哪个数据库实例，属性值引用dataHost标签上定义的name属性
+		database:定义该分片对应哪个具体数据库
+	-->
+	<dataNode name="dn1" dataHost="localhost1" database="db1"/>
+	<dataNode name="dn2" dataHost="localhost2" database="db2"/>
+
+	<!-- 配置mysql数据库 -->
+	<!-- dataHost标签
+		name:唯一标识，供上层使用
+		maxCon(Integer):每个读写实例连接池的最大连接，标签内嵌套的writeHost、readHost标签都会使用这个属性的值
+		minCon(Integer):每个读写实例连接池的最小连接，初始化连接池的大小
+		balance(Integer):负载均衡类型，目前的取值有3种：
+			1、balance="0"，不开启读写分离，所有操作都发送到当前可用的writeHost上。
+			2、balance="1"，全部的writeHost与stand by readHost参与select语句的负载均衡，
+							简单说：当双主模式(M1->S1,M2->S2,并且M1与M2互为主备)，正常情况M2,S1,S2都参与select语句的负载均衡
+			3、balance="2"，所有读操作都随机在writeHost、readHost上分发
+			4、balance="3"，所有读操作都随机在writeHost对应的readHost执行，writeHost不负担读压力，该选项只在1.4以后版本有
+		writeType(Integer):负载均衡类型，目前的取值有3种：
+			1、writeType="0"，所有写操作发送到配置的第一个writeHost，第一个挂了切到还生存的第二个writeHost，
+							重新启动后以切换后的为准，切换记录在配置文件中：dnindex.properties
+			2、writeType="1"，所有写操作都随机发送到配置的writeHost，1.5以后废弃不推荐，
+		dbType:指定连接数据库的类型，目前支持二进制的mysql协议，还有其他使用jdbc连接数据库协议，如：mongodb，oracle，spark等
+		dbDriver:
+			指定连接数据库使用的Driver，目前可选jdbc与native，从1.6开始支持postgresql的native原始协议
+		switchType:
+			1、switchType="-1"，不自动切换
+			2、switchType="1"，默认值，自动切换
+			3、switchType="2"，基于mysql主从同步状态决定是否切换，心跳语句show slave status
+			4、switchType="3"，基于mysql galary cluster的切换机制(适合集群[1.4.1])，心跳语句show status like 'wsrep%'
+		slaveThreshold:
+		tempReadHostAvailable:如果配置了这个属性writeHost 下面的readHost仍旧可用，默认0 可配置（0、1）
+	-->
+	<dataHost name="localhost1" maxCon="1000" minCon="10" balance="0" writeType="0" dbType="mysql" dbDriver="native" switchType="1"  slaveThreshold="100">
+		<!--检测心跳语句，1.4主从切换语句必须是：show slave status-->
+		<heartbeat>select user()</heartbeat>
+		<!-- writeHost与readHost标签，可以多个；
+					但是，如果writeHost指定的后端数据库宕机，那么这个writeHost绑定的所有readHost都将不可用。
+					另一方面，由于这个writeHost宕机系统会自动的检测到，并切换到备用的writeHost上去。。
+			host:用于标识不同实例，一般writeHost我们使用*M1，readHost我们用*S1。
+			url:连接地址
+				当dataHost标签dbDriver="mysql"：则url="localhost:3307"
+				当dataHost标签dbDriver="native"：则url="jdbc:mysql://localhost:3306/"
+			user:连接数据库的用户名
+			password:连接数据库的密码
+			weight:权重配置在readHost中作为读取节点的权重(1.4)
+			usingDecrypt:是否对密码加密，默认0否如需要开启配置1
+		-->
+		<writeHost host="hostS1" url="localhost:3307" user="root" password="root">
+			<readHost host="hostS1" url="localhost:3307" user="root" password="root" />
+		</writeHost>
+	</dataHost>
+
+	<!--配置mysql数据库-->
+	<dataHost name="localhost2" maxCon="1000" minCon="10" balance="0" writeType="0" dbType="mysql" dbDriver="native" switchType="1"  slaveThreshold="100">
+		<heartbeat>select user()</heartbeat>
+		<writeHost host="hostS2" url="localhost:3308" user="root" password="root" />
+	</dataHost>
+</mycat:schema>

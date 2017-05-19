@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mycat:server SYSTEM "server.dtd">
+<mycat:server xmlns:mycat="http://io.mycat/">
+    <!-- system标签，property标签都与系统配置有关
+        charset:字符集设置
+        defaultSqlParser:用来指定默认的解析器。目前的可用的取值有：druidparser和fdbparser(1.4后作废)
+        processors:这个属性主要用于指定系统可用的线程数，默认值为机器CPU核心线程数
+        processorBufferChunk:这个属性指定每次分配Socket Direct Buffer的大小，默认是4096个字节。
+                                这个属性也影响buffer pool的长度。如果一次性获取的数过大buffer不够用经常出现警告，
+                                则可以适当调大。
+        processorBufferPool:这个属性指定bufferPool计算比例值
+                            默认bufferChunkSize(4096) * processors属性 * 1000
+        processorBufferLocalPercent:前面提到了ThreadLocalPool。这个属性就是用来控制分配这个pool的大小用的，
+                                    但其也并不是一个准确的值，也是一个比例值。这个属性默认值为100。
+        processorExecutor:指定NIOProcessor上共享的businessExecutor固定线程池大小。
+        sequnceHandlerType:指定使用Mycat全局序列的类型。0为本地文件方式，1为数据库方式，
+                            2为时间戳序列方式，3为分布式ZK ID生成器，4为zk递增id生成。
+                            从1.6增加两种ZK的全局ID生成算法。
+        fakeMySQLVersion:设置模拟的MySQL版本号，目前支持设置5.5,5.6版本
+
+        TCP连接相关属性(Mycat在每次建立前、后端连接的时候都会使用这些参数初始化连接。)
+        frontSocketSoRcvbuf:默认 1024 * 1024
+        frontSocketSoSndbuf:默认 4 * 1024 * 1024
+        frontSocketNoDelay:默认 1
+        backSocketSoRcvbuf:默认 4 * 1024 * 1024
+        backSocketSoSndbuf:默认 1024 * 1024
+        backSocketNoDelay:默认 1
+
+        Mysql连接相关属性(初始化mysql前后端连接所涉及到的一些属性)
+        packetHeaderSize:指定Mysql协议中的报文头长度。默认4。
+        maxPacketSize:指定Mysql协议可以携带的数据最大长度。默认16M
+        idleTimeout:指定连接的空闲超时时间。
+        charset:连接的初始化字符集。默认为utf8
+        sqlExecuteTimeout:SQL执行超时的时间，Mycat会检查连接上最后一次执行SQL的时间。默认时间为300秒，单位秒。
+        txIsolation:前端连接的初始化事务隔离级别，默认为REPEATED_READ，设置值为数字默认3
+                    READ_UNCOMMITTED = 1;
+                    READ_COMMITTED = 2;
+                    REPEATED_READ = 3;
+                    SERIALIZABLE = 4;
+
+        Mycat心跳属性(mycat中有几个周期性的任务，这些属性就在系统调优的过程中也是比不可少的)
+        processorCheckPeriod:清理NIOProcessor上前后端空闲、超时和关闭连接的间隔时间。默认是1秒，单位毫秒。
+        dataNodeIdleCheckPeriod:对后端连接进行空闲、超时检查的时间间隔，默认是300秒，单位毫秒。
+        dataNodeHeartbeatPeriod:对后端所有读、写库发起心跳的间隔时间，默认是10秒，单位毫秒。
+
+        服务相关属性(主要会影响外部系统对myact的感知)
+        bindIp:mycat服务监听的IP地址，默认值为0.0.0.0
+        serverPort:定义mycat的使用端口，默认值为8066
+        managerPort:定义mycat的管理端口，默认值为9066
+
+        全局表一致性检测
+        useGlobleTableCheck(boolean):1为开启全局一致性检测、0为关闭
+        handleDistributedTransactions:分布式事务开关，主要应用场景，主要为了控制是否允许跨库事务。
+                                        0为不过滤分布式事务，
+                                        1为过滤分布式事务（如果分布式事务内只涉及全局表，则不过滤），
+                                        2为不过滤分布式事务,但是记录分布式事务日志
+        useOffHeapForMerge:使用非堆内存(Direct Memory)处理跨分片结果集
+                            1:开启，0:关闭
+    -->
+    <system>
+        <property name="useSqlStat">0</property> <!-- 1为开启实时统计、0为关闭 -->
+        <property name="useGlobleTableCheck">0</property><!-- 1为开启全加班一致性检测、0为关闭 -->
+        <property name="sequnceHandlerType">2</property>
+        <!--  <property name="useCompression">1</property>--> <!--1为开启mysql压缩协议-->
+        <!--  <property name="fakeMySQLVersion">5.6.20</property>--> <!--设置模拟的MySQL版本号-->
+        <!-- <property name="processorBufferChunk">40960</property> -->
+        <!--
+        <property name="processors">1</property>
+        <property name="processorExecutor">32</property>
+         -->
+        <!--默认为type 0: DirectByteBufferPool | type 1 ByteBufferArena-->
+        <property name="processorBufferPoolType">0</property>
+        <!--默认是65535 64K 用于sql解析时最大文本长度 -->
+        <!--<property name="maxStringLiteralLength">65535</property>-->
+        <!--<property name="sequnceHandlerType">0</property>-->
+        <!--<property name="backSocketNoDelay">1</property>-->
+        <!--<property name="frontSocketNoDelay">1</property>-->
+        <!--<property name="processorExecutor">16</property>-->
+        <!--
+            <property name="serverPort">8066</property> <property name="managerPort">9066</property>
+            <property name="idleTimeout">300000</property> <property name="bindIp">0.0.0.0</property>
+            <property name="frontWriteQueueSize">4096</property> <property name="processors">32</property> -->
+        <!--分布式事务开关，0为不过滤分布式事务，1为过滤分布式事务（如果分布式事务内只涉及全局表，则不过滤），2为不过滤分布式事务,但是记录分布式事务日志-->
+        <property name="handleDistributedTransactions">0</property>
+
+        <!--
+        off heap for merge/order/group/limit      1开启   0关闭
+    -->
+        <property name="useOffHeapForMerge">1</property>
+
+        <!--
+            单位为m
+        -->
+        <property name="memoryPageSize">1m</property>
+
+        <!--
+            单位为k
+        -->
+        <property name="spillsFileBufferSize">1k</property>
+
+        <property name="useStreamOutput">0</property>
+
+        <!--
+            单位为m
+        -->
+        <property name="systemReserveMemorySize">384m</property>
+
+
+        <!--是否采用zookeeper协调切换  -->
+        <property name="useZKSwitch">true</property>
+
+
+    </system>
+
+    <!-- 配置全局SQL防火墙设置 -->
+    <!--
+    <firewall>
+       <whitehost>
+          <host host="127.0.0.1" user="mycat"/>
+          <host host="127.0.0.2" user="mycat"/>
+       </whitehost>
+       <blacklist check="false">
+       </blacklist>
+    </firewall>
+    -->
+
+    <!--配置登录的用户信息-->
+    <!-- user标签主要用于定义登录mycat的用户和权限
+        name:用户名
+        password:密码
+        schemas:可以访问的schema逻辑库，多个逻辑库使用","分割
+        readOnly(boolean):为true 或false来限制用户是否只是可读的
+        benchmark:mycat连接服务降级处理：benchmark 基准, 当前端的整体connection数达到基准值是,
+                    对来自该账户的请求开始拒绝连接，0或不设表示不限制。
+                    例如<property name="benchmark">1000</property>
+        usingDecrypt:是否对密码加密默认0 否，如需要开启配置1
+    -->
+    <user name="root">
+        <property name="password">123456</property>
+        <property name="schemas">TESTDB</property>
+
+        <!-- 表级 DML 权限设置 -->
+        <!-- privileges标签对用户的schema及下级的table 进行精细化的DML 权限控制，
+                    由于Mycat一个用户的schemas 属性可配置多个schema ，
+                    所以privileges 的下级节点schema 节点同样可配置多个，对多库多表进行细粒度的DML 权限控制
+            check(boolean):用于标识是否开启DML 权限检查，默认false 标识不检查，当然privileges 节点不配置，等同check=false,
+            schema->dml:设置schema所有表的dml
+            table->dml:未设置的，继承schema的dml
+            dml示例:      0000->禁止增删改查         !insert,!update,!select,!delete
+                         1111->允许增删改查         insert,update,select,delete
+                         1100->允许增改，禁止查删    insert,update,!select,!delete
+        -->
+        <!--
+        <privileges check="false">
+            <schema name="TESTDB" dml="0110" >
+                <table name="tb01" dml="0000"></table>
+                <table name="tb02" dml="1111"></table>
+            </schema>
+        </privileges>
+         -->
+    </user>
+    <user name="admin">
+        <property name="password">admin</property>
+        <property name="schemas">TESTDB</property>
+        <!--<property name="readOnly">true</property>-->
+    </user>
+
+</mycat:server>
