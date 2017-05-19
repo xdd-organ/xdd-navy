@@ -1,0 +1,24 @@
+## Github提交代码使用的标准的emoji
+:tada:                 ->  庆祝 – 初次提交
+:memo:                 ->  文档 – 写文档
+:bug:                  ->  bug – 修复 bug
+:wrench:               ->  扳手 – 改变配置文件
+:fire:                 ->  火焰 – 移除代码或文件
+:rocket:               ->  火箭 – 部署新功能
+:lock:                 ->  锁 – 修复安全问题
+:art:                  ->  调色板 – 改进结构和代码格式
+:zap:                  ->  闪电 – 优化性能
+:sparkles:             ->  星星 – 引入新功能
+:apple:                ->  苹果 – 修复 MacOS 下的问题
+:white_check_mark:     ->  完成 – 添加测试用例
+:bookmark:             ->  书签 – 发版/版本标签
+:penguin:              ->  企鹅 – 修复 Linux 下的问题
+:rotating_light:       ->  警车灯 – 移除 linter 的警告
+:construction:         ->  施工 – 工作在进行中
+:construction_worker:  ->  工人 – 添加 CI 构建系统
+:green_heart:          ->  绿心 – 修复 CI 构建问题
+:arrow_down:           ->  下降 – 降级依赖库
+:arrow_up:             ->  上升 – 升级依赖库
+:checkered_flag:       ->  旗帜 – 修复 Windows 下的问题
+:hammer:               ->  锤子 – 大重构
+:lipstick:             ->  口红 – 升级 UI 和样式文件
