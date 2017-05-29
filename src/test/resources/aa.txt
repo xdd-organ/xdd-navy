@@ -367,6 +367,11 @@ alter table _address add _address_type int DEFAULT 1;  -- 添加字段
 
 ALTER TABLE _address MODIFY _address_type int COMMENT '1:普通地址，2：发票收货地址';  -- 字段添加注释
 
+-- 批量导入数据
+LOAD DATA INFILE 'C:\Users\qw\Desktop\a3.txt' IGNORE INTO TABLE USER CHARACTER SET 'utf8' FIELDS
+TERMINATED BY ',' OPTIONALLY ENCLOSED BY '' ESCAPED BY '' LINES TERMINATED BY '\n'(id,username,PASSWORD) ;
+
+
 
 win10下安装node与browser-sync
 	安装node
