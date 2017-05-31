@@ -94,6 +94,14 @@ public class RedisTest {
 
     }
 
+    //测试使用redis生产主键id
+    @Test
+    public void test7(){
+        Long aa = shardedJedis.incr("aa");
+        Runtime runtime = Runtime.getRuntime();
+        System.out.println(aa);
+    }
+
 
 
 

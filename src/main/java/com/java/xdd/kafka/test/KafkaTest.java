@@ -24,12 +24,12 @@ public class KafkaTest {
 
     @Test
     public void test() throws Exception{
-        kafkaProducerService.sendMessage("abc", 1, "3");
+        kafkaProducerService.sendMessage("topic1", 1, "3");
 
         //KafkaConsumer<Integer, String> consumer = new KafkaConsumer(null);
         //consumer.subscribe(Arrays.asList("topic1"));
 
-        ConsumerRecord<Integer, String> records = new ConsumerRecord<Integer, String>("abc",3, 6, 2, "5");
+        ConsumerRecord<Integer, String> records = new ConsumerRecord<Integer, String>("topics",3, 6, 2, "5");
 
         kafkaConsumerService.onMessage(records);
         System.out.println();

@@ -20,7 +20,7 @@
 			">
 
     <!-- 注解扫描 -->
-    <context:component-scan base-package="com.java.xdd.kafaka" />
+    <context:component-scan base-package="com.java.xdd.kafka" />
 
     <!-- 生产者 -->
     <ini:channel id="outWriteBackLemmaRecordChannel"/>
@@ -97,6 +97,9 @@
 
         </constructor-arg>
     </bean>
+
+    <int:outbound-channel-adapter channel="inputFromKafka"
+                                  ref="kafkaConsumerService" method="onMessage"/>
 
     <bean id="kafkaConsumerService" class="com.java.xdd.kafka.test.KafkaConsumerServiceImpl" init-method="afterPropertiesSet"/>
 </beans>
