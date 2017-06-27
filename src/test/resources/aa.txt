@@ -418,6 +418,12 @@ http://blog.csdn.net/simon_world/article/details/41791277
 //葛俊
 https://github.com/gejun123456/bootstrap-java-blog
 
+//netty实战
+https://github.com/ReactivePlatform/netty-in-action-cn
+
+//springMVC相关
+http://www.yiibai.com/spring_mvc/spring-4-mvc-contentnegotiatingviewresolver-example.html
+
 
 
 

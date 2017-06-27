@@ -384,6 +384,20 @@
             <artifactId>spring-integration-core</artifactId>
             <version>4.3.2.RELEASE</version>
         </dependency>
+        <!-- itextpdf:操作PDF -->
+        <dependency>
+            <groupId>com.itextpdf</groupId>
+            <artifactId>itextpdf</artifactId>
+            <version>5.5.10</version>
+        </dependency>
+        <!-- itextpdf的亚洲字体支持 -->
+        <dependency>
+            <groupId>com.itextpdf</groupId>
+            <artifactId>itext-asian</artifactId>
+            <version>5.2.0</version>
+        </dependency>
+
+
 
 
 
