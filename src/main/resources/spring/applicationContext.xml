@@ -59,7 +59,7 @@
 	<import resource="classpath:spring/applicationContext-mybatis.xml"/>
 	<import resource="classpath:spring/applicationContext-shiro.xml"/>
 	<!--<import resource="classpath:spring/applicationContext-aspect.xml"/>-->
-	<import resource="classpath:spring/applicationContext-redis.xml"/>
+	<!--<import resource="classpath:spring/applicationContext-redis.xml"/>-->
 	<import resource="classpath:spring/applicationContext-job.xml"/>
 	<import resource="classpath:spring/applicationContext-httpclient.xml"/>
 	<import resource="classpath:spring/applicationContext-aliyunoss.xml"/>

@@ -67,6 +67,7 @@ ${dateVar?string("yyyy-MM-dd HH:mm:ss zzzz")} 日期格式化 freemaker
 					jquery-ui-widget.js
 					jquery.iframe-transport.js
 					jquery.fileupload.js
+
 $('#fileupload').fileupload({
 	url : "";
 	dataType: 'json', //数据类型为json
@@ -84,6 +85,7 @@ $('#fileupload').fileupload({
 		data.submit();
 	},
 });
+
 jQuery 异步请求
 $.ajax({
 	type: "POST",
@@ -420,9 +422,15 @@ https://github.com/gejun123456/bootstrap-java-blog
 
 //netty实战
 https://github.com/ReactivePlatform/netty-in-action-cn
+//netty in action注释
+http://www.linkedkeeper.com/list/cat.action?cid=1&page=3
 
 //springMVC相关
 http://www.yiibai.com/spring_mvc/spring-4-mvc-contentnegotiatingviewresolver-example.html
+
+//资料
+https://item.taobao.com/item.htm?spm=a230r.1.14.40.ofC72U&id=546546280940&ns=1&abbucket=12#detail
+
 
 
 

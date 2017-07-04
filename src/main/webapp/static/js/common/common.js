@@ -17,36 +17,5 @@ var basePort = "2080";
 var baseUrl = "http://" + baseHost;
 var basePath = baseUrl + ":" + basePort;
 
-var obj = {
-	aa : function () {
-		console.log("====")
-    },
-	bb : ""
-};
 
-function Sup(name) {
-    this.name = name;
-    this.friends = ["z3","l4"];
-}
-
-Sup.prototype = {
-    constrcutor : Sup,
-    sayName : function(){
-        alert(this.name);
-    }
-};
-
-function Sub(age){
-    this.age = age;
-}
-
-
-
-Sub.prototype = new Sup('z3');
-
-var sub1 = new Sub();
-var sub2 = new sub();
-
-
-sub1.sayName()
 

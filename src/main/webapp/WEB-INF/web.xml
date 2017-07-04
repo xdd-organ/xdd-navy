@@ -91,7 +91,10 @@
         <welcome-file>/websocket/toWebsocket</welcome-file>
     </welcome-file-list>
 
-
+    <servlet-mapping>
+        <servlet-name>default</servlet-name>
+        <url-pattern>*.xml</url-pattern>
+    </servlet-mapping>
 
 
 

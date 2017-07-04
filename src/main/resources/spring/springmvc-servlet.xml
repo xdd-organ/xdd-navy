@@ -5,8 +5,9 @@
 	xmlns:p="http://www.springframework.org/schema/p"
 	xmlns:aop="http://www.springframework.org/schema/aop"
 	xmlns:context="http://www.springframework.org/schema/context"
-	   xmlns:websocket="http://www.springframework.org/schema/websocket"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	xmlns:websocket="http://www.springframework.org/schema/websocket"
+	xmlns:redis="http://www.springframework.org/schema/redis"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
 		http://www.springframework.org/schema/context 
 		http://www.springframework.org/schema/context/spring-context-4.0.xsd
@@ -15,8 +16,10 @@
 		http://www.springframework.org/schema/mvc 
 		http://www.springframework.org/schema/mvc/spring-mvc-4.2.xsd
 		http://www.springframework.org/schema/websocket
-		http://www.springframework.org/schema/websocket/spring-websocket.xsd">
-   
+		http://www.springframework.org/schema/websocket/spring-websocket.xsd
+		http://www.springframework.org/schema/redis
+		http://www.springframework.org/schema/redis/spring-redis-1.0.xsd">
+
 	<context:component-scan base-package="com.java.xdd.*.controller" />
 
 	<mvc:annotation-driven/>
@@ -70,6 +73,10 @@
 		<property name="maxInMemorySize" value="40960"/>
 	</bean>
 
+	<mvc:cors>
+		<mvc:mapping path="/**" />
+	</mvc:cors>
+
 
 	<!-- 针对freemarker的视图配置 -->
 	<bean id="viewResolver" class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">
@@ -87,6 +94,8 @@
 
 	<!-- 过滤静态数据 -->
 	<mvc:resources location="/static/" mapping="/static/**"/>
+	<mvc:default-servlet-handler/>
+
 
 	<!--websocket核心配置-->
 	<bean id="websocket1" class="com.java.xdd.websocket1.handler.WebsocketEndPoint"/>
