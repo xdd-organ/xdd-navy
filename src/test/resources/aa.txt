@@ -430,7 +430,7 @@ http://www.yiibai.com/spring_mvc/spring-4-mvc-contentnegotiatingviewresolver-exa
 
 //资料
 https://item.taobao.com/item.htm?spm=a230r.1.14.40.ofC72U&id=546546280940&ns=1&abbucket=12#detail
-
+http://blog.csdn.net/evankaka
 
 
 
