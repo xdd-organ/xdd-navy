@@ -433,6 +433,9 @@ https://item.taobao.com/item.htm?spm=a230r.1.14.40.ofC72U&id=546546280940&ns=1&a
 
 //spring-security4
 http://www.cnblogs.com/softidea/p/6914279.html
+//kafka
+http://blog.csdn.net/evankaka
+
 
 
 
