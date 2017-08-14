@@ -6,7 +6,6 @@ import com.java.xdd.shiro.authz.handler.DataAnnotationHandler;
 import org.apache.shiro.aop.AnnotationResolver;
 import org.apache.shiro.aop.MethodInvocation;
 import org.apache.shiro.authz.AuthorizationException;
-import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.aop.AuthorizingAnnotationMethodInterceptor;
 import org.apache.shiro.util.StringUtils;
 
@@ -49,7 +48,7 @@ public class DataAnnotationMethodInterceptor
      * 将props取出值并与fields一一对应，构造出Map并返回
      * */
     @SuppressWarnings("unchecked")
-    private Map<String,String> _addParameters(String[] props,String[] fields,Class<?> clz,Object principal) throws Exception {
+    private Map<String,String> addParameters(String[] props, String[] fields, Class<?> clz, Object principal) throws Exception {
         Map<String,String> params = new HashMap<String,String>();
 
         for(int i=0;i<props.length;i++){
@@ -125,7 +124,7 @@ public class DataAnnotationMethodInterceptor
                 Map<String,String> m = (Map<String,String>)((DataParameterRequest)o).getParameters();
                 if(m!=null){
                     //将要添加的信息注入到parameters中
-                    Map<String,String> mm = this._addParameters(props, fields, clz, principal);
+                    Map<String,String> mm = this.addParameters(props, fields, clz, principal);
                     m.putAll(mm);
                 }
             }

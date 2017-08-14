@@ -437,7 +437,8 @@ http://www.cnblogs.com/softidea/p/6914279.html
 http://git.oschina.net/shengzhao/spring-oauth-server
 //kafka
 http://blog.csdn.net/evankaka
-
+//bootstart的时间插件
+https://uxsolutions.github.io/bootstrap-datepicker
 
 
 
