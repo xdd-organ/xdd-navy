@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>layer弹窗</title>
+    <script type="text/javascript" src="../../../../static/js/jQuery/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" src="../../../../static/js/layer-3.0.3/layer.js"></script>
+
+    <style type="text/css">
+        .div {
+            text-align:center;
+        }
+    </style>
+
+    <script type="text/javascript">
+        $(function () {
+            //弹出一个页面层
+            $('#test2').on('click', function(){
+                layer.open({
+                    title: "这是标题",  //标题
+                    type: 1, //0（信息框，默认）1（页面层）2（iframe层）3（加载层）4（tips层）
+                    area: ['600px', '360px'], //弹窗大小
+                    shade: [0.8, '#393D49'], //透明度， 颜色
+                    shadeClose: false, //点击遮罩关闭 默认:true
+                    time: 10000, //自动关闭所需毫秒 默认:0
+                    maxmin: true, //最大最小化  默认:false
+                    btn: ['按钮一', '按钮二', '按钮三'], //
+                    content: '\<\div style="padding:20px;">自定义内容\<\/div>'  //弹窗内容
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+<div class="div">
+    <button id="test2">弹窗</button>
+</div>
+
+</body>
+</html>
