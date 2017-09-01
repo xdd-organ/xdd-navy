@@ -10,6 +10,12 @@ import java.io.Serializable;
 public class User extends BaseDomain implements Serializable{
     private static final long serialVersionUID = -1431548491431057871L;
 
+    public User(Long id) {
+        this.id = id;
+    }
+    public User() {
+    }
+
     private Long id;
 
     private String username;

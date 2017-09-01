@@ -6,6 +6,7 @@ import net.sf.json.xml.XMLSerializer;
 import org.dom4j.Document;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -149,6 +150,25 @@ public class TestController {
         } catch (Exception e) {
             e.printStackTrace();
             return null;
+        }
+    }
+
+    @RequestMapping("/aa")
+    @ResponseBody
+    public String aa() {
+        testAsyncMethod();
+        System.out.println("我已经执行了！");
+        return "我已经执行了！";
+    }
+
+    @Async(value = "myexecutor")
+    public void testAsyncMethod(){
+        try {
+            //让程序暂停100秒，相当于执行一个很耗时的任务
+            Thread.sleep(3000);
+            System.out.println("fadsf");
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
     }
 }
