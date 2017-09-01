@@ -1,4 +1,4 @@
-package com.java.xdd.rambda;
+package com.java.xdd.lambda;
 
 import com.java.xdd.shiro.domain.User;
 import org.junit.Test;
@@ -10,9 +10,9 @@ import java.util.function.*;
 /**
  * Created by qw on 2017/9/1.
  */
-public class Demo {
+public class LambdaExpression {
 
-    //rambda表达式
+    //lambda表达式
     @Test
     public void test() {
         //有参无返回值
