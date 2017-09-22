@@ -390,6 +390,7 @@ windows上传文件到Linux
     2.安装putty-64bit-0.70-installer.msi
     3.在控制台使用命令pscp(不报错，则安装成功)
     4.pscp G:\xdd\soft\logs\mycat.log root@192.168.50.128:/usr/local/rz(上传文件到Linux命令)
+    4.1.pscp -r G:\xdd\soft\logs\abc root@192.168.50.128:/usr/local/rz(上传文件夹到Linux命令)
     5.          本地文件位置            用户名       ip      上传位置
     6.输入密码
 
