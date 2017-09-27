@@ -173,4 +173,9 @@ public class LambdaList {
     }
 
 
+    @Test
+    public void test12() {
+        users.stream().filter((user) -> user.getId() == 10L).forEach(user -> user.setUsername("abc"));
+        users.stream().forEach(System.out::println);
+    }
 }

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>时间插件</title>
+    <script type="text/javascript" src="../../../../static/js/jQuery/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" src="../../../../static/js/moment/moment.js"></script>
+
+</head>
+    <script type="text/javascript">
+        function test(date, day) {
+            var dateStr = moment(date).day(day).format("YYYY-MM-DD");
+            //console.log(dateStr);
+            return dateStr;
+        }
+        function test2(date) {
+            var dateStr = moment(date).format("YYYY-MM-DD");
+            console.log(dateStr);
+
+            dateStr = moment(dateStr).add("days", -1).format("YYYY-MM-DD");
+            console.log(dateStr);
+
+            dateStr = moment(date).day(-1).format("YYYY-MM-DD");
+            console.log(dateStr);
+            return dateStr;
+        }
+
+        function test3() {
+            var arr = [];
+            var date = null;
+
+            for (var i = 0; i < 5; i ++) {
+                var o = {};
+                if (i == 0) {
+                    date = new Date();
+                    o.begin = moment(date).format("YYYY-MM-DD");
+                    date = test(date, -1);
+                    o.end = date;
+                    arr.push(o)
+                } else {
+                    o.begin = moment(date).add("days", -1).format("YYYY-MM-DD");
+                    date = test(date, -1);
+                    o.end = date;
+                    arr.push(o)
+                }
+            }
+            console.log(arr);
+        }
+
+        //test2(new Date())
+
+        test3();
+
+
+
+    </script>
+<body>
+</body>
+</html>

@@ -408,6 +408,12 @@
             <artifactId>oval</artifactId>
             <version>1.87</version>
         </dependency>
+        <!-- 参数测试 -->
+        <dependency>
+            <groupId>pl.pragmatists</groupId>
+            <artifactId>JUnitParams</artifactId>
+            <version>1.0.5</version>
+        </dependency>
 
 
 
