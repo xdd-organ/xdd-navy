@@ -14,5 +14,6 @@
       <result column="insert_time" property="insertTime"
               jdbcType="DATE" javaType="java.lang.String"
               typeHandler="com.java.xdd.mybatis.type.DateToStringTypeHandler"/>
+      <result column="insert_time" property="insertTimeStr" jdbcType="DATE" javaType="java.sql.Timestamp"/>
    </resultMap>
 </mapper>
