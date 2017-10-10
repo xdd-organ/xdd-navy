@@ -18,7 +18,7 @@ public class MybatisServiceImpl implements MybatisService{
 
     @Override
     public Map<String, Object> getMybatis(Long id) {
-        Map<String, Object> res = mybatisMapper.getMybatis(id);
+        Map<String, Object> res = mybatisMapper.getMybatis(id, 2L);
         return res;
     }
 }
