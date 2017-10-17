@@ -205,6 +205,12 @@ centOS6.6下安装mysql(方式二)：
 	mkdir ./data/mysql
 	chown -R mysql:mysql ./
 	./scripts/mysql_install_db --user=mysql --datadir=/usr/local/mysql/data/mysql
+	    (centOS7.2下执行上一句会报错
+        FATAL ERROR: please install the following Perl modules before executing /usr/bin/mysql_install_db: Data::Dumper
+        解决办法：yum install -y perl-Module-Install.noarch
+        Installing MySQL system tables..../bin/mysqld: error while loading shared libraries: libaio.so.1: cannot open shared object file: No such file or directory
+        解决办法：yum install libaio* -y)
+
 	cp support-files/mysql.server /etc/init.d/mysqld
 	chmod 755 /etc/init.d/mysqld
 	cp support-files/my-default.cnf /etc/my.cnf
@@ -331,7 +337,18 @@ centOS6.6下安装git
 	客户端操作(需要输入密码)		-- 客户端提交代码，可能参考会遇到权限问题
 	git clone xdd@192.168.56.101:/usr/local/git/repository/demo1.git
 	
-
+centOS7.2下安装jdk1.8
+	1.将jdk-8u144-linux-x64.tar.gz拷贝到centOS7.2中
+	2.解压 tar -zxvf jdk-8u144-linux-x64.tar.gz
+	3.vim /etc/profile
+	4.在第三步文件末尾行添加
+		#set java environment
+		JAVA_HOME=/usr/local/src/java/jdk1.7.0_79
+		CLASSPATH=.:$JAVA_HOME/lib.tools.jar
+		PATH=$JAVA_HOME/bin:$PATH
+		export JAVA_HOME CLASSPATH PATH
+	5.source /etc/profile  使更改的配置立即生效
+	6.java -version  查看JDK版本信息，如果显示出1.8.0_144证明成功
 
 
 	
