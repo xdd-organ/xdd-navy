@@ -349,6 +349,50 @@ centOS7.2下安装jdk1.8
 		export JAVA_HOME CLASSPATH PATH
 	5.source /etc/profile  使更改的配置立即生效
 	6.java -version  查看JDK版本信息，如果显示出1.8.0_144证明成功
+	
+centOS7.2下安装nginx1.2(方式一)
+	1.安装pcre
+		1.获取pcre编译安装包，在http://www.pcre.org/上可以获取当前最新的版本
+		2.解压缩pcre2-10.30.tar.gz包。
+		3.进入解压缩目录，执行./configure –-prefix=/usr/local/pcre
+		4.make & make install
+		
+	2.安装openssl
+		获取openssl编译安装包，在http://www.openssl.org/source/上可以获取当前最新的版本。
+		解压缩openssl-1.1.0f.tar.gz包。
+		进入解压缩目录，执行./config –-prefix=/usr/local/openssl/openssl
+		make & make install
+		
+	3.安装zlib
+		获取zlib编译安装包，在http://www.zlib.net/上可以获取当前最新的版本。
+		解压缩zlib-1.2.11.tar.gz包。
+		进入解压缩目录，执行./configure --prefix=/usr/local/zlib/zlib
+		make & make install
+		
+	4.安装nginx
+		获取nginx，在http://nginx.org/en/download.html上可以获取当前最新的版本。
+		解压缩nginx-1.12.1.tar.gz包。
+		进入解压缩目录，执行./configure --prefix=/usr/local/nginx/nginx --with-http_ssl_module --with-openssl=/usr/local/openssl/openssl --with-pcre=/usr/local/pcre/pcre --with-zlib=/usr/local/zlib/zlib
+		make & make install
+		
+		警告：如第四部出错，则用方式二安装nginx所需要插件，然后再执行第四部
+		
+	备注(方式二)：
+		nginx的一些模块依赖一些lib库，在安装nginx之前，须先安装这些lib库，
+		依赖库主要有g++、gcc、openssl-devel、pcre-devel和zlib-devel 所以执行如下命令安装
+		1.yum install gcc-c++ 
+		2.yum install pcre pcre-devel  
+		3.yum install zlib zlib-devel 
+		4.yum install openssl openssl--devel  
+		5.  wget http://nginx.org/download/nginx-1.9.14.tar.gz
+		6. tar xvzf nginx-1.9.14.tar.gz 
+		7. ./configure 
+		8.make && make install
+		9. cd /usr/local/nginx/sbin
+		10. ./nginx 
+		
+
+	
 
 
 	
