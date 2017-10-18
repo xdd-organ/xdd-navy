@@ -216,7 +216,7 @@ centOS6.6下安装mysql(方式二)：
 	cp support-files/my-default.cnf /etc/my.cnf
 	 
 	#修改启动脚本
-	vi /etc/init.d/mysqld
+	vim /etc/init.d/mysqld
 	 
 	#修改项：
 	basedir=/usr/local/mysql/
@@ -224,6 +224,10 @@ centOS6.6下安装mysql(方式二)：
 	 
 	#启动服务
 	service mysqld start
+		(centOS7.2下执行上一句会报错
+		Starting MySQL...The server quit without updating PID file [FAILED]cal/mysql_5_7_3306/data/iZwz954rky6nphp7848z4zZ.pid).
+		解决办法：检查mysql的logs目录是否存在，error.log是否存在，data目录是否存在
+		)
 	 
 	#测试连接
 	./mysql/bin/mysql -uroot
@@ -248,6 +252,8 @@ centOS6.6下安装mysql(方式二)：
 	GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY '123456' WITH GRANT OPTION; 
 	#刷新权限
 	flush privileges; 
+	
+
 	
 centOS6.6下安装mysql(不同端口)：
 	(区别)
@@ -456,7 +462,65 @@ windows上传文件到Linux
     6.输入密码
 
 
+mysql5.7.20(5.7.8以上字段支持json数据格式)
+	建表：
+	CREATE TABLE table_name (
+		id INT(10) NOT NULL,
+		json_col json,
+		PRIMARY KEY (id)
+	)
+	
+	insert:
+		insert into table_name(id, json_col) values (1, '{"a": 1, "b": {"a": 2}}');
+		insert into table_name(id, json_col) values (2, '{"a": 2, "b": [1, 2, 3]}');
+		insert into table_name(id, json_col) values (3, '{"a": 5}');
+	
+	update:
+		修改json数据(json_set()  直接修改数据)
+		UPDATE table_name SET json_col = json_set(json_col, '$.a', 4) WHERE id = 3;   id=3的json_col数据为{"a": 5}
+		向json数据追加数据(json_array_append() 数组追加数据)
+		UPDATE table_name SET json_col = json_array_append(json_col,'$.b',4) WHERE id = 2;    id=2的json_col数据为{"a": 2, "b": [1, 2, 3, 4]}
+		在指定位置插入数据(json_array_insert()数组指定位置插入数据)
+		UPDATE table_name SET json_col = json_array_insert(json_col,'$.b[3]',5) WHERE id = 2;     id=2的json_col数据为{"a": 2, "b": [1, 2, 3, 5, 4]}
+		合并接送数据(json_merge()合并接送数据)
+		UPDATE table_name SET json_col = json_merge(json_col,'{"b":3}') WHERE id = 3    id=3的json_col数据为{"a": 5, "b": 3}
+		替换数据(json_replace()根据key替换json数据)
+		UPDATE table_name SET json_col = json_replace(json_col,'$.b','{"c":3}') WHERE id = 3    id=3的json_col数据为{"a": 5, "b": "{\"c\":3}"}
 
+	select:
+		根据json的可以，获取值
+		select json_extract(json_col,"$.a") from table_name where id = 1    结果：1
+		替代json_extract()函数
+		select json_col -> '$.a' from table_name where id = 1    结果：1
+		查询json第一层所有key，并以数组格式返回
+		SELECT json_keys(json_col) FROM table_name;    结果：["a", "b"] 
+		查询以json字段数据作条件查询
+		SELECT * FROM table_name WHERE json_col -> '$.a' > 2;    结果：id=3的记录
+		
+	json数据常用处理函数：
+		json_append()	JSON文件追加数据
+		json_array([val[, val] ...])	创建JSON数组
+		json_array_append(json_doc, path, val[, path, val] ...)	给指定的节点，添加元素，如果节点不是数组，则先转换成[doc]
+		json_array_insert(json_doc, path, val[, path, val] ...)	在数组的指定下标处插入元素
+		json_contains(json_doc, val[, path])	是否包含子文档
+        json_contains_path(json_doc, one_or_all, path[, path] ...)	检查路径是否存在
+        json_depth(json_doc)	JSON文档的最大深度
+        json_extract(json_doc, path[, path] ...)	获得doc中某个或多个节点的值。
+        json_insert(json_doc, path, val[, path, val] ...)	如果不存在对应属性则插入,否则不做任何变动
+        json_keys(json_doc[, path])	返回指定path的key
+        json_length(json_doc[, path])	返回数组的长度，如果是object则是属性个数，常量则为1
+        json_merge(json_doc, json_doc[, json_doc] ...)	将多个doc合并
+        json_merge_preserve()	合并的JSON文件，保存重复键
+        json_object([key, val[, key, val] ...])	创建JSON对象
+        json_quote()	引用JSON文档
+        json_remove(json_doc, path[, path] ...)	如果存在则删除对应属性,否则不做任何变动
+        json_replace(json_doc, path, val[, path, val] ...)	如果存在则替换,否则不做任何变动
+        json_search(json_doc, one_or_all, search_str[, escape_char[, path] ...])	强大的查询函数，用于在doc中返回符合条件的节点，select则是在表中返回符合要求的纪录
+        json_set(json_doc, path, val[, path, val] ...)	修改数据
+        json_type()	JSON值类型
+        json_unquote()	JSON值而言
+        json_valid()	JSON值是否是有效的
+	
 
 
 shiro的github地址
