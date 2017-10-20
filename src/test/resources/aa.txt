@@ -408,9 +408,10 @@ centOS6.6下安装redis：
 	redis-server在编译目录的 -> src
 	
 	启动：
-		./redis-server ../redis.conf
+		./redis-server ../redis.conf(后台启动：配置文件daemonize设置为yes)
 	停止：
 		./redis-cli shutdown
+		auth password  (redis密码)
 
 
 GitHub
@@ -465,7 +466,7 @@ windows上传文件到Linux
 mysql5.7.20(5.7.8以上字段支持json数据格式)
 	建表：
 	CREATE TABLE table_name (
-		id INT(10) NOT NULL,
+		id INT(10) UNSIGNED NOT NULL,
 		json_col json,
 		PRIMARY KEY (id)
 	)
