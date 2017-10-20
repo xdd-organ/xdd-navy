@@ -168,6 +168,8 @@ linux命令：
 		chgrp -R www 201705122/
 	更改所属用户(-R递归所有子文件)
 		chown -R www 201705122/
+	建立软连接(ln -s 源文件 目标文件)
+		ln -s redis-4.0.0/src/redis-server  link
 
 
 centOS6.6下安装mysql(方式一)：
