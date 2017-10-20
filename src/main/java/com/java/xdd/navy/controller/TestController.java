@@ -1,35 +1,32 @@
 package com.java.xdd.navy.controller;
 
-import com.alibaba.fastjson.JSONObject;
-import net.sf.json.JSON;
-import net.sf.json.xml.XMLSerializer;
+import com.java.xdd.test.service.TestService;
 import org.dom4j.Document;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
-import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import redis.clients.util.Hashing;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.InputStream;
 import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
-@Controller
+@RestController
 @RequestMapping("/test")
 public class TestController {
+
+    private Logger logger = LoggerFactory.getLogger(TestController.class);
 
     @RequestMapping("/test")
     @ResponseBody
@@ -170,5 +167,42 @@ public class TestController {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+    }
+
+
+    @Autowired
+    private TestService testService;
+
+    @RequestMapping("test1")
+    public List<Map<String, Object>> test1() {
+        List<Map<String, Object>> map = testService.test1();
+        return map;
+    }
+
+    @RequestMapping("testQuery")
+    public List<Map<String, Object>> testQuery(@RequestBody(required = false) Map<String, Object> params) {
+        List<Map<String, Object>> map = testService.testQuery(params);
+        return map;
+    }
+
+    @RequestMapping("testUpdate")
+    public int testUpdate(@RequestBody(required = false) Map<String, Object> params) {
+
+        return 1;
+    }
+
+    @RequestMapping("testInsert")
+    public int testInsert(@RequestBody(required = false) Map<String, Object> params) {
+        return testService.testInsert(params);
+    }
+
+    @RequestMapping("test4")
+    public Object test4() {
+        String abc = "a";
+        logger.info(abc);
+        logger.error(abc);
+        logger.debug(abc);
+        Optional<String> abc1 = Optional.ofNullable(abc);
+        return abc1.get();
     }
 }

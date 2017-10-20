@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.java.xdd.test.mapper.TestMapper">
+
+   <resultMap id="resMap" type="java.util.Map">
+      <result property="id" column="id" javaType="java.lang.Long"/>
+      <result property="jsonName" column="json_name"/>
+   </resultMap>
+
+   <!--<select id="test1" resultType="map">-->
+   <select id="test1" resultMap="resMap">
+      SELECT * from json_table;
+   </select>
+
+   <select id="testQuery" parameterType="java.util.Map" resultType="java.util.Map">
+      SELECT id, json_name, json_name -> #{name} name from json_table;
+   </select>
+
+   <insert id="testInsert" parameterType="java.util.Map">
+      INSERT INTO json_table(id, json_name) values(#{id},#{json_name});
+   </insert>
+
+
+
+</mapper>
