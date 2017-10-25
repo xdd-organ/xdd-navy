@@ -399,6 +399,21 @@ centOS7.2下安装nginx1.2(方式一)
 		9. cd /usr/local/nginx/sbin
 		10. ./nginx 
 		
+		#nginx配置一个server
+		server {
+			listen       80;
+			server_name  localhost;
+
+			location / {
+				root /usr/local/tomcat/tomcat_8080/webapps/ROOT;
+				index index.html;
+			}
+
+			location ~ {
+				proxy_pass http://127.0.0.1:8080;
+			   # include proxy.conf;
+			}
+		}
 
 	
 
@@ -576,6 +591,8 @@ http://git.oschina.net/shengzhao/spring-oauth-server
 http://blog.csdn.net/evankaka
 //bootstart的时间插件
 https://uxsolutions.github.io/bootstrap-datepicker
+//各种工具集成
+http://div.io/digg/alibaba
 
 
 
