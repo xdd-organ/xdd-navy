@@ -44,5 +44,13 @@
 ```
   修改文件 com.taobao.rigel.rap.common.config.SystemConstant
   参数  DOMAIN_URL  domainURL
+```
 
+#### 八、配置自己的mock.js
+```
+  下载mock.js [下载链接](https://github.com/nuysoft/Mock/tree/refactoring)
+  mock.js git地址 <https://github.com/nuysoft/Mock.git>
+  
+  将mock/dist/mock.js替换RAP目录stat/js/util/mock-min.js文件
+  则可以使用官方的mock语法
 ```
