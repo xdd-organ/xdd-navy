@@ -10,7 +10,12 @@
         //生成数据规则：http://mockjs.com/examples.html#DPD
 
         $(function () {
-            //方式一
+            Mock.setup({ //配置拦截Ajax请求时的行为，单位是毫秒
+                timeout: 1000  //响应时间1000毫秒
+                //timeout: 400-600  //响应时间介于200和600毫秒之间
+            });
+
+            //方式一  Mock.mock(rurl, template )
             Mock.mock('http://abc.cn', { //定义接口数据
                 'name'	   : '@cname',
                 'age|1-100': 100,
@@ -25,25 +30,76 @@
                 })
             });
 
-            //方式二
+            //方式二  Mock.mock(template)
             $("#btn2").click(function () {  //异步请求接口
                 var data = Mock.mock({
                     "age": '@integer(60, 100)',  //随机范围内的整数
                     "name": '@cname',  //中文名称
                     "nickname|1": ["小明","小红","小张"],  //随机一个名字
+                    "phone": "@pick(['苹果','小米','华为'])",  //从数组中随机选取一个元素
+                    "idCard": "@id", //随机生成一个 18 位身份证
                     "flag": "@boolean"  //随机boolean数据
                 });
                 console.log(data);
-                $("#mock").html(JSON.stringify(data));
+                $("#mock2").html(JSON.stringify(data));
+            });
+
+            //方式三  Mock.mock(rurl, rtype, template)
+            //ajax拦截参考  https://github.com/nuysoft/Mock/wiki/Mock.mock()
+            //rurl：表示需要拦截的 URL，可以是 URL 字符串或 URL 正则
+            //rtype：需要拦截的 Ajax 请求类型。例如 GET、POST、PUT、DELETE 等。
+            //template：数据模板，可以是对象或字符串
+            //function(options)：用于生成响应数据的函数
+            //options：指向本次请求的Ajax选项集，含有 url、type和body 三个属性(即options数据是这次请求的数据)
+            $("#btn3").click(function () {  //异步请求接口
+                Mock.mock("getData", "get", { //演示Mock.mock(rurl, rtype, template)
+                    "name|1": ["小明","小红","小张"],
+                    "money": "@float(6000, 10000, 2, 2)"
+                });
+                $.ajax({
+                    url: 'getData',
+                }).done(function(res, status, xhr){
+                    console.log(res);
+                    $("#mock3").html(res);
+                })
+            });
+
+            //方式四  Mock.mock(rurl, rtype, function(options))
+            $("#btn4").click(function () {  //异步请求接口
+                Mock.mock("getJsonData", "post", function (options) {  //演示Mock.mock(rurl, rtype, function(options))
+                    return options;
+                });
+                var data = Mock.mock({
+                    "age": '@integer(60, 100)',  //随机范围内的整数
+                    "flag": "@boolean"  //随机boolean数据
+                });
+                $.ajax({
+                    url: 'getJsonData',
+                    /*data: {
+                        "name": "nickname",
+                        "money": "11.11"
+                    },*/
+                    data: data,
+                    method: "post",
+                    dataType:'json'
+                }).done(function(res, status, xhr){
+                    console.log(res);
+                    $("#mock4").html(JSON.stringify(res));
+                })
             });
 
         });
     </script>
 </head>
 <body>
-    <button id="btn">生成数据1(ajax请求)</button>
+    <button id="btn">生成数据1(拦截ajax请求)</button>
     <button id="btn2">生成数据2(普通)</button>
+    <button id="btn3">生成数据3(拦截ajax请求-template)</button>
+    <button id="btn4">生成数据4(拦截ajax请求-options)</button>
     <br/>
     <div id="mock"></div>
+    <div id="mock2"></div>
+    <div id="mock3"></div>
+    <div id="mock4"></div>
 </body>
 </html>
