@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>mock</title>
+    <script type="text/javascript" src="../../../../static/js/jQuery/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" src="../../../../static/js/mock/dist/mock.js"></script>
+
+    <script type="text/javascript">
+        //生成数据规则：http://mockjs.com/examples.html#DPD
+
+        $(function () {
+            //方式一
+            Mock.mock('http://abc.cn', { //定义接口数据
+                'name'	   : '@cname',
+                'age|1-100': 100,
+                'color'	   : '@color'
+            });
+            $("#btn").click(function () {  //异步请求接口
+                $.ajax({
+                    url: 'http://abc.cn',
+                }).done(function(data, status, xhr){
+                    console.log(data);
+                    $("#mock").html(data);
+                })
+            });
+
+            //方式二
+            $("#btn2").click(function () {  //异步请求接口
+                var data = Mock.mock({
+                    "age": '@integer(60, 100)',  //随机范围内的整数
+                    "name": '@cname',  //中文名称
+                    "nickname|1": ["小明","小红","小张"],  //随机一个名字
+                    "flag": "@boolean"  //随机boolean数据
+                });
+                console.log(data);
+                $("#mock").html(JSON.stringify(data));
+            });
+
+        });
+    </script>
+</head>
+<body>
+    <button id="btn">生成数据1(ajax请求)</button>
+    <button id="btn2">生成数据2(普通)</button>
+    <br/>
+    <div id="mock"></div>
+</body>
+</html>
