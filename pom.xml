@@ -414,6 +414,11 @@
             <artifactId>JUnitParams</artifactId>
             <version>1.0.5</version>
         </dependency>
+        <dependency>
+            <groupId>taobao-sdk</groupId>
+            <artifactId>taobao-sdk-java-auto</artifactId>
+            <version>20170725</version>
+        </dependency>
 
 
 
