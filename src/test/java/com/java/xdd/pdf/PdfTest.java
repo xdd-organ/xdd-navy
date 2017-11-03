@@ -29,10 +29,9 @@ public class PdfTest {
         form.addSubstitutionFont(BaseFont.createFont("STSong-Light", "UniGB-UCS2-H", BaseFont.NOT_EMBEDDED));
 
         PdfName pdfName = new PdfName("test");
-        int[] a = new int[]{1,2,3};
+        int[] a = new int[]{1, 2, 3};
         PdfObject pdfObject = new PdfArray(a);
         stamper.addViewerPreference(pdfName, pdfObject);
-
 
 
         form.setField("test", "你好");
@@ -67,7 +66,7 @@ public class PdfTest {
             throws IOException, DocumentException {
 
         PdfReader reader = new PdfReader(outputFile.getAbsolutePath());
-        int numberOfPages = reader.getNumberOfPages();
+        int numberOfPages = reader.getNumberOfPages(); //获取PDF模板总页数
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         PdfStamper stamper = new PdfStamper(reader, baos);
@@ -105,8 +104,15 @@ public class PdfTest {
 //            table.addCell("fs34df");
 //            table.addCell("131");
 
-            table.writeSelectedRows(0, -1, 100, 100, stamper.getOverContent(pageIndex));//设置表格位置
+            table.writeSelectedRows(0, -1, 100, 100, stamper.getOverContent(pageIndex));//设置表格位置，getOverContent获取PDF内容，参数是页码
         }
+
+        Rectangle rectangle = new Rectangle(PageSize.A4); //页大小
+        rectangle.setBackgroundColor(BaseColor.ORANGE); //设置背景颜色
+        stamper.insertPage(2, rectangle);//PDF增加新的一页
+
+        PdfContentByte overContent = stamper.getOverContent(1);
+
 
         stamper.close();
         reader.close();
