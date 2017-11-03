@@ -478,7 +478,34 @@ windows上传文件到Linux
     4.1.pscp -r G:\xdd\soft\logs\abc root@192.168.50.128:/usr/local/rz(上传文件夹到Linux命令)
     5.          本地文件位置            用户名       ip      上传位置
     6.输入密码
+	
+Linux安装mongodb
+	1.wget http://downloads.mongodb.org/linux/mongodb-linux-i686-2.4.9.tgz(下载32位或者64位)
+	2.tar -zxvf mongodb-linux-i686-2.4.9.tgz(解压)
+	3.mv mongodb-linux-i686-2.4.9.tgz mongodb(修改名称)
+	4.cd mongodb
+	5.mkdir data (新建mongodb数据库文件夹)
+	6../bin/mongod --dbpath=/usr/local/mongodb/mongodb/data/ & (启动,&是后台启动)
+	7.访问(http://192.168.50.128:28017/)
 
+Linux安装gogos(git的页面管理项目)
+	1.先安装go语言
+	2.wget https://redirector.gvt1.com/edgedl/go/go1.9.2.linux-386.tar.gz (下载go语言文件包32/64位)
+	3.tar -zxvf go1.9.2.linux-386.tar.gz (解压)
+	4.vim /etc/profile 在文件末尾增加 (添加go语言的全局目录)
+		export GOROOT=/usr/local/go/go
+		export GOPATH=/usr/local/go
+		PATH=$PATH:$GOROOT/bin:$GOPATH/bin
+	5.go get -u github.com/gogits/gogs (下载gogs源文件)
+	6.cd $GOPATH/src/github.com/gogits/gogs
+	7.go build (编译与构建)
+	8.cd $GOPATH/src/github.com/gogits/gogs ()
+	9../gogs web & (后台启动gogs项目，需要使用git用户启动项目)
+	
+	注意：	1.默认访问路径是 127.0.0.1:3000
+			2.需要使用git用户启动项目
+			3.需要新建gogs的数据库
+		
 
 mysql5.7.20(5.7.8以上字段支持json数据格式)
 	建表：
