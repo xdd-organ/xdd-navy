@@ -360,13 +360,13 @@ centOS7.2下安装jdk1.8
 	
 centOS7.2下安装nginx1.2(方式一)
 	1.安装pcre
-		1.获取pcre编译安装包，在http://www.pcre.org/上可以获取当前最新的版本
+		1.获取pcre编译安装包，在http://www.pcre.org/上可以获取当前最新的版本(https://ftp.pcre.org/pub/pcre/pcre2-10.30.tar.gz)
 		2.解压缩pcre2-10.30.tar.gz包。
 		3.进入解压缩目录，执行./configure –-prefix=/usr/local/pcre
 		4.make & make install
 		
 	2.安装openssl
-		获取openssl编译安装包，在http://www.openssl.org/source/上可以获取当前最新的版本。
+		获取openssl编译安装包，在http://www.openssl.org/source/上可以获取当前最新的版本。(https://www.openssl.org/source/openssl-1.1.0g.tar.gz)
 		解压缩openssl-1.1.0f.tar.gz包。
 		进入解压缩目录，执行./config –-prefix=/usr/local/openssl/openssl
 		make & make install
@@ -437,6 +437,7 @@ centOS7.2下安装nginx1.2(方式一)
 			}
 		}
 		
+		
 		#开启nginx目录文件列表显示功能，可配置到http中，也可配置到server中(前提是静态文件server)
 		server {
 			#增加如下配置
@@ -450,8 +451,36 @@ centOS7.2下安装nginx1.2(方式一)
 			auth_basic_user_file /usr/local/nginx/pass_file;//请使用绝对路径，密码存放位置
 			#生成用户名与密码 htpasswd -c -d /usr/local/nginx/pass_file  username
 		}
+		
+		#Nginx负载均衡配置
+		upstream www.xdd.com {  #配置集群
+			server 192.168.50.130:8080;
+			server 192.168.50.131:8080;
+			server 192.168.50.132:8080;
+		}
 
+		server {
+			listen       80;
+			server_name  www.xdd.com;
+
+			location ~ {
+				proxy_pass http://www.xdd.com;
+			   # include proxy.conf;
+			}
+		}
+
+CentOS 7.0默认使用的是firewall作为防火墙，这里改为iptables防火墙步骤。
+	1、关闭firewall：
+	systemctl stop firewalld.service #停止firewall
+	systemctl disable firewalld.service #禁止firewall开机启动
+	firewall-cmd --state #查看默认防火墙状态（关闭后显示notrunning，开启后显示running）
 	
+	2.配置/etc/sysconfig/iptables
+	安装yum install iptables-services  
+	
+	3.使/etc/sysconfig/iptables生效
+	systemctl restart iptables.service #最后重启防火墙使配置生效
+	systemctl enable iptables.service #设置防火墙开机启动
 
 
 	
