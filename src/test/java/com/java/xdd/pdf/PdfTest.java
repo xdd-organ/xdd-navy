@@ -6,7 +6,10 @@ import org.apache.commons.io.FileUtils;
 import org.junit.Test;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class PdfTest {
 
@@ -104,7 +107,8 @@ public class PdfTest {
 //            table.addCell("fs34df");
 //            table.addCell("131");
 
-            table.writeSelectedRows(0, -1, 100, 100, stamper.getOverContent(pageIndex));//设置表格位置，getOverContent获取PDF内容，参数是页码
+
+            table.writeSelectedRows(10, 10, 10, 10, stamper.getOverContent(pageIndex));//设置表格位置，getOverContent获取PDF内容，参数是页码
         }
 
         Rectangle rectangle = new Rectangle(PageSize.A4); //页大小
@@ -128,7 +132,7 @@ public class PdfTest {
     @Test
     public void test1() {
         try {
-            File file = new File("G:\\temp2.pdf");
+            File file = new File("E:\\workspace\\idea\\xdd-navy\\src\\test\\java\\com\\java\\xdd\\pdf\\target2.pdf");
             writePageNumbers(file);
         } catch (Exception e) {
             e.printStackTrace();
