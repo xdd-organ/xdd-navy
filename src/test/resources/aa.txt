@@ -686,6 +686,11 @@ https://uxsolutions.github.io/bootstrap-datepicker
 //各种工具集成
 http://div.io/digg/alibaba
 
+//Java操作pdf文档
+https://wenku.baidu.com/view/dbafbbc66137ee06eff918a5.html
+//Java操作PDF博客
+http://nobody2008.iteye.com/blog/1048773
+
 
 
 
