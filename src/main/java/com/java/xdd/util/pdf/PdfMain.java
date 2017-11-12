@@ -49,6 +49,12 @@ public class PdfMain {
                 outFile.createNewFile();
             }
 
+            Offset offset = new Offset();
+            //添加文字
+            setText(stamper, offset);
+
+            //添加图片
+            setImg(stamper, offset);
             stamper.close();
             reader.close();
             FileUtils.writeByteArrayToFile(outFile, baos.toByteArray());
@@ -68,6 +74,40 @@ public class PdfMain {
         }
     }
 
+    private void setImg(PdfStamper stamper, Offset offset) {
+        try {
+            PdfContentByte overContent = stamper.getOverContent(1);
+            Image image = Image.getInstance("G:\\qwe.jpg");
+            image.setAbsolutePosition(100,100); //设置图片在PDF位置
+            image.scaleToFit(100, 100);  //设置图片显示大小
+            overContent.addImage(image);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    /**
+     * PDF添加文字
+     * @param stamper
+     * @param offset
+     */
+    private void setText(PdfStamper stamper, Offset offset) {
+        PdfContentByte overContent = stamper.getOverContent(1);
+        try {
+            //添加文字
+            BaseFont font = BaseFont.createFont("STSong-Light", "UniGB-UCS2-H", BaseFont.NOT_EMBEDDED);
+            overContent.beginText();
+            overContent.setFontAndSize(font, 10);
+            overContent.setTextMatrix(200, 200);
+            overContent.showTextAligned(Element.ALIGN_LEFT,"需要添加的文字",10,50,-90);//
+            overContent.endText();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
 
     private void setTableDatum(PdfStamper stamper, Table tableDatum, OffsetTable offsetTable) {
         PdfPTable table = createTableHasTitle(tableDatum, offsetTable);
@@ -82,16 +122,16 @@ public class PdfMain {
         stamper.insertPage(3, rectangle); //在指定位置插入新一页
         table.writeSelectedRows(0, -1, 100, 400, stamper.getOverContent(3));//
 
-        table.writeSelectedRows(0, -1, 100, 10, stamper.getOverContent(1));//开始行，结束行，表格x起点，表格y起点
+        table.writeSelectedRows(0, -1, 100, 100, stamper.getOverContent(1));//开始行，结束行，表格x起点，表格y起点
     }
 
     private PdfPTable createTableHasTitle(Table tableDatum, OffsetTable offsetTable) {
         PdfPTable table = new PdfPTable(tableDatum.getColumns());//设置表列
-        table.setHorizontalAlignment(1); //设置表格的对齐方式
+        //table.setHorizontalAlignment(1); //设置表格的对齐方式
         //table.setHeaderRows(1);  //表示第几行作为表格头
-        table.setFooterRows(2);  //表示第几行作为表格尾
-        table.setSplitLate(true);  // 表示单元格是否跨页显示
-        table.setSplitRows(true);  //表示行是否跨页显示
+        //table.setFooterRows(2);  //表示第几行作为表格尾
+        //table.setSplitLate(true);  // 表示单元格是否跨页显示
+        //table.setSplitRows(true);  //表示行是否跨页显示
         //table.setHeaderRows();  //标题栏 设置头几行为表头
         //table.setFooterRows();  //页脚栏
         //PdfPTableHeader
@@ -106,7 +146,7 @@ public class PdfMain {
         //table.setSkipFirstHeader(false);  //每隔100行，产生一个表头  true:设置了表头不显示
 
         try {
-            float[] a = new float[]{20,70,100,120};
+            float[] a = new float[]{50,70,100,120};
             table.setTotalWidth(a); //设置每列宽度
         } catch (Exception e) {
             e.printStackTrace();
@@ -117,20 +157,22 @@ public class PdfMain {
             BaseFont baseFont = BaseFont.createFont("STSong-Light", "UniGB-UCS2-H", BaseFont.NOT_EMBEDDED);
             tableData.forEach(row -> {
                 row.forEach(column -> {
-                    Phrase elements = new Phrase(column, new Font(baseFont));
-                    //Paragraph elements1 = new Paragraph(column, new Font(baseFont));
-                    //elements1.setAlignment(Element.ALIGN_CENTER); //文字居中
-                    PdfPCell cell = new PdfPCell(elements);
+                    //Phrase elements = new Phrase(column, new Font(baseFont));
+                    Paragraph elements1 = new Paragraph(column, new Font(baseFont));
+                    elements1.setAlignment(Element.ALIGN_CENTER); //文字居中
+                    PdfPCell cell = new PdfPCell(elements1);
+                    cell.setUseAscender(true); //配合setVerticalAlignment方法是文字上下居中
                     cell.setVerticalAlignment(Element.ALIGN_MIDDLE); //设置上下居中
-                    cell.setHorizontalAlignment(Element.ALIGN_CENTER);  //设置水平居中
-                    //cell.setFixedHeight(50); //设置列固定高度
+                    //cell.setHorizontalAlignment(Element.ALIGN_CENTER);  //设置水平居中
+                    cell.setFixedHeight(25); //设置列固定高度
                     //cell.setBackgroundColor();  //设置背景颜色
                     //cell.setColspan();  //合并几列
                     //cell.setRowspan();  //合并几行
                     //Element.ALIGN_CENTER;
-                    cell.addElement(elements);
+                    //cell.setPaddingTop(-5);
+                    //cell.setPaddingBottom(5);
+                    cell.addElement(elements1);
                     table.addCell(cell);
-
                 });
             });
         } catch (Exception e) {
@@ -154,7 +196,6 @@ public class PdfMain {
                     try {form.setField(k, v);} catch (Exception e) {e.printStackTrace();}
                 });
             }
-            //form.setField("test", "fjsadlf");
         } catch (Exception e) {
             e.printStackTrace();
         }

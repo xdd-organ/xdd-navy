@@ -68,10 +68,10 @@
 ```
     1.创建
     Phrase elements = new Phrase(column, new Font(baseFont));
+    2.常用方法
     //Paragraph elements1 = new Paragraph(column, new Font(baseFont));
     //elements1.setAlignment(Element.ALIGN_CENTER); //文字居中
     PdfPCell cell = new PdfPCell(elements);
-    cell.setVerticalAlignment(Element.ALIGN_MIDDLE); //设置上下居中
     cell.setHorizontalAlignment(Element.ALIGN_CENTER);  //设置水平居中
     //cell.setFixedHeight(50); //设置列固定高度
     //cell.setBackgroundColor();  //设置背景颜色
@@ -80,4 +80,55 @@
     //Element.ALIGN_CENTER;
     cell.addElement(elements);
     PdfPTable.addCell(cell);
+    3.单元格文字垂直居中
+    cell.setUseAscender(true); //配合setVerticalAlignment方法使文字上下居中
+    cell.setVerticalAlignment(Element.ALIGN_MIDDLE); //设置上下居中
+```
+#### PDF添加图片
+```
+    private void setImg(PdfStamper stamper, Offset offset) {
+        try {
+            PdfContentByte overContent = stamper.getOverContent(1);
+            Image image = Image.getInstance("G:\\qwe.jpg");
+            image.setAbsolutePosition(100,100); //设置图片在PDF位置
+            image.scaleToFit(100, 100);  //设置图片显示大小
+            overContent.addImage(image);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+```
+
+#### PDF添加文字
+```
+    private void setText(PdfStamper stamper, Offset offset) {
+        PdfContentByte overContent = stamper.getOverContent(1);
+        try {
+            //添加文字
+            BaseFont font = BaseFont.createFont("STSong-Light", "UniGB-UCS2-H", BaseFont.NOT_EMBEDDED);
+            overContent.beginText();
+            overContent.setFontAndSize(font, 10);
+            overContent.setTextMatrix(200, 200);
+            overContent.showTextAligned(Element.ALIGN_LEFT,"需要添加的文字",10,50,0);//对齐方式，文字内容，x位置，y位置，旋转角度
+            overContent.endText();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+```
+
+#### PDF添加表格
+```
+    PdfPTable table = new PdfPTable(columns);//设置表列
+    table.setTotalWidth(400); //设置表总宽度
+    BaseFont baseFont = BaseFont.createFont("STSong-Light", "UniGB-UCS2-H", BaseFont.NOT_EMBEDDED);
+    tableData.forEach(row -> {  //List<List<String>> tableData:表格数据
+        row.forEach(column -> {
+            Phrase elements = new Phrase(column, new Font(baseFont));
+            PdfPCell cell = new PdfPCell(elements);
+            cell.addElement(elements);
+            table.addCell(cell);
+        });
+    });
+    table.writeSelectedRows(0, -1, 100, 10, stamper.getOverContent(1));//开始行，结束行，表格x起点，表格y起点
 ```

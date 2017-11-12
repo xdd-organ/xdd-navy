@@ -17,6 +17,15 @@ public class Table implements java.io.Serializable{
     }
 
     List<List<String>> tableDatum;
+    List<List<String>> tableTitle;
+
+    public List<List<String>> getTableTitle() {
+        return tableTitle;
+    }
+
+    public void setTableTitle(List<List<String>> tableTitle) {
+        this.tableTitle = tableTitle;
+    }
 
     public int getRows() {
         return tableDatum.size();
