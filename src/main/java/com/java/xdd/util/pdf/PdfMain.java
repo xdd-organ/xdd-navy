@@ -120,7 +120,7 @@ public class PdfMain {
 
         Rectangle rectangle = new Rectangle(PageSize.A4); //设置页大小
         stamper.insertPage(3, rectangle); //在指定位置插入新一页
-        table.writeSelectedRows(0, -1, 100, 400, stamper.getOverContent(3));//
+        table.writeSelectedRows(0, -1, 100, 400, stamper.getOverContent(2));//
 
         table.writeSelectedRows(0, -1, 100, 100, stamper.getOverContent(1));//开始行，结束行，表格x起点，表格y起点
     }
@@ -154,7 +154,9 @@ public class PdfMain {
 
         List<List<String>> tableData = tableDatum.getTableDatum();
         try {
-            BaseFont baseFont = BaseFont.createFont("STSong-Light", "UniGB-UCS2-H", BaseFont.NOT_EMBEDDED);
+            //BaseFont baseFont = BaseFont.createFont("STSong-Light", "UniGB-UCS2-H", BaseFont.NOT_EMBEDDED);
+            //使用系统字体
+            BaseFont baseFont = BaseFont.createFont("C:\\Windows\\Fonts\\FZSTK.TTF", BaseFont.IDENTITY_H, BaseFont.NOT_EMBEDDED);
             tableData.forEach(row -> {
                 row.forEach(column -> {
                     //Phrase elements = new Phrase(column, new Font(baseFont));
@@ -203,7 +205,8 @@ public class PdfMain {
 
     @Test
     public void test() {
-        File template = new File("E:\\workspace\\idea\\xdd-navy\\src\\test\\java\\com\\java\\xdd\\pdf\\target.pdf");
+        //File template = new File("E:\\workspace\\idea\\xdd-navy\\src\\test\\java\\com\\java\\xdd\\pdf\\target.pdf");
+        File template = new File("D:\\JackWorkSpace\\idea\\yishuju\\yishuju_dubbo\\yishuju_dubbo\\xdd-navy\\src\\test\\java\\com\\java\\xdd\\pdf\\target2.pdf");
         File out = new File("G:\\target.pdf");
         PdfData pdfData = new PdfData();
 
@@ -218,19 +221,26 @@ public class PdfMain {
         Table table = new Table();
         List<List<String>> b = new ArrayList<>();
         List<String> c = new ArrayList<>();
-        c.add("不好");
-        c.add("nice");
-        c.add("12434");
-        c.add("你猜啊");
-        b.add(c);
-        b.add(c);
+        c.add("名称");
+        c.add("产品编号");
+        c.add("材质");
+        c.add("数量");
+        c.add("备注");
         b.add(c);
         List<String> c2 = new ArrayList<>();
-        c2.add("不好4");
-        c2.add("nice4");
-        c2.add("12434");
-        c2.add("你猜啊4");
+        c2.add("上颌PLA");
+        c2.add("PTY201701021126-1SG107-001");
+        c2.add("PLA");
+        c2.add("1");
+        c2.add("无");
         b.add(c2);
+        List<String> c3 = new ArrayList<>();
+        c3.add("R1 连接杆");
+        c3.add("PTY201701021126-1SG107-001");
+        c3.add("进口树脂");
+        c3.add("1");
+        c3.add("无");
+        b.add(c3);
         table.setTableDatum(b);
 
         pdfData.setFormDatum(form);
@@ -289,5 +299,87 @@ public class PdfMain {
         }
         // step5
         document.close();
+    }
+
+    @Test
+    public void test3() {
+        File template = new File("G:\\template2.pdf");
+        File out = new File("G:\\template2.pdf");
+        PdfData pdfData = new PdfData();
+
+        Form form = new Form();
+        Map<String, String> a = new HashMap<>();
+        a.put("order_no", "PTY201707081346");
+        a.put("operation_date", "2017-07-07");
+        a.put("nickname", "张伟");
+        a.put("patient_name", "李伟");
+        a.put("page", "1/2");
+        form.setFormDatum(a);
+
+        Table table = new Table();
+        List<List<String>> b = new ArrayList<>();
+        List<String> c = new ArrayList<>();
+        c.add("不好");
+        c.add("nice");
+        c.add("12434");
+        c.add("你猜啊");
+        b.add(c);
+        b.add(c);
+        b.add(c);
+        List<String> c2 = new ArrayList<>();
+        c2.add("不好4");
+        c2.add("nice4");
+        c2.add("12434");
+        c2.add("你猜啊4");
+        b.add(c2);
+        table.setTableDatum(b);
+
+        pdfData.setFormDatum(form);
+        pdfData.setTableDatum(table);
+
+
+        generatePdf2(pdfData, template, out);
+    }
+
+    void generatePdf2(PdfData pdfData, File template, File outFile) {
+        PdfReader reader = null;
+        PdfStamper stamper = null;
+        try {
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            reader = new PdfReader(template.getAbsolutePath());
+            stamper = new PdfStamper(reader, baos);
+            //填充表单数据
+            setFormDatum(stamper, pdfData.getFormDatum());
+
+            //填充表格数据
+            OffsetTable offsetTable = new OffsetTable();
+            setTableDatum(stamper, pdfData.getTableDatum(), offsetTable);
+            if (!outFile.exists()) {
+                outFile.createNewFile();
+            }
+
+            Offset offset = new Offset();
+            //添加文字
+            setText(stamper, offset);
+
+            //添加图片
+            setImg(stamper, offset);
+            stamper.close();
+            reader.close();
+            FileUtils.writeByteArrayToFile(outFile, baos.toByteArray());
+
+            baos.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            /*if (reader != null) reader.close();
+            if (stamper != null) {
+                try {
+                    //stamper.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }*/
+        }
     }
 }
