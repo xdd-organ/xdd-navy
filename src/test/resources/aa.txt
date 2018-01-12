@@ -692,6 +692,8 @@ https://wenku.baidu.com/view/dbafbbc66137ee06eff918a5.html
 http://nobody2008.iteye.com/blog/1048773
 //SpringCloud简单教程
 https://github.com/forezp/SpringCloudLearning
+//gitlab  git管理工程集成
+https://www.gitlab.com.cn/installation/#centos-7
 
 
 
