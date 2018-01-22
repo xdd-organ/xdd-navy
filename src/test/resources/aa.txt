@@ -695,6 +695,8 @@ https://github.com/forezp/SpringCloudLearning
 //gitlab  git管理工程集成
 https://www.gitlab.com.cn/installation/#centos-7
 
+//网页连接打开QQ聊天
+http://wpa.qq.com/msgrd?v=3&uin=765068439
 
 
 
