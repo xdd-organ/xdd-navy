@@ -694,9 +694,9 @@ http://nobody2008.iteye.com/blog/1048773
 https://github.com/forezp/SpringCloudLearning
 //gitlab  git管理工程集成
 https://www.gitlab.com.cn/installation/#centos-7
+//netty文档
+https://www.kancloud.cn/kancloud/essential-netty-in-action/52669
 
-//网页连接打开QQ聊天
-http://wpa.qq.com/msgrd?v=3&uin=765068439
 
 
 
