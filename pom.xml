@@ -18,6 +18,12 @@
             <name>Repository</name>
             <url>http://maven.aliyun.com/nexus/content/groups/public</url>
         </repository>
+        <!-- 解析CT包的Maven的仓库地址 -->
+        <repository>
+            <id>repos</id>
+            <name>Repository</name>
+            <url>http://www.dcm4che.org/maven2/</url>
+        </repository>
     </repositories>
     <!-- 设定插件仓库 -->
     <pluginRepositories>
@@ -432,6 +438,12 @@
             <artifactId>taobao-sdk-java-auto</artifactId>
             <version>20170725</version>
             <systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/taobao-sdk-java-auto-20170725.jar</systemPath>
+        </dependency>
+        <!-- 解析CT包的jar包 -->
+        <dependency>
+            <groupId>org.dcm4che</groupId>
+            <artifactId>dcm4che-core</artifactId>
+            <version>5.10.6</version>
         </dependency>
 
 
