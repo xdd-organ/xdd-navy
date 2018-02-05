@@ -426,7 +426,13 @@
             <version>3.5.1</version>
             <!--<scope>test</scope>-->
         </dependency>
-
+        <!-- 导入本地jar另一个方式 -->
+        <dependency>
+            <groupId>taobao-sdk</groupId>
+            <artifactId>taobao-sdk-java-auto</artifactId>
+            <version>20170725</version>
+            <systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/taobao-sdk-java-auto-20170725.jar</systemPath>
+        </dependency>
 
 
 
