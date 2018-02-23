@@ -445,6 +445,13 @@
             <artifactId>dcm4che-core</artifactId>
             <version>5.10.6</version>
         </dependency>
+        <!-- 反射工具类 -->
+        <dependency>
+            <groupId>commons-beanutils</groupId>
+            <artifactId>commons-beanutils</artifactId>
+            <version>1.9.3</version>
+        </dependency>
+
 
 
 
