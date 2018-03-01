@@ -20,6 +20,14 @@
 ```
     show profiles;  ##分析当前会话中语句执行的资源消耗情况
     show profile cpu,block io for query 4; ##分析某个SQL语句执行情况，参数中的4是query id
+    
+    Show profile后面的一些参数：
+    all：显示所有的开销信息
+    block io：显示块IO相关开销
+    context switches： 上下文切换相关开销
+    cpu：显示cpu相关开销
+    memory：显示内存相关开销
+    source：显示和source_function,source_file,source_line相关的开销信息
 ```
 
 
