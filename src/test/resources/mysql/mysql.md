@@ -16,4 +16,10 @@
     query_cache_min_res_unit  ##设置查询缓存分配的内存块最小单位
 ```
 
+#### 用show profile进行sql分析
+```
+    show profiles;  ##分析当前会话中语句执行的资源消耗情况
+    show profile cpu,block io for query 4; ##分析某个SQL语句执行情况，参数中的4是query id
+```
+
 
