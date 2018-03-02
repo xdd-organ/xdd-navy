@@ -30,4 +30,14 @@
     source：显示和source_function,source_file,source_line相关的开销信息
 ```
 
+#### mysql数据导出
+```
+    #需要授权(root权限除外)
+    执行语句：
+    select _id,_status,_user_designer_id,_user_doctor_id from _order limit 10 into outfile 'G:\\xdd\\a' fields terminated by ',';
+    
+    into outfile 'G:\\xdd\\a' ## 导出文件位置
+    fields terminated by ','  ##返回字段用逗号分隔
+```
+
 
