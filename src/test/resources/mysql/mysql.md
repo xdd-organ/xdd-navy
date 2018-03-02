@@ -38,6 +38,12 @@
     
     into outfile 'G:\\xdd\\a' ## 导出文件位置
     fields terminated by ','  ##返回字段用逗号分隔
+    FIELDS TERMINATED BY '字符串'：设置字符串为字段之间的分隔符，可以为单个或多个字符。默认值是“\t”。
+    FIELDS ENCLOSED BY '字符'：设置字符来括住字段的值，只能为单个字符。默认情况下不使用任何符号。
+    FIELDS OPTIONALLY ENCLOSED BY '字符'：设置字符来括住CHAR、VARCHAR和TEXT等字符型字段。默认情况下不使用任何符号。
+    FIELDS ESCAPED BY '字符'：设置转义字符，只能为单个字符。默认值为“\”。
+    LINES STARTING BY '字符串'：设置每行数据开头的字符，可以为单个或多个字符。默认情况下不使用任何字符。
+    LINES TERMINATED BY '字符串'：设置每行数据结尾的字符，可以为单个或多个字符。默认值是“\n”
 ```
 
 
