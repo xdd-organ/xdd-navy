@@ -1,0 +1,4 @@
+1.下载jenkins
+	https://jenkins.io/download/	选择下载war包
+2.启动
+	java -jar jenkins.war --httpPort=8080	启动jenkins,访问端口是8080
