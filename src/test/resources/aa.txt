@@ -184,6 +184,8 @@ centOS6.6下安装mysql(方式一)：
 		-A INPUT -m state --state NEW -m tcp -p tcp --dport 3306 -j ACCEPT(这句)
 		COMMIT
 		
+		service iptables restart (更新防火墙配置)
+		
 		service mysql status(查看MySQL运行状态) service mysql stop(停止mysql服务) service mysql start(启动mysql服务) 
 	卸载mysql
 		rpm -qa | grep -i mysql(查找mysql相关的程序包的命令)
@@ -698,6 +700,8 @@ https://www.gitlab.com.cn/installation/#centos-7
 https://www.kancloud.cn/kancloud/essential-netty-in-action/52669
 //阿里表达式
 https://github.com/alibaba/QLExpress
+//github的书籍
+https://github.com/CyC2018/Interview-Notebook
 
 
 

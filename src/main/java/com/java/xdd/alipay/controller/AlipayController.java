@@ -1,3 +1,4 @@
+/*
 package com.java.xdd.alipay.controller;
 
 import com.alipay.api.AlipayApiException;
@@ -16,9 +17,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+*/
 /**
  * Created by qw on 2017/10/30.
- */
+ *//*
+
 @RequestMapping("alipay")
 @Controller
 public class AlipayController {
@@ -77,3 +80,4 @@ public class AlipayController {
         }
     }
 }
+*/

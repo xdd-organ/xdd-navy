@@ -1,0 +1,11 @@
+ssh 连接
+	ssh root@192.168.218.128 (root用户登录，并输入密码)
+	ssh 192.168.218.128 (免密连接)
+	
+scp命令详解
+	在A服务器上将/root/lk目录下所有的文件传输到B的/home/lk/cpfile目录下
+	scp -r /root/lk root@43.224.34.73:/home/lk/cpfile
+
+sed -i 命令详解 (直接对文本文件进行操作)
+	sed -i 's/原字符串/新字符串/' /home/1.txt
+	sed -i 's/原字符串/新字符串/g' /home/1.txt

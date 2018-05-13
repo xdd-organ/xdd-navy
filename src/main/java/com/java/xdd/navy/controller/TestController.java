@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.async.DeferredResult;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
@@ -204,5 +205,14 @@ public class TestController {
         logger.debug(abc);
         Optional<String> abc1 = Optional.ofNullable(abc);
         return abc1.get();
+    }
+
+    @RequestMapping("test5")
+    @ResponseBody
+    public DeferredResult<String> test5() {
+        DeferredResult<String> deferredResult = new DeferredResult<>();
+
+        deferredResult.setResult("fjljafl");
+        return deferredResult;
     }
 }
