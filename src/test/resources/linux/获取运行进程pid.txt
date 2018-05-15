@@ -1,0 +1,13 @@
+方式一：
+	ps -ef|grep jenkins|grep -v grep|awk '{print $2}'
+	jenkins：示例含有的名称
+	grep -v grep：忽略该刚刚运行指令
+	awk '{print $2}'：打印pid，$2：获取第二列数据
+	
+方式二：
+	ps -ef|grep jenkins|grep -v grep|tr -s " "|cut -d" " -f2
+	
+获取pid并杀掉进程
+	ps -ef|grep $TOMCAT_HOME_CORE|grep -v grep|awk {'print \$2'}|xargs kill -9
+	xargs kill -9：杀掉进程
+		xargs 使用上一个操作的结果作为下一个命令的参数使用

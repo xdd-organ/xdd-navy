@@ -6,3 +6,8 @@
 	1、grep Exception 2018-05-09.log	搜索文件2018-05-09.log含有Exception的行的内容
 	2、grep -c Exception 2018-05-09.log	搜索文件2018-05-09.log含有Exception的行数
 	3、grep -v Exception 2018-05-09.log	搜索文件2018-05-09.log不含有Exception的行的内容
+格式化日志
+	1、gawk -F# '{ print $15 }' 2018-05-09.log
+		-F#：文件折分隔符#
+		print $15：打印第15列数据
+		2018-05-09.log：日志文件
