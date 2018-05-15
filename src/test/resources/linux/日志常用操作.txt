@@ -1,0 +1,8 @@
+动态查看日志
+	1、tail -10f 2018-05-09.log		动态查看最后10行日志
+	2、tail -f 2018-05-09.log
+	3、less 2018-05-09.log			查看日志文件，支持上下滚屏，查找功能
+搜索日志
+	1、grep Exception 2018-05-09.log	搜索文件2018-05-09.log含有Exception的行的内容
+	2、grep -c Exception 2018-05-09.log	搜索文件2018-05-09.log含有Exception的行数
+	3、grep -v Exception 2018-05-09.log	搜索文件2018-05-09.log不含有Exception的行的内容

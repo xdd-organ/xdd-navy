@@ -1,0 +1,22 @@
+机器A免密登录机器B
+
+机器A操作：
+	1.[root@iZ23f31fmtgZ ~]# ssh-keygen -t rsa  
+	2.[root@iZ23f31fmtgZ ~]# cd /root/.ssh  
+	  [root@iZ23f31fmtgZ .ssh]# ls  
+	  id_rsa  id_rsa.pub  known_hosts  -- id_rsa中为你的私钥，id_rsa.pub中为你的公钥。
+	  [root@iZ23f31fmtgZ .ssh]#
+	
+机器B操作：
+	1.在/root/.ssh目录下新建文件authorized_keys
+	2.将A机器中的公钥放到B机器的authorized_keys中
+	  复制命令 scp /root/.ssh/id_rsa.pub root@192.168.1.181:/root/.ssh/authorized_keys
+
+免密登录命令
+	ssh [ip]
+	
+注意：
+	查看/etc/ssh/sshd_config文件，修改
+		RSAAuthentication yes
+		PubkeyAuthentication yes
+		AuthorizedKeysFile      /root/.ssh/authorized_keys
