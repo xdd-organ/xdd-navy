@@ -29,4 +29,5 @@
 		
 
 	题目：抓取当前目录下所有*.log中的split，并打印对应的路径和文件名和包括这个词的这一行
+	awk '{print ENVIRON["PWD"], FILENAME, $0}' *.log|grep split
 	
