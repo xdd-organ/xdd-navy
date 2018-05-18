@@ -11,3 +11,22 @@
 		-F#：文件折分隔符#
 		print $15：打印第15列数据
 		2018-05-09.log：日志文件
+	2、awk '{print ENVIRON["PWD"], FILENAME, NR, FNR, $0}' *.log|grep 123
+		获取*.log文件中的文件名，总记录行数，文件行数，行记录；并筛选含有123的记录
+		ENVIRON["PWD"]：获取环境变量PWD的值
+		FILENAME：文件名称
+		NR:总记录行数
+		FNR:所属文件行数
+		|grep 123：筛选含有123的记录
+		
+		输出结果为：
+		/usr/local/log/log log1.log 1 1 123
+		/usr/local/log/log log2.log 2 1 123
+		
+		进阶 awk '{print ENVIRON["PWD"]"/"FILENAME, NR, FNR, $0}' *.log|grep 123
+		/usr/local/log/log/log1.log 1 1 123
+		/usr/local/log/log/log2.log 2 1 123
+		
+
+	题目：抓取当前目录下所有*.log中的split，并打印对应的路径和文件名和包括这个词的这一行
+	

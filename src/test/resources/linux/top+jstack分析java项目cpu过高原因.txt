@@ -1,0 +1,16 @@
+1、用ps -ef | grep tomcat 查出tomcat运行的进程pid
+	root       5994      1  0 11:55 ?        00:02:26 java -jar jenkins.war --httpPort=8090
+	
+2、用top -Hp 5994 查询进程下所有线程的运行情况（shift+p 按cpu排序，shift+m 按内存排序）
+   PID USER      PR  NI  VIRT  RES  SHR S %CPU %MEM    TIME+  COMMAND                                                  
+  6003 root      20   0 2316m 308m  20m S  0.3 31.5   0:40.83 java                                                                
+  5994 root      20   0 2316m 308m  20m S  0.0 31.5   0:00.03 java                                                            
+  5995 root      20   0 2316m 308m  20m S  0.0 31.5   0:01.90 java                                    
+  5996 root      20   0 2316m 308m  20m S  0.0 31.5   0:06.42 java                                                               
+  5997 root      20   0 2316m 308m  20m S  0.0 31.5   0:00.01 java
+  
+3、找到cpu最高的pid，用printf ‘%x\n’ pid 转换为16进制 
+	printf '%x\n' 6000   (结果1770)
+	
+4、用jstack 进程id | grep 16进制线程id 找到线程信息 
+	jstack 5994 | grep -A 20 1770 

@@ -1,0 +1,5 @@
+常用打印
+	1、echo $path
+		打印环境变量path的值
+	2、echo $PWD 或者 echo ${PWD}
+		打印当前路径
