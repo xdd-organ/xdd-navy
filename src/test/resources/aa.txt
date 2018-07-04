@@ -510,7 +510,8 @@ GitHub
 		
 	其他常用命令
 		1.git rm pom.xml																-- 删除GitHub上的文件
-		2.git clone https://github.com/xdd-object/xxx.git g:\xdd				-- 将文件下载到指定目录
+		2.git clone https://github.com/xdd-object/xxx.git g:\xdd						-- 将文件下载到指定目录
+		3.git fetch																		-- 更新所有远程分支到本地
 
 
 input->placeholder属性，预显示
@@ -694,6 +695,8 @@ https://wenku.baidu.com/view/dbafbbc66137ee06eff918a5.html
 http://nobody2008.iteye.com/blog/1048773
 //SpringCloud简单教程
 https://github.com/forezp/SpringCloudLearning
+https://github.com/xjtushilei/spring-cloud-simples
+http://xujin.org/sc/sc-fegin01/
 //gitlab  git管理工程集成
 https://www.gitlab.com.cn/installation/#centos-7
 //netty文档
@@ -703,6 +706,6 @@ https://github.com/alibaba/QLExpress
 //github的书籍
 https://github.com/CyC2018/Interview-Notebook
 
-
-
+//css3的cubic-bezier属性(动画)
+http://yisibl.github.io/cubic-bezier/#.42,0,.58,1
 
