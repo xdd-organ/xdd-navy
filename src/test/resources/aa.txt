@@ -512,7 +512,12 @@ GitHub
 		1.git rm pom.xml																-- 删除GitHub上的文件
 		2.git clone https://github.com/xdd-object/xxx.git g:\xdd						-- 将文件下载到指定目录
 		3.git fetch																		-- 更新所有远程分支到本地
-
+	合并代码
+		1.git pull																		-- 已经生成合并文件
+		2.git mergetool aa.txt															-- 合并文件
+		3.选择合并工具(不输入则选择默认的合并工具)
+		4.git commit -m '合并'															-- 合并注释
+		5.git push																		-- 提交代码
 
 input->placeholder属性，预显示
 
