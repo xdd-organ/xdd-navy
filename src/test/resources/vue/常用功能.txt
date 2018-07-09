@@ -1,0 +1,66 @@
+Vue-API地址
+	https://cn.vuejs.org/v2/api/#v-model
+1.创建vue对象
+	var vm = new Vue({
+		
+	});
+2.DOM事件监听
+	语法：
+		v-on:click=""		简写：@click=""
+	常用事件：
+		onabort			图像的加载被中断。
+		onblur			元素失去焦点。
+		onchange		域的内容被改变。
+		onclick			当用户点击某个对象时调用的事件句柄。
+		ondblclick		当用户双击某个对象时调用的事件句柄。
+		onerror			在加载文档或图像时发生错误。
+		onfocus			元素获得焦点。
+		onkeydown		某个键盘按键被按下。
+		onkeypress		某个键盘按键被按下并松开。
+		onkeyup			某个键盘按键被松开。
+		onload			一张页面或一幅图像完成加载。
+		onmousedown		鼠标按钮被按下。
+		onmousemove		鼠标被移动。
+		onmouseout		鼠标从某元素移开。
+		onmouseover		鼠标移到某元素之上。
+		onmouseup		鼠标按键被松开。
+		onreset			重置按钮被点击。
+		onresize		窗口或框架被重新调整大小。
+		onselect		文本被选中。
+		onsubmit		确认按钮被点击。
+		onunload		用户退出页面。
+	事件修饰符：
+		.stop - 调用 event.stopPropagation()。		-- event.stopPropagation() 方法阻止事件冒泡到父元素，阻止任何父事件处理程序被执行。
+		.prevent - 调用 event.preventDefault()。	-- event.preventDefault() 方法阻止元素发生默认的行为。
+		.capture - 添加事件侦听器时使用 capture 模式。
+		.self - 只当事件是从侦听器绑定的元素本身触发时才触发回调。
+		.{keyCode | keyAlias} - 只当事件是从特定键触发时才触发回调。
+		.native - 监听组件根元素的原生事件。
+		.once - 只触发一次回调。
+		.left - (2.2.0) 只当点击鼠标左键时触发。
+		.right - (2.2.0) 只当点击鼠标右键时触发。
+		.middle - (2.2.0) 只当点击鼠标中键时触发。
+		.passive - (2.3.0) 以 { passive: true } 模式添加侦听器
+	示例：
+		<!-- 方法处理器 -->
+		<button v-on:click="doThis"></button>
+		<!-- 内联语句 -->
+		<button v-on:click="doThat('hello', $event)"></button>
+		<!-- 缩写 -->
+		<button @click="doThis"></button>
+		<!-- 停止冒泡 -->
+		<button @click.stop="doThis"></button>
+		<!-- 阻止默认行为 -->
+		<button @click.prevent="doThis"></button>
+		<!-- 阻止默认行为，没有表达式 -->
+		<form @submit.prevent></form>
+		<!--  串联修饰符 -->
+		<button @click.stop.prevent="doThis"></button>
+		<!-- 键修饰符，键别名 -->
+		<input @keyup.enter="onEnter">
+		<!-- 键修饰符，键代码 -->
+		<input @keyup.13="onEnter">
+		<!-- 点击回调只会触发一次 -->
+		<button v-on:click.once="doThis"></button>
+		<!-- 对象语法 (2.4.0+) -->
+		<button v-on="{ mousedown: doThis, mouseup: doThat }"></button>

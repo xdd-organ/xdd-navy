@@ -1,0 +1,2 @@
+console.log($("form").serialize()); //输出字符串
+console.log($("form").serializeArray()); //输出数组

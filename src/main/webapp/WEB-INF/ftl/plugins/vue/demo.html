@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>vue</title>
+    <script type="text/javascript" src="../../../../static/js/jQuery/jquery-1.11.1.min.js"></script>    
+	<script type="text/javascript" src="../../../../static/js/vue/dist/vue.js"></script>
+
+    <style type="text/css">
+	/* 可以设置不同的进入和离开动画 */
+	/* 设置持续时间和动画函数 */
+	.slide-fade-enter-active {
+	  transition: all 3s ease 1s;
+	}
+	.slide-fade-leave-active {
+	  transition: all .3s cubic-bezier(1.0, 0.5, 0.8, 1.0) 1s;
+	}
+	.slide-fade-enter, .slide-fade-leave-to
+	/* .slide-fade-leave-active for below version 2.1.8 */ {
+	  transform: translateX(10px);
+	  opacity: 0;
+	}
+    </style>
+
+    
+</head>
+<body>
+<div id="app">
+{{req}}--{{param}}
+<ol>
+  <!-- 创建一个 todo-item 组件的实例 -->
+  <todo-item></todo-item>
+</ol>
+</div>
+
+<div id="example-1">
+  <button @click="show = !show">
+    Toggle render
+  </button>
+  <transition name="slide-fade">
+    <p v-if="show">hello</p>
+  </transition>
+</div>
+
+
+<script type="text/javascript">
+		Vue.component('todo-item', {
+		  template: '<li>这是个待办项</li>'
+		})
+        var app = new Vue({
+			el: "#app",
+			data: {
+				req: "1",
+				param: 2
+			},
+			methods: {
+				method1: function() {
+					return 2;
+				}
+			},
+			computed: {
+				// 计算属性的 getter
+				param: {
+					get: function() {
+						return {abc:1};
+					},
+					set: function(val) {
+						console.log("新：", val)
+						this.param = 2;
+					}
+				}
+			 }
+		});
+		
+		new Vue({
+		  el: '#example-1',
+		  data: {
+			show: true
+		  }
+		})
+    </script>
+
+</body>
+</html>

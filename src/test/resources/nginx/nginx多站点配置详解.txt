@@ -1,0 +1,31 @@
+有时候你想在一台服务器上为不同的域名运行不同的站点。比如www.siteA.com作为博客，www.siteB.com作为论坛。你可以把两个域名的IP都解析到你的服务器上，但是没法在Nginx的根目录里同时运行两个不同的网站。这时候，你就需要使用虚拟目录了。假设你把博客放在”/home/user/www/blog”下，论坛放在”/home/user/www/forum”下。下面我们就开始配置了：
+
+在Nginx配置目录下，创建一个”vhost”目录。本例假设Nginx是默认安装，配置目录在”/etc/nginx”：
+	$ sudo mkdir /etc/nginx/vhost
+创建siteA的配置文件：
+	$ sudo vi /etc/nginx/vhost/vhost_siteA.conf
+输入以下配置信息：
+	server {
+		listen       80;                        # 监听端口
+		server_name www.siteA.com siteA.com;    # 站点域名
+		root  /home/user/www/blog;              # 站点根目录
+		index index.html index.htm index.php;   # 默认导航页
+	}
+同siteA一样创建siteB的配置文件，两者仅有的不同是”server_name”和”root”目录：
+	$ sudo vi /etc/nginx/vhost/vhost_siteB.conf
+	server {
+		...
+		server_name www.siteB.com siteB.com;    # 站点域名
+		root  /home/user/www/forum;             # 站点根目录
+		...
+	}
+打开nginx.conf文件：
+	$ vi /etc/nginx/nginx.conf
+将虚拟目录的配置文件加入到”http {}”部分的末尾
+	http {
+		...
+		include /etc/nginx/vhost/*.conf;
+	}
+重启Nginx服务：
+	$ service nginx restart
+现在访问www.siteA.com和www.siteB.com，你将发现浏览器会打开不同的站点
