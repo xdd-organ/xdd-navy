@@ -1,0 +1,22 @@
+#!/bin/bash
+echo "replace, start!"
+
+HOST="119.23.213.208"
+PROJECT_PATH="www.chmbkh.com/mobile"
+
+#执行远程服务名称
+ssh $HOST "rm -rf /data/wwwroot/$PROJECT_PATH/WEB-INF/classes/"
+
+#远程复制
+scp -r /root/.jenkins/workspace/mbkj-small-program/target/mobile-1.0-SNAPSHOT/WEB-INF/classes root@$HOST:/data/wwwroot/$PROJECT_PATH/WEB-INF/
+scp -r /usr/local/xdd/jenkins/project_config/config.properties root@$HOST:/data/wwwroot/$PROJECT_PATH/WEB-INF/classes/
+
+echo "sleep, 5s!"
+#休眠5秒
+sleep 5
+
+ssh $HOST "chown -R www:www /data/wwwroot/$PROJECT_PATH"
+
+ssh $HOST "service tomcat restart"
+
+echo "buil, success!"
