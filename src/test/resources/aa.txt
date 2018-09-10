@@ -721,5 +721,7 @@ https://github.com/CyC2018/Interview-Notebook
 http://yisibl.github.io/cubic-bezier/#.42,0,.58,1
 //优秀的博客
 http://xinke.org.cn/article/detail/238
+//集成支付宝、微信、银联
+https://github.com/Javen205/IJPay
 
 test-tag1
