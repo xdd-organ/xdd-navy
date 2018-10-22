@@ -1,0 +1,17 @@
+使用root权限安装（vsftpd）
+1.sudo -i  （输入root密码，使用root权限进行以下操作）
+1. 先用 rpm -qa| grep vsftpd 命令检查是否已经安装，如果ftp没有安装，使用yum  -y  install vsftpd 安装
+2. vim /etc/vsftpd/vsftpd.conf  （修改配置文件）
+	listen_port=4433 （ftp端口）
+	connect_from_port_20＝NO  （不使用FTP数据传输连接默认端口）
+	pasv_enable=YES  （使用PASV工作模式）
+3.service vsftpd start  （启动vsftpd服务）
+	参考：https://www.cnblogs.com/cindy-cindy/p/6978536.html
+4.新建差异文件目录
+	mkdir -p /app/mcbadm/data/outgoing/file_interface/UPSS/MGZXJF/DZWJ
+5.修改差异文件所属用户组（如92环境：admin:admin）
+	chown -R admin:admin /app/.
+6.logout  （退出root权限）
+
+	
+测试是否安装成功：使用ftp工具连接
