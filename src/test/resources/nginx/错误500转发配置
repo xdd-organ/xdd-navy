@@ -1,0 +1,4 @@
+1.更改nginx.conf在http定义区域加入： fastcgi_intercept_errors on; 
+
+2.更改nginx.conf（或单独网站配置文件，例如在nginx -> sites-enabled下的站点配置文件 ）
+    中在server 区域加入： error_page 404  /404.html  或者 error_page 404 =http://www.xxx.com/404.html
