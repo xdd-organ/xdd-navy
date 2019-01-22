@@ -527,6 +527,8 @@ GitHub
 
 input->placeholder属性，预显示
 
+activemq 
+	schedulerSupport="true"   <broker>增加属性，mq消息定时发送或延时发送
 
 Mysql
 alter table _address add _address_type int DEFAULT 1;  -- 添加字段
