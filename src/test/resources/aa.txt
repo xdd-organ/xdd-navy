@@ -1,5 +1,10 @@
 动态查看日志 : tail -f
 	tail -f /usr/local/tomcat/logs/catalina.out
+查询关键字个数（日志文件可以通配符）：
+    grep -o 关键字内容  info.log|wc -l
+查询包含的关键字日志（日志文件可以通配符）：
+    grep 关键字 info.log
+
 杀死进程 : kill -9 25462(进程id)
 查看启动的Java的进程 : ps -ef|grep java
 	/usr/local/tomcat/bin/startup.sh
@@ -725,5 +730,7 @@ http://yisibl.github.io/cubic-bezier/#.42,0,.58,1
 http://xinke.org.cn/article/detail/238
 //集成支付宝、微信、银联
 https://github.com/Javen205/IJPay
+//arthas(java性能分析)
+https://alibaba.github.io/arthas/quick-start.html
 
 test-tag1
