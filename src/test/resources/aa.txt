@@ -740,3 +740,5 @@ http://hackday.cn/info/activiti-5.21/Activiti_manual_cn.htm
 http://mirrors.163.com/centos/    http://mirrors.huaweicloud.com/centos/
 //spring-boot相关整合
 https://github.com/ityouknow/spring-boot-examples
+//JVM虚拟机总是会崩溃，生成错误日志(hs_err_pid.log)分析
+https://blog.csdn.net/chenssy/article/details/78271744
