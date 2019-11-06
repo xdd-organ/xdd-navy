@@ -742,3 +742,5 @@ http://mirrors.163.com/centos/    http://mirrors.huaweicloud.com/centos/
 https://github.com/ityouknow/spring-boot-examples
 //JVM虚拟机总是会崩溃，生成错误日志(hs_err_pid.log)分析
 https://blog.csdn.net/chenssy/article/details/78271744
+//redis集群cluster模式命令解释
+https://cloud.tencent.com/developer/section/1373992
