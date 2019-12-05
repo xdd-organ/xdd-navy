@@ -746,3 +746,5 @@ https://blog.csdn.net/chenssy/article/details/78271744
 https://cloud.tencent.com/developer/section/1373992
 //ES博客
 https://blog.csdn.net/qq_33746789/article/details/84188171
+//ES中文文档
+https://es.xiaoleilu.com/020_Distributed_Cluster/00_Intro.html
