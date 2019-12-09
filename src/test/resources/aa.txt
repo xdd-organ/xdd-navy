@@ -748,3 +748,5 @@ https://cloud.tencent.com/developer/section/1373992
 https://blog.csdn.net/qq_33746789/article/details/84188171
 //ES中文文档
 https://es.xiaoleilu.com/020_Distributed_Cluster/00_Intro.html
+//selenium-java web自动化测试工具
+https://www.cnblogs.com/xiaochangwei/p/8405591.html
