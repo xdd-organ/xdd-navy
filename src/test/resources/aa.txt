@@ -407,6 +407,8 @@ centOS7.2下安装nginx1.2(方式一)
 		8.make && make install
 		9. cd /usr/local/nginx/sbin
 		10. ./nginx 
+		(启动：/usr/local/nginx/sbin/nginx -c /usr/local/nginx/conf/nginx.conf)
+		(重启：./nginx -s reload)
 		
 		#nginx配置一个server
 		server {
@@ -530,7 +532,10 @@ GitHub
 		git push origin --delete <branchName>											-- 删除分支
 		删除tag这么用：
 		git push origin --delete tag <tagname>											-- 删除标签
-
+	回退还未push的commit
+		git reset commit_id（版本号）  
+	
+	
 
 input->placeholder属性，预显示
 
