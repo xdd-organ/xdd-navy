@@ -409,6 +409,8 @@ centOS7.2下安装nginx1.2(方式一)
 		10. ./nginx 
 		(启动：/usr/local/nginx/sbin/nginx -c /usr/local/nginx/conf/nginx.conf)
 		(重启：./nginx -s reload)
+		11.自动生成nginx配置（https://nginxconfig.io/）
+		
 		
 		#nginx配置一个server
 		server {
@@ -583,13 +585,13 @@ Linux安装mongodb
 
 Linux安装gogos(git的页面管理项目)
 	1.先安装go语言
-	2.wget https://redirector.gvt1.com/edgedl/go/go1.9.2.linux-386.tar.gz (下载go语言文件包32/64位)
+	2.wget https://redirector.gvt1.com/edgedl/go/go1.9.2.linux-386.tar.gz (下载go语言文件包32/64位)64位: wget https://studygolang.com/dl/golang/go1.14.1.linux-amd64.tar
 	3.tar -zxvf go1.9.2.linux-386.tar.gz (解压)
-	4.vim /etc/profile 在文件末尾增加 (添加go语言的全局目录)
+	4.vim /etc/profile 在文件末尾增加 (添加go语言的全局目录，使配置生效 source /etc/profile)
 		export GOROOT=/usr/local/go/go
 		export GOPATH=/usr/local/go
 		PATH=$PATH:$GOROOT/bin:$GOPATH/bin
-	5.go get -u github.com/gogits/gogs (下载gogs源文件)
+	5.go get -u github.com/gogits/gogs (下载gogs源文件 git clone https://github.com/gogs/gogs.git)
 	6.cd $GOPATH/src/github.com/gogits/gogs
 	7.go build (编译与构建)
 	8.cd $GOPATH/src/github.com/gogits/gogs ()
