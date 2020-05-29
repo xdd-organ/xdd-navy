@@ -403,7 +403,7 @@ centOS7.2下安装nginx1.2(方式一)
 		4.yum install openssl openssl--devel  
 		5.  wget http://nginx.org/download/nginx-1.9.14.tar.gz
 		6. tar xvzf nginx-1.9.14.tar.gz 
-		7. ./configure 
+		7. ./configure   (--prefix=配置安装目录  https://www.cnblogs.com/flashfish/p/11025961.html)
 		8.make && make install
 		9. cd /usr/local/nginx/sbin
 		10. ./nginx 
@@ -484,9 +484,28 @@ centOS7.2下安装nginx1.2(方式一)
 
 CentOS 7.0默认使用的是firewall作为防火墙，这里改为iptables防火墙步骤。
 	1、关闭firewall：
+	systemctl start firewalld.service #启动firewall
 	systemctl stop firewalld.service #停止firewall
 	systemctl disable firewalld.service #禁止firewall开机启动
 	firewall-cmd --state #查看默认防火墙状态（关闭后显示notrunning，开启后显示running）
+
+    添加
+        firewall-cmd --zone=public --add-port=80/tcp --permanent
+    对指定IP开放指定端口
+        firewall-cmd --permanent --add-rich-rule="rule family="ipv4" source address="192.168.142.166" port protocol="tcp" port="5432" accept"
+    删除IP开放指定端口
+        firewall-cmd --permanent --remove-rich-rule="rule family="ipv4" source address="192.168.142.166" port protocol="tcp" port="5432" accept"
+    重新载入
+        firewall-cmd --reload
+    查看
+        firewall-cmd --zone=public --query-port=80/tcp
+    查看所有开放端口
+        firewall-cmd --zone=public --list-ports
+    查看生效的规则
+        firewall-cmd --list-all
+    删除
+        firewall-cmd --zone=public --remove-port=80/tcp --permanent
+
 	
 	2.配置/etc/sysconfig/iptables
 	安装yum install iptables-services  
@@ -541,7 +560,7 @@ GitHub
 
 input->placeholder属性，预显示
 
-activemq 
+activemq异步支持
 	schedulerSupport="true"   <broker>增加属性，mq消息定时发送或延时发送
 
 Mysql
@@ -614,6 +633,19 @@ Linux安装kafka
     常见问题
     错误 WARN Fetching topic metadata with correlation id 4 for topics [Set(test)] from broker [BrokerEndPoint(0,localhost,9092)]
         解决：修改config/server.properties   advertised.listeners=PLAINTEXT://192.168.174.129:9092  (kafka的地址)
+
+linux创建用户组和用户
+    创建用户组
+        groupadd xxx
+    创建用户(-g xxx 用户username加入xxx用户组)
+        useradd -g xxx username
+    设置用户密码
+        passwd username pwd
+    修改文件所属用户组，所属用户
+        chown -R xxx.username 201705122/
+    拷贝文件到远程机器
+        scp jdk-8u161-linux-x64.tar.gz jiutaoling@47.113.125.17:/usr/local/soft/
+
 
 mysql5.7.20(5.7.8以上字段支持json数据格式)
 	建表：
