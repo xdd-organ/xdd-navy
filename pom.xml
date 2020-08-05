@@ -391,7 +391,7 @@
         <dependency>
             <groupId>org.springframework.integration</groupId>
             <artifactId>spring-integration-core</artifactId>
-            <version>4.3.2.RELEASE</version>
+            <version>5.0.0.RELEASE</version>
         </dependency>
         <!-- itextpdf:操作PDF -->
         <dependency>
