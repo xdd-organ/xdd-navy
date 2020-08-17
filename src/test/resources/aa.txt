@@ -238,6 +238,7 @@ centOS6.6下安装mysql(方式二)：
 		(centOS7.2下执行上一句会报错
 		Starting MySQL...The server quit without updating PID file [FAILED]cal/mysql_5_7_3306/data/iZwz954rky6nphp7848z4zZ.pid).
 		解决办法：检查mysql的logs目录是否存在，error.log是否存在，data目录是否存在
+		解决办法：检查/etc/vim my.cnf  配置 user port basedir datadir socket
 		)
 	 
 	#测试连接
