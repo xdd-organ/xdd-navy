@@ -529,6 +529,121 @@ centOS6.6下安装redis：
 		auth password  (redis密码)
 
 
+elasticsearch安装
+	1、下载
+	wget https://mirrors.huaweicloud.com/elasticsearch/7.7.0/elasticsearch-7.7.0-linux-x86_64.tar.gz
+	2、解压
+	tar -zxvf elasticsearch-7.7.0-linux-x86_64.tar.gz
+	3、改名
+	mv elasticsearch-7.7.0 elasticsearch
+	4、修改配置
+	vim config/elasticsearch.yml
+		node.name: node-1  #实例名称
+		network.host: 0.0.0.0  #允许哪些机器访问
+		http.port: 9200  #es启动端口
+		cluster.initial_master_nodes: ["node-1"]   #主实例名字
+		#配置es对外提供http服务
+		http.cors.enabled: true
+		http.cors.allow-origin: "*"
+	5、修改系统配置
+	vim /etc/sysctl.conf  (虚拟内存区域)
+		vm.max_map_count = 262144
+	vim /etc/security/limits.conf (nofile问文件描述符、nproc为最大线程数)
+		* soft nofile 65536
+		* hard nofile 65536
+		* soft nofile 65536
+		* hard nofile 65536
+	6、启动（不可以使用root用户启动）
+	./bin/elasticsearch -d
+es图形化安装
+	1、下载(win)
+	wget https://github.com/360EntSecGroup-Skylar/ElasticHD/releases/download/1.4/elasticHD_windows_amd64.zip
+	2、解压、运行
+	解压、双击运行即可
+	3、下载(linux)
+	wget https://github.com/360EntSecGroup-Skylar/ElasticHD/releases/download/1.4/elasticHD_linux_amd64.zip
+	4、解压、运行
+	./ElasticHD -p 127.0.0.1:9800
+logstash安装
+	1、下载
+	wget https://mirrors.huaweicloud.com/logstash/7.7.0/logstash-7.7.0.tar.gz
+	2、修改日志配置
+	vim conf/log_to_es.conf   (将日志保存到es中)
+		input {
+		  tcp {
+			mode => "server"
+			host => "127.0.0.1"
+			#日志输入端口，即logstash端口
+			port => 9250
+		  }
+		}
+
+		filter {
+
+		}
+
+		#日志输出到es
+		output {
+		  elasticsearch {
+			action => "index"
+			hosts => "127.0.0.1:9200"
+			index => "applog"
+		  }
+		}
+	3、启动
+	./bin/logstash -f config/log_to_es.conf &
+kibana安装
+	1、下载
+	wget https://mirrors.huaweicloud.com/kibana/7.7.0/kibana-7.7.0-linux-x86_64.tar.gz
+	2、修改配置
+	vim config/kibana.yml
+		server.port: 5601  #服务端口
+		server.basePath: "/kibana"  #访问路径前缀，与rewriteBasePath=true才有效
+		server.rewriteBasePath: true
+		server.host: "0.0.0.0"   #访问主机
+		elasticsearch.hosts: ["http://127.0.0.1:9200"]   #es地址
+		kibana.index: ".kibana"   #kibana在es中的索引
+	3、启动
+	nohup ./bin/kibana &
+
+erlang安装
+	1、下载
+	wget https://packages.erlang-solutions.com/erlang/rpm/centos/7/x86_64/esl-erlang_22.1-1~centos~7_amd64.rpm
+	2、安装
+	sudo rpm -ivh esl-erlang_22.1-1_centos_7_amd64.rpm
+	3、查询版本
+	erl -version  或者  erl
+
+rabbit安装
+	1、下载
+	wget https://mirrors.huaweicloud.com/rabbitmq-server/v3.8.3/rabbitmq-server-generic-unix-3.8.3.tar.xz
+	2、解压
+	xz -d rabbitmq-server-generic-unix-3.8.3.tar.xz
+	tar -xvf rabbitmq-server-generic-unix-3.8.3.tar
+	3、修改配置
+		rabbit3.8.x 使用的新配置，参考 https://github.com/rabbitmq/rabbitmq-server/blob/v3.8.x/docs/rabbitmq.conf.example
+		在rabbit根目录在 vim ./etc/rabbitmq/rabbitmq.conf
+			listeners.tcp.default = 5673  #rabbit端口
+
+			#rabbitUI管理端口相关配置
+			management.tcp.port = 32068
+			management.path_prefix = /rabbit
+			management.tcp.ip   = 0.0.0.0
+			management.tcp.shutdown_timeout   = 7000
+			management.tcp.max_keepalive      = 120
+			management.tcp.idle_timeout       = 120
+			management.tcp.inactivity_timeout = 120
+			management.tcp.request_timeout    = 120
+			management.tcp.compress           = true
+
+	4、启动
+	./sbin/rabbitmq-server start
+	5、用户管理
+		./sbin/rabbitmqctl delete_user guest  #删除guest用户
+		./sbin/rabbitmqctl add_user admin admin123   #新增用户
+		./sbin/rabbitmqctl set_user_tags  admin administrator   #修改用户角色 超级管理员(administrator)  监控者(monitoring)  策略制定者(policymaker)  普通管理者(management)
+
+
 GitHub
 	上传命定：
 		1.git init																		-- 初始化GitHub
@@ -647,6 +762,10 @@ linux创建用户组和用户
     拷贝文件到远程机器
         scp jdk-8u161-linux-x64.tar.gz jiutaoling@47.113.125.17:/usr/local/soft/
 
+查看所有文件和文件夹大小
+    du -ah ./
+当前目录下一级子文件大小
+    du -lh --max-depth=1
 
 mysql5.7.20(5.7.8以上字段支持json数据格式)
 	建表：
