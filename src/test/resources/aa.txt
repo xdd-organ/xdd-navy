@@ -928,3 +928,5 @@ https://es.xiaoleilu.com/020_Distributed_Cluster/00_Intro.html
 https://www.cnblogs.com/xiaochangwei/p/8405591.html
 //google插件下载
 https://www.crx4chrome.com
+//查询本机IP
+http://ip111.cn/
