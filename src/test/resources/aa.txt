@@ -643,6 +643,10 @@ rabbit安装
 		./sbin/rabbitmqctl add_user admin admin123   #新增用户
 		./sbin/rabbitmqctl set_user_tags  admin administrator   #修改用户角色 超级管理员(administrator)  监控者(monitoring)  策略制定者(policymaker)  普通管理者(management)
 
+香港服务器搭建翻墙工具
+    http://blog.sqstudio.com/?p=1164
+    https://blog.mylitboy.com/article/linux/centos-install-shadowsocks-and-configure.html
+
 
 GitHub
 	上传命定：
