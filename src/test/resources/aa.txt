@@ -934,3 +934,5 @@ https://www.cnblogs.com/xiaochangwei/p/8405591.html
 https://www.crx4chrome.com
 //查询本机IP
 http://ip111.cn/
+//java指南
+https://github.com/Snailclimb/JavaGuide
