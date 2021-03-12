@@ -232,6 +232,9 @@ centOS6.6下安装mysql(方式二)：
 	#修改项：
 	basedir=/usr/local/mysql/
 	datadir=/usr/local/mysql/data/mysql
+
+	#初始化数据库
+	./bin/mysqld --initialize --basedir=/usr/local/soft/mysql/mysql --datadir=/usr/local/soft/mysql/data
 	 
 	#启动服务
 	service mysqld start
@@ -362,7 +365,7 @@ centOS7.2下安装jdk1.8
 	4.在第三步文件末尾行添加
 		#set java environment
 		JAVA_HOME=/usr/local/src/java/jdk1.7.0_79
-		CLASSPATH=.:$JAVA_HOME/lib.tools.jar
+		CLASSPATH=.:$JAVA_HOME/lib/tools.jar
 		PATH=$JAVA_HOME/bin:$PATH
 		export JAVA_HOME CLASSPATH PATH
 	5.source /etc/profile  使更改的配置立即生效
@@ -762,7 +765,7 @@ linux创建用户组和用户
     设置用户密码
         passwd username pwd
     修改文件所属用户组，所属用户
-        chown -R xxx.username 201705122/
+        chown -R username.xxx 201705122/
     拷贝文件到远程机器
         scp jdk-8u161-linux-x64.tar.gz jiutaoling@47.113.125.17:/usr/local/soft/
 
