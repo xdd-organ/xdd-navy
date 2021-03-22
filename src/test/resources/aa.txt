@@ -717,7 +717,7 @@ windows上传文件到Linux
     6.输入密码
 	
 Linux安装mongodb
-	1.wget http://downloads.mongodb.org/linux/mongodb-linux-i686-2.4.9.tgz(下载32位或者64位)
+	1.wget http://downloads.mongodb.org/linux/mongodb-linux-i686-2.4.9.tgz(下载32位或者64位)  https://fastdl.mongodb.org/linux/mongodb-linux-x86_64-3.0.6.tgz
 	2.tar -zxvf mongodb-linux-i686-2.4.9.tgz(解压)
 	3.mv mongodb-linux-i686-2.4.9.tgz mongodb(修改名称)
 	4.cd mongodb
@@ -742,6 +742,41 @@ Linux安装gogos(git的页面管理项目)
 	注意：	1.默认访问路径是 127.0.0.1:3000
 			2.需要使用git用户启动项目
 			3.需要新建gogs的数据库
+
+yapi安装
+    1、安装mongodb、node
+    2、git clone https://gitee.com/suxiaoxin123/yapi.git
+    3、cd yapi/
+    4、修改配置文件   cp config_example.json ../config.json
+    5、安装  npm install --production --registry https://registry.npm.taobao.org
+    6、使服配置生效   npm run install-server
+    7、启动服务  node server/app.js &
+
+    {
+      "port": "3000",  #访问端口
+      "closeRegister":true,   #禁止注册
+      "adminAccount": "admin@admin.com",   #管理员账号
+      "db": {  #mongodb账号信息
+        "servername": "127.0.0.1",
+        "DATABASE": "yapi",
+        "port": 27017,
+        "user": "test1",
+        "pass": "test1",
+        "authSource": ""
+      },
+      "mail": {   #邮件信息
+        "enable": true,
+        "host": "smtp.163.com",
+        "port": 465,
+        "from": "***@163.com",
+        "auth": {
+          "user": "***@163.com",
+          "pass": "*****"
+        }
+      }
+    }
+
+
 
 Linux安装kafka
     1、下载压缩包
