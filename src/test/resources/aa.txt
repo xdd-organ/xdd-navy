@@ -978,3 +978,6 @@ https://github.com/Snailclimb/JavaGuide
 http://dplayer.js.org/zh/guide.html#%E5%BC%B9%E5%B9%95%E6%8E%A5%E5%8F%A3
 //java操作图片BufferedImage
 https://ld246.com/article/1583055802905
+java商城参考
+https://github.com/macrozheng/mall
+http://www.macrozheng.com/#/README
