@@ -531,6 +531,13 @@ centOS6.6下安装redis：
 		./redis-cli shutdown
 		auth password  (redis密码)
 
+nacos安装
+    1、下载 https://github.com/alibaba/nacos/releases/download/2.0.0-bugfix/nacos-server-2.0.0.tar.gz
+    2、解压 tar -zxvf nacos-server-2.0.0.tar.gz
+    3、创建数据库表   ./conf/nacos-mysql.sql  (创建数据库：CREATE DATABASE IF NOT EXISTS `nacos` DEFAULT CHARSET utf8mb4 COLLATE utf8mb4_bin;)
+    4、修改数据库配置   ./conf/application.properties
+    5、启动   sh ./bin/startup.sh -m standalone
+    6、访问地址     http://127.0.0.1:8848/nacos/   (需要修改默认登陆用户密码)
 
 elasticsearch安装
 	1、下载
