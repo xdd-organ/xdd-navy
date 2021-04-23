@@ -264,7 +264,9 @@ centOS6.6下安装mysql(方式二)：
 	#所有IP都可以连接mysql
 	update user set host='%' where user='root';
 	#授权
-	GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY '123456' WITH GRANT OPTION; 
+	GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY '123456' WITH GRANT OPTION;
+	#授权用户指定数据库权限
+	grant all privileges on nacos.* to 'username'@'%';
 	#刷新权限
 	flush privileges; 
 	
