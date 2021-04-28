@@ -541,6 +541,12 @@ nacos安装
     5、启动   sh ./bin/startup.sh -m standalone
     6、访问地址     http://127.0.0.1:8848/nacos/   (需要修改默认登陆用户密码)
 
+    配置
+        ###配置中心开启鉴权，则spring-cloud需要配置登陆nacos的账号密码，spring.cloud.nacos.config.username/password
+        nacos.core.auth.enabled=true
+        ## 如果在同一台机器启动两个nacos，注意端口冲突， 端口间隔大于1（因为grcp）
+
+
 elasticsearch安装
 	1、下载
 	wget https://mirrors.huaweicloud.com/elasticsearch/7.7.0/elasticsearch-7.7.0-linux-x86_64.tar.gz
