@@ -160,8 +160,10 @@ linux命令：
 		source /root/.bashrc
 	查看内存使用量
 		ps aux|sort -rnk 4
+		ps -aux | sort -k4nr | head -K  (使用内存最多的K个进程)
 	查看CPU使用量
 		ps aux|sort -nk 3
+		ps -aux | sort -k3nr | head -K  (使用CPU最多的K个进程)
 	下载文件
 		wget http://www.erlang.org/download/otp_src_19.2.tar.gz
 	服务器抓包(功能强大)
