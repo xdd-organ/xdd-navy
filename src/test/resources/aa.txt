@@ -547,6 +547,7 @@ nacos安装
         ###配置中心开启鉴权，则spring-cloud需要配置登陆nacos的账号密码，spring.cloud.nacos.config.username/password
         nacos.core.auth.enabled=true
         ## 如果在同一台机器启动两个nacos，注意端口冲突， 端口间隔大于1（因为grcp）
+        ## 2太机器搭建集群，注意一台机器两个实例的data/protocol/raft/naming_persistent_service/meta-data/raft_meta 文件，应先启动2个实例中一个，再启动1个实例，再启动2个实例中另一个
 
 
 elasticsearch安装
