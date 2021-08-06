@@ -810,6 +810,28 @@ Linux安装kafka
     错误 WARN Fetching topic metadata with correlation id 4 for topics [Set(test)] from broker [BrokerEndPoint(0,localhost,9092)]
         解决：修改config/server.properties   advertised.listeners=PLAINTEXT://192.168.174.129:9092  (kafka的地址)
 
+使用MemoryAnalyzer分析java应用占用内存过高
+    1、下载 http://www.eclipse.org/downloads/download.php?file=/mat/1.9.0/rcp/MemoryAnalyzer-1.9.0.20190605-win32.win32.x86_64.zip&mirror_id=105
+    2、解压下载后的zip，打开 MemoryAnalyzer.exe
+    3、下载java应用dump文件  (17740为pid)
+        jmap -dump:format=b,file=/home/app/dump.out 17740
+        jmap -dump:live,format=b,file=/home/app/dump.hprof 17740
+    4、使用MemoryAnalyzer打开dump.hprof文件
+    5、查看Accumulated Objects in Dominator Tree，分析哪个占用内存比例最高
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 linux创建用户组和用户
     创建用户组
         groupadd xxx
